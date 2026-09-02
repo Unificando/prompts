@@ -2,6 +2,11 @@
 
 Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/). Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
+## [1.4.0] - 2026-09-02
+
+### Changed
+- Prompt `revisao-copy`: reforma no padrão `refatoracao-faseada` — bloco de regras invioláveis R1–R11 no topo, gate de mapeamento automático (sem pausa para confirmação), prioridade corretiva sobre UX copy com critério anti-over-rewrite (~30%), proteção de i18n/pluralização/placeholders, anti-alucinação ao completar itens inconclusos, template estruturado de relatório e validação ampliada.
+
 ## [1.3.0] - 2026-09-02
 
 ### Changed

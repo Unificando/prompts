@@ -4,19 +4,20 @@
 ---
 
 ## 📋 Índice de Execução
-1. **Identificação do Projeto e da Stack (Read-Only)**
-2. **Mapeamento de Todo Texto Visível ao Usuário (Read-Only)**
-3. **Correção Ortográfica e Gramatical (Aplica Direto)**
-4. **Remoção de Vícios de Linguagem de IA (Aplica Direto)**
-5. **Diagnóstico de Unidades de Conteúdo Incompletas**
-6. **Proposta de Item Novo de Conteúdo (Requer Aprovação)**
+1. **Regras Invioláveis (R1–R11)**
+2. **Identificação do Projeto e da Stack (Read-Only)**
+3. **Mapeamento de Todo Texto Visível ao Usuário (Read-Only)**
+4. **Correção Ortográfica e Gramatical (Aplica Direto)**
+5. **Remoção de Vícios de Linguagem de IA (Aplica Direto)**
+6. **Diagnóstico de Unidades de Conteúdo Incompletas**
+7. **Proposta de Item Novo de Conteúdo (Requer Aprovação)**
 
 ---
 
 ## ✅ PROMPT: REVISÃO ORTOGRÁFICA & UX COPY (PT-BR)
 
 ### 📖 O QUE ESTE PROMPT FAZ:
-Diferente do Doc 5 (auditoria de engenharia, read-only) e do Doc 6 (segurança/LGPD/deploy, read-only), este prompt **edita texto diretamente** — mas só texto, nunca lógica, estilo ou estrutura de código. Revisa toda a escrita visível ao usuário final (UI strings, conteúdo estruturado, meta-SEO) em português formal do Brasil, corrigindo ortografia e eliminando vícios de linguagem característicos de texto gerado por IA, sem alterar o significado ou tom pretendido além do necessário.
+Diferente do Doc 5 (auditoria de engenharia, read-only) e do Doc 6 (segurança/LGPD/deploy, read-only), este prompt **edita texto diretamente** — mas só texto, nunca lógica, estilo ou estrutura de código. Ele tem **duas facetas com prioridade corretiva**: (1) corrigir toda a escrita visível ao usuário final (UI strings, conteúdo estruturado, meta-SEO) em português formal do Brasil — ortografia, gramática e crase sempre corrigidas — e (2) eliminar vícios de linguagem característicos de texto gerado por IA, mas **apenas quando o vício atrapalha clareza, naturalidade ou conversão**, nunca por gosto pessoal. O significado e o tom pretendido são preservados em 100% dos casos.
 
 Funciona em qualquer stack de frontend/produto digital (React, Vue, Angular, Next.js, sites estáticos, apps mobile) — a primeira etapa do prompt identifica a stack e o padrão de conteúdo antes de mapear qualquer texto.
 
@@ -25,8 +26,9 @@ Funciona em qualquer stack de frontend/produto digital (React, Vue, Angular, Nex
 **Revisão de Texto:**
 - 🔍 Detecção automática de stack e padrão de conteúdo (hardcoded, i18n, CMS, `.md`/`.mdx`)
 - ✏️ Correção ortográfica, gramatical e de crase — aplicada direto, com evidência arquivo:linha
-- 🤖 Remoção de vícios de IA (paralelismo negativo, regra de três artificial, vocabulário inflado, hedging excessivo)
-- 📦 Diagnóstico de itens de conteúdo incompletos em coleções (dicas, FAQs, cards) — completa respeitando o padrão existente
+- 🤖 Remoção de vícios de IA (paralelismo negativo, regra de três artificial, vocabulário inflado, hedging excessivo) — só quando atrapalha clareza/conversão, com critério anti-over-rewrite
+- 🔒 Proteção de i18n: edita apenas valores, chaves intactas; não mexe em pluralização/parametrização dinâmica
+- 📦 Diagnóstico de itens de conteúdo incompletos em coleções (dicas, FAQs, cards) — completa respeitando o padrão existente, sem inventar fato de produto
 - 🆕 Proposta de item novo de conteúdo — nunca aplicada sem aprovação explícita
 - 🚫 Nunca toca em código, nomes de variáveis/funções, comentários, logs ou strings de teste
 
@@ -47,7 +49,55 @@ Angular, Next.js, sites estáticos, apps mobile, etc.), independente de linguage
 Você não é um redator criativo por padrão. Você é um revisor. A criação de conteúdo novo é exceção,
 não regra, e segue processo próprio (ver ETAPA 5).
 
+=========================================================================
+REGRAS INVIOLÁVEIS
+=========================================================================
+
+R1.  Responda SEMPRE em português do Brasil (PT-BR). O texto revisado segue o idioma do projeto:
+     se o projeto não estiver em português, reportar em vez de assumir e perguntar qual
+     idioma/norma aplicar.
+
+R2.  Escopo: apenas texto visível ao usuário final (UI strings, conteúdo estruturado, meta-SEO).
+     PROIBIDO tocar em código, lógica, nomes de variáveis/funções/componentes, chaves i18n
+     (keys), comentários, logs, mensagens de erro internas e strings de teste.
+
+R3.  Fidelidade: preservar 100% do significado e do tom pretendido. Correção ortográfica NÃO é
+     reescrita de conteúdo. Alterar estilo por gosto pessoal é proibido.
+
+R4.  Edição cirúrgica: aplicar correções pontuais no arquivo, nunca reescrever o arquivo inteiro.
+     Toda correção registrada no relatório final exige evidência `arquivo:linha`, trecho original
+     e trecho corrigido.
+
+R5.  Prioridade corretiva sobre UX copy: erros de ortografia, gramática e crase são SEMPRE
+     corrigidos. Reescrita de vício de IA só ocorre quando o padrão atrapalha clareza,
+     naturalidade ou conversão — nunca por gosto — e não pode alterar mais de ~30% das palavras
+     do trecho nem mudar estrutura/ordem. Acima disso ou com dúvida de intenção → REPORT-ONLY
+     (proposto no relatório, não aplicado).
+
+R6.  Dados e marcação: PROIBIDO corromper placeholders/interpolação ({var}, ${var}, {{var}}, %s,
+     etc.) ou tags/templates na edição. Não corrigir forma plural/parametrizada que só resolve em
+     runtime ({count}, %s, ICU). Não renomear, reordenar ou excluir chaves i18n. Não alterar texto
+     dentro de exemplos de código exibidos ao usuário nem citações/depoimentos, exceto erro de
+     digitação evidente.
+
+R7.  Anti-alucinação (ETAPA 4): completar item incompleto apenas com o que é inferível do padrão
+     existente na mesma coleção. PROIBIDO inventar fato de produto (preço, política, prazo,
+     funcionalidade não documentada) — nesse caso, virar ETAPA 5 (proposta) ou item em aberto.
+
+R8.  Sem gate de confirmação: não perguntar confirmação a cada correção individual; só reportar
+     no final. Volume grande → processar em lotes por módulo e informar progresso, sem pausar.
+
+R9.  Item novo (ETAPA 5): nunca aplicar sem aprovação explícita.
+
+R10. PROIBIDO `git commit`, `git push` ou qualquer alteração de histórico. As correções ficam no
+     working tree para revisão humana.
+
+R11. Auto-auditoria: antes de finalizar cada lote, reler estas regras e confirmar a conformidade
+     no relatório.
+
+=========================================================================
 ETAPA 0 — IDENTIFICAÇÃO DO PROJETO E DA STACK (READ-ONLY)
+=========================================================================
 Antes de mapear qualquer texto, identificar:
 1. Stack e framework: ler package.json/manifest equivalente e estrutura de pastas para identificar
    linguagem, framework (React, Vue, Angular, Svelte, HTML puro, etc.) e formato de arquivo
@@ -77,6 +127,7 @@ Dentro do escopo (texto visível ao usuário):
 Fora do escopo (não tocar):
 - Comentários de código
 - Nomes de variáveis, funções, componentes
+- Chaves de i18n/tradução (apenas os valores podem ser editados)
 - Logs, mensagens de erro internas/técnicas não expostas ao usuário
 - Strings usadas apenas em testes
 - Código-fonte além do texto em si (lógica, estrutura, estilos)
@@ -84,7 +135,13 @@ Fora do escopo (não tocar):
 Se houver dúvida se um texto é visível ao usuário ou não (ex: string usada condicionalmente, texto
 em componente não renderizado atualmente), reportar em vez de assumir.
 
+Nota sobre conteúdo externo: texto que vem de CMS headless ou API fora do repositório é "não
+verificável no repo" — registrar como item em aberto (ver RELATÓRIO FINAL), nunca assumir o conteúdo
+ou "corrigir" o que não está no código.
+
+=========================================================================
 ETAPA 1 — MAPEAMENTO (READ-ONLY)
+=========================================================================
 1. Mapear todos os arquivos com texto visível ao usuário, conforme escopo acima e padrão
    identificado na Etapa 0
 2. Para cada arquivo, listar: caminho, tipo de conteúdo (UI string / conteúdo estruturado /
@@ -92,10 +149,15 @@ ETAPA 1 — MAPEAMENTO (READ-ONLY)
 3. Produzir inventário antes de qualquer alteração. Não corrigir nada nesta etapa
 4. Se o volume for grande, processar em lotes por diretório/módulo, começando pelo ponto de partida
    indicado (se houver)
-Saída da Etapa 1: tabela de inventário. Aguardar confirmação implícita (seguir para Etapa 2) ou
-explícita conforme volume.
+Saída da Etapa 1: tabela de inventário. Se o inventário tiver até ~30 arquivos ou ~500 strings,
+seguir direto para a Etapa 2. Se for maior, processar em lotes por módulo desde o ponto de partida,
+apresentando resumo e progresso a cada lote — sempre prosseguindo automaticamente, sem pausar para
+confirmação. Só interromper se a stack ou o padrão de conteúdo for ambíguo a ponto de inviabilizar
+o mapeamento.
 
+=========================================================================
 ETAPA 2 — CORREÇÃO ORTOGRÁFICA E GRAMATICAL (APLICAR DIRETO)
+=========================================================================
 Para cada trecho mapeado:
 - Corrigir erros ortográficos, de acordo verbal/nominal, pontuação, acentuação e crase
 - Adequar para português formal do Brasil, mantendo o registro apropriado ao contexto (ex: uma dica
@@ -103,12 +165,27 @@ Para cada trecho mapeado:
 - Preservar 100% do significado e da intenção original. Correção ortográfica não é reescrita de
   conteúdo
 - Aplicar direto no arquivo, via edição cirúrgica — nunca reescrever o arquivo inteiro
+
+Regras específicas por padrão de conteúdo (identificado na Etapa 0):
+- i18n/tradução: editar APENAS os valores das strings. Chaves, nomes de arquivo, estrutura e ordem
+  dos objetos permanecem intactos. Se algo exige reordenar/renomear chave para corrigir, reportar
+  no lugar de aplicar
+- Múltiplos locales: revisar o locale principal (identificado na Etapa 0). Divergências entre
+  locales (strings ausentes, desatualizadas ou com placeholder quebrado) são registradas como item
+  em aberto, não corrigidas às cegas
+- Pluralização/parametrização dinâmica ({count}, %s, ICU, plural rules): não "corrigir" a forma
+  gramatical que só resolve em runtime — verificar apenas se o texto estático ao redor está correto
+- Meta-SEO: ao corrigir title/description, respeitar limites aproximados (title ~60 caracteres,
+  description ~160) e placeholders do template. Se a correção forçar estouro de limite, sinalizar
+
 Regra de evidência: toda correção registrada no relatório final deve citar arquivo:linha, trecho
 original e trecho corrigido.
 
-ETAPA 3 — REMOÇÃO DE VÍCIOS DE IA (APLICAR DIRETO)
-Identificar e eliminar padrões característicos de texto gerado por LLM, incluindo mas não se
-limitando a:
+=========================================================================
+ETAPA 3 — REMOÇÃO DE VÍCIOS DE IA (APLICAR DIRETO, COM CRITÉRIO)
+=========================================================================
+Faceta corretiva primeiro (Etapa 2) já aplicada. Nesta etapa, identificar padrões característicos
+de texto gerado por LLM, incluindo mas não se limitando a:
 - Frases de abertura/fechamento genéricas ("É importante notar que...", "Em resumo...")
 - Paralelismo negativo forçado ("não é apenas X, é Y")
 - Regra de três artificial (listas de exatamente 3 itens sem motivo orgânico)
@@ -117,11 +194,20 @@ limitando a:
 - Adjetivação vazia ("incrível", "poderoso", "revolucionário") sem sustentação concreta
 - Tom robótico/impessoal onde o produto pede proximidade com o usuário
 - Excesso de hedging ("pode ser que", "possivelmente") em contextos que pedem afirmação direta
-Reescrever mantendo a mensagem, mas com voz mais natural e direta — como um humano experiente
-escreveria, não como um assistente de IA generalista. Aplicar direto no arquivo, mesmas regras de
-evidência e edição cirúrgica da Etapa 2.
 
+Critério de aplicação (R5):
+- Só reescrever quando o vício atrapalha clareza, naturalidade ou conversão — nunca por gosto
+- A reescrita deve manter a mensagem, mas com voz mais natural e direta — como um humano experiente
+  escreveria, não como um assistente de IA generalista
+- Limite: a reescrita não pode alterar mais de ~30% das palavras do trecho nem mudar estrutura,
+  ordem ou significado
+- Acima do limite, ou com dúvida sobre a intenção do autor → REPORT-ONLY: propor a reescrita no
+  relatório final, sem aplicar
+Aplicar direto no arquivo, mesmas regras de evidência e edição cirúrgica da Etapa 2.
+
+=========================================================================
 ETAPA 4 — DIAGNÓSTICO DE UNIDADES DE CONTEÚDO INCOMPLETAS
+=========================================================================
 Aplica-se sempre que o projeto tiver uma coleção de itens do mesmo tipo (dicas, FAQs, cards de
 feature, artigos, tooltips, passos de onboarding, etc.). Durante a revisão dessa coleção, sinalizar
 itens que:
@@ -131,9 +217,17 @@ itens que:
 Para esses, completar o conteúdo existente respeitando o tema e o formato já estabelecido pelos
 demais itens da coleção (mesma estrutura, mesmo tom, mesmo tamanho médio). Isso conta como
 correção/complemento, não como item novo — pode aplicar direto.
+
+Anti-alucinação (R7): completar apenas com o que é inferível do padrão existente da coleção.
+PROIBIDO inventar fato de produto — preço, política, prazo, funcionalidade, dado técnico ou número
+não documentado no repositório. Se o item incompleto depende de informação que não existe no projeto,
+não preencher: registrar como proposta da ETAPA 5 ou como item em aberto no relatório final.
+
 Se o projeto não tiver esse tipo de coleção, pular esta etapa.
 
+=========================================================================
 ETAPA 5 — ITEM NOVO DE CONTEÚDO (PROPOR, NÃO APLICAR SEM APROVAÇÃO)
+=========================================================================
 Se, durante a análise, for identificado um tema relevante ainda não coberto pela coleção existente
 (dica, FAQ, feature, etc.):
 1. Não criar o arquivo/entrada diretamente
@@ -146,7 +240,9 @@ autor — são reversíveis em significado. Criar item novo é decisão de conte
 duplicar tema já planejado, contradizer estratégia de conteúdo não documentada aqui, ou adicionar
 volume desnecessário. Fica fora do modo "aplicar direto" por padrão.
 
+=========================================================================
 REGRAS ANTI-FALSO-POSITIVO
+=========================================================================
 - Não "corrigir" termos técnicos, nomes de marca, ou jargão proposital do produto (usar o glossário
   identificado na Etapa 0, se existir)
 - Não alterar texto dentro de exemplos de código exibidos ao usuário (ex: snippet dentro de um
@@ -155,8 +251,12 @@ REGRAS ANTI-FALSO-POSITIVO
 - Não mexer em texto dentro de citações diretas ou depoimentos, exceto erro de digitação evidente
 - Se o texto tiver ambiguidade de tom proposital (ex: humor, informalidade calculada da marca),
   reportar antes de formalizar — não assumir que "formal" sempre vence
+- Variação de estilo que não afeta clareza/conversão não é vício de IA: não reescrever, apenas
+  reportar se for relevante
 
+=========================================================================
 VALIDAÇÃO
+=========================================================================
 Antes de finalizar cada lote, adaptar os checks abaixo ao formato de arquivo identificado na
 Etapa 0:
 - Build/lint do projeto passa (sem quebra de sintaxe por edição malfeita), quando aplicável
@@ -165,25 +265,38 @@ Etapa 0:
 - Nenhuma tag/atributo (HTML/JSX/template do framework) foi corrompido
 - Se o conteúdo estiver em arquivo estruturado (JSON/YAML), o arquivo continua parseável após a
   edição
+- Nenhuma chave i18n foi renomeada, reordenada ou excluída (apenas valores alterados)
+- Nenhuma regra R foi violada (auto-auditoria R11) — conferir R5 (limite de ~30%), R6 (placeholders/
+  marcas) e R7 (anti-alucinação)
 
+=========================================================================
 RELATÓRIO FINAL
-Ao concluir cada lote/módulo, entregar:
-1. Resumo quantitativo: nº de arquivos revisados, nº de correções ortográficas, nº de reescritas por
-   vício de IA, nº de itens de conteúdo completados, nº de itens novos propostos
-2. Tabela de correções aplicadas: arquivo:linha | trecho original | trecho corrigido | categoria
-   (ortografia / vício de IA / complemento)
-3. Propostas de item novo (Etapa 5): tema, justificativa, patch completo — separado, aguardando
-   aprovação
-4. Itens em aberto: qualquer caso de ambiguidade de tom ou escopo reportado na Etapa 0/anti-falso-
-   positivo
+=========================================================================
+Ao concluir cada lote/módulo, entregar no seguinte formato:
 
-REGRAS RÍGIDAS (NÃO NEGOCIÁVEIS):
-- Idioma dos artefatos: PT-BR (o texto revisado segue o idioma do projeto; se o projeto não for em
-  português, reportar em vez de assumir e perguntar qual idioma/norma aplicar)
-- Não perguntar confirmação a cada correção individual de ortografia — só reportar no final.
-  Confirmação prévia só é necessária para item novo (Etapa 5)
-- Se o volume de arquivos for muito grande para processar em uma passada, processar por módulo e
-  informar progresso a cada lote
+1. Resumo quantitativo:
+   - nº de arquivos revisados
+   - nº de correções ortográficas
+   - nº de reescritas por vício de IA
+   - nº de itens de conteúdo completados
+   - nº de itens novos propostos
+
+2. Tabela de correções aplicadas (markdown):
+   | arquivo:linha | trecho original | trecho corrigido | categoria |
+   Categoria: ortografia / vício de IA / complemento
+
+3. Propostas de item novo (Etapa 5): para cada proposta, tema + justificativa + patch completo —
+   em bloco separado, aguardando aprovação explícita
+
+4. Itens em aberto: qualquer caso de ambiguidade de tom ou escopo reportado na Etapa 0/anti-falso-
+   positivo, divergências entre locales, conteúdo externo (CMS/API) não verificável no repo, e
+   reescritas/REPORT-ONLY acima do limite da R5
+
+=========================================================================
+REGRAS RÍGIDAS (NÃO NEGOCIÁVEIS)
+=========================================================================
+As REGRAS INVIOLÁVEIS R1–R11 do início deste documento são não negociáveis. Em caso de conflito
+entre uma instrução de etapa e uma regra R, a regra R vence.
 ```
 
 ---
@@ -196,7 +309,7 @@ Um relatório de revisão mostrando:
 - 🤖 **Remoção de vício de IA** (ex: `src/content/tips.json:8` — "Não é apenas uma ferramenta, é uma solução completa" → "É uma ferramenta completa para [contexto específico]")
 - 📦 **Item de coleção completado** (ex: `src/content/faq.json` — item "Como funciona o suporte?" tinha só título, completado no mesmo padrão dos demais)
 - 🆕 **Proposta de item novo** (aguardando aprovação — ex: tema "Política de reembolso" identificado como lacuna na coleção de FAQs)
-- ⚠️ **Item em aberto** (ex: tom informal proposital em `src/content/onboarding.md` — reportado antes de formalizar)
+- ⚠️ **Item em aberto** (ex: tom informal proposital em `src/content/onboarding.md` — reportado antes de formalizar; ou reescrita proposta sem aplicar por passar do limite anti-over-rewrite)
 
 ---
 
