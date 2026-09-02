@@ -26,6 +26,10 @@ npx prompts-unificando get <id> --copy
 | `fullstack` | Next.js full-stack — integração front-back, validação e segurança end-to-end, performance | Sim |
 | `backend` | NestJS — arquitetura, banco de dados, segurança OWASP, escalabilidade, documentação de API | Sim |
 | `testes` | Cobertura de testes real, qualquer stack — mapeamento de regras de negócio, reconciliação de testes existentes | Sim (gera testes) |
+| `setup-e2e` | Bootstrap de stack E2E (Playwright) — instalação, configuração, estrutura de pastas (e2e/, e2e/pages/, e2e/fixtures/) e smoke test inicial | Sim |
+| `auditoria-testid` | Auditoria/aplicação de `data-testid` — convenção única e seletor estável em todo o app | Sim (aditivo) |
+| `testes-e2e` | Geração/expansão disciplinada da suíte E2E — elegibilidade, jornadas (happy path + falha obrigatória), reconciliação e anti-flakiness | Sim (gera specs) |
+| `ci-e2e` | Pipeline CI para a suíte E2E existente — estratégia de execução, cache, artefatos de falha | Não — patch proposto |
 | `auditoria-engenharia` | Diagnóstico de qualidade de código (SOLID, código morto, dependências não usadas) | Não — somente leitura |
 | `auditoria-seguranca` | Segurança (OWASP), conformidade LGPD e checklist de deploy | Não — somente leitura |
 | `revisao-copy` | Ortografia, gramática e UX copy voltados ao usuário final | Só texto, nunca lógica |
@@ -40,6 +44,7 @@ npx prompts-unificando get <id> --copy
 - **Next.js com API Routes no mesmo repositório?** Use `fullstack` (e `frontend` se quiser focar só na camada visual).
 - **Backend NestJS em repositório separado?** Use `backend`.
 - **Já refatorou e quer cobertura de testes real?** Use `testes` — rode por último, depois da arquitetura estabilizar.
+- **Quer uma cadeia completa de testes E2E?** Rode em ordem: `setup-e2e` (bootstrap, só projeto sem stack E2E) → `auditoria-testid` (seletor estável) → `testes-e2e` (specs consistentes) → `ci-e2e` (pipeline no CI).
 - **Gerou ou revisou copy com IA?** Use `revisao-copy` a qualquer momento.
 - **Quer que o agente execute a refatoração sozinho, com gates e rollback por fase, em vez de só sugerir?** Use `refatoracao-faseada` — cobre código morto, duplicação, arquitetura, integração, segurança, performance, erros, a11y/SEO e testes em um único pipeline autônomo.
 - **Quer um raio-x de SEO técnico e de conteúdo antes de lançar ou depois de uma migração?** Use `seo` — read-only, com plano de ação priorizado.
@@ -56,7 +61,10 @@ npx prompts-unificando get <id> --copy
 3. Testes
    testes — depois que a arquitetura estiver estável
 
-4. Copy
+4. E2E (opcional, depois da suíte unit/integration estável)
+   setup-e2e → auditoria-testid → testes-e2e → ci-e2e
+
+5. Copy
    revisao-copy — a qualquer momento após gerar conteúdo com IA
 ```
 

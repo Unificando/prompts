@@ -2,7 +2,14 @@
 
 Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/). Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
-## [Unreleased]
+## [1.2.0] - 2026-09-02
+
+### Added
+- Cadeia de prompts para testes E2E (complementar ao `testes`):
+  - `setup-e2e`: bootstrap de stack E2E (Playwright) para projeto novo — instalação, configuração, estrutura de pastas e smoke test inicial.
+  - `auditoria-testid`: auditoria/aplicação de `data-testid` — convenção única e seletor estável em todo o app (pré-requisito da cadeia).
+  - `testes-e2e`: geração/expansão disciplinada da suíte E2E — critério de elegibilidade, jornadas (happy path + falha obrigatória), reconciliação de specs e regras anti-flakiness.
+  - `ci-e2e`: pipeline CI para a suíte E2E existente — estratégia de execução, cache, artefatos de falha e patch proposto (read-only).
 
 ## [1.1.1] - 2026-08-21
 

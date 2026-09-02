@@ -24,6 +24,30 @@
     "description": "Cobertura de testes real em qualquer linguagem/framework: mapeamento de regras de negócio, reconciliação de testes existentes, pirâmide de testes."
   },
   {
+    "id": "setup-e2e",
+    "file": "setup-e2e.md",
+    "title": "Setup de Stack E2E (Playwright)",
+    "description": "Bootstrap de stack E2E para projeto novo: instalação e configuração do Playwright, estrutura de pastas (e2e/, e2e/pages/, e2e/fixtures/) e smoke test inicial."
+  },
+  {
+    "id": "auditoria-testid",
+    "file": "auditoria-testid.md",
+    "title": "Auditoria e Aplicação de data-testid",
+    "description": "Garante seletor estável em todo o app: varredura do frontend, detecção/definição de convenção e aplicação aditiva de data-testid (pré-requisito da cadeia E2E)."
+  },
+  {
+    "id": "testes-e2e",
+    "file": "testes-e2e.md",
+    "title": "Testes E2E Consistentes (agnóstico de framework)",
+    "description": "Gera/expande uma suíte E2E disciplinada: critério de elegibilidade, mapeamento de jornadas (happy path + falha obrigatória), reconciliação de specs existentes e regras anti-flakiness."
+  },
+  {
+    "id": "ci-e2e",
+    "file": "ci-e2e.md",
+    "title": "Pipeline CI para Suíte E2E (read-only)",
+    "description": "Coloca a suíte E2E existente pra rodar em CI de forma confiável: estratégia de execução, cache, artefatos de falha e patch do pipeline para revisão manual."
+  },
+  {
     "id": "auditoria-engenharia",
     "file": "auditoria-engenharia.md",
     "title": "Auditoria de Engenharia de Software (read-only)",
