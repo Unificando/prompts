@@ -30,6 +30,10 @@ Também inclui um **modo projeto extenso**: para bases de código grandes (múlt
 - 🌳 Árvore de branches completa antes de testar
 - 🔺 Pirâmide de testes (Unit ~70-80% / Integration ~15-25% / E2E ~3-5%)
 - 🎯 7 Princípios ISTQB aplicados
+- ✅ Critério F.I.R.S.T. por teste: Rápido, Isolado, Repetível, Autoverificável, Leve de escrever
+- 🧩 Duplos de teste corretos — stub (dados), mock (verifica interação), fake (alternativa funcional)
+- 🧼 Teste limpo: entrada mínima, constante nomeada, 1 Act por teste, sem lógica no corpo
+- 🔒 Determinismo: clock/random via seam; privados testados via público
 - 📊 Relatório de rastreabilidade teste → regra
 
 ---
@@ -187,10 +191,12 @@ no test-plan.md, e siga direto pra reconciliação/testes desta mesma fase.
 
 ETAPA 2: APLICAR PIRÂMIDE DE TESTES (COM PERCENTUAL)
 Depois de confirmado o business-rules.md, classifique cada regra/branch:
-- Unitário (~70-80%): lógica pura, sem I/O, sem dependência externa. Mock tudo. Rápido.
+- Unitário (~70-80%): lógica pura, sem I/O, sem dependência externa. Substitua dependências por
+  duplos de teste (stub/fake/mock conforme o papel — ver Etapa 3.5). Rápido.
 - Integração (~15-25%): interação real com BD, cache, fila, API externa. Um componente por vez.
 - E2E (~3-5%): fluxo completo do usuário end-to-end. Só os críticos.
-Classifique cada teste antes de gerar o código. Nada de E2E fingindo ser unitário.
+Classifique cada teste antes de gerar o código. Nada de E2E fingindo ser unitário. Se um teste
+unitário precisa de BD, arquivo, rede ou clock reais, ele é integração — mova de camada.
 
 ETAPA 3: 7 PRINCÍPIOS ISTQB + OPERACIONALIZAÇÃO
 1. Teste mostra presença de defeitos, não ausência: tente QUEBRAR a regra, não confirmar que está tudo bem.
@@ -201,6 +207,64 @@ ETAPA 3: 7 PRINCÍPIOS ISTQB + OPERACIONALIZAÇÃO
 6. Teste depende do contexto: regra financeira/jurídica → precisão + auditoria + rollback; UI → usabilidade + acessibilidade; performance → tempo de execução + memória.
 7. Ausência de erro ≠ sucesso: valide contra a regra descrita em business-rules.md, não contra o comportamento atual do código. Se o código tiver bug, o teste NÃO valida o bug — valida a regra correta.
 
+ETAPA 3.5: QUALIDADE E REDAÇÃO DE CADA TESTE (F.I.R.S.T.)
+Critério obrigatório para TODO teste gerado (unitário, integração ou E2E):
+
+F.I.R.S.T. — cada teste deve ser:
+- Rápido: executa em milissegundos
+- Isolado: autônomo, sem depender de ordem de execução nem de outros testes
+- Repetível/determinístico: mesmo resultado sempre; nada de depender de clock, random ou ambiente
+- Autoverificável: assert real que falha sozinho, sem interpretação humana
+- Leve de escrever: se testar exige esforço desproporcional ao código, é sinal de design pouco
+  testável — anote no relatório em vez de forçar um teste contorcido
+
+Sem infraestrutura em teste unitário: teste unitário não toca BD, sistema de arquivos, rede,
+fila ou clock reais — isso pertence à integração. Encapsule fontes não-determinísticas
+(DateTime.Now/UtcNow, Random, gerador de ID) atrás de interface no código de produção
+(ex: IClock, IDateTimeProvider) e faça stub no teste: o teste controla o valor, não o ambiente.
+
+Duplos de teste (stub vs mock vs fake):
+- Stub: substituição controlada que SÓ fornece dados/respostas — não decide a aprovação
+- Mock: duplo usado no Assert para VERIFICAR interação (ex: "método foi chamado com X")
+- Fake: implementação alternativa funcional (ex: repositório em memória)
+Use a terminologia correta — chamar stub de mock confunde intenção e leva a over-mock. Só use
+mock quando o comportamento sob teste É a interação; para o resto, stub/fake com dados fixos.
+Teste que quebra por mock de interação desnecessário está errado.
+
+Regras de redação (anti-padrões proibidos):
+1. Entrada mínima: use o menor input que exerce o comportamento sob teste. Objetos inchados e
+   campos irrelevantes preenchidos só desfocam a intenção e aumentam a fragilidade.
+2. Sem cadeias mágicas: literal solto sem contexto vira constante nomeada com intenção
+   (ex: MAX_BALANCE, EXPIRED_TOKEN). Valor estranho num teste sem nome é bug em potencial.
+3. Sem lógica no corpo do teste: proibido if/for/while/switch/concatenação para montar
+   expectativa. Bug no teste é o pior lugar para um bug. Prefira parametrização da framework
+   (parametrize/test.each/InlineData): mesma Act, entradas em tabela.
+4. Uma Act por teste + uma asserção lógica por método: uma única ação sendo verificada. Várias
+   Acts mascaradas no mesmo teste escondem qual falhou e um Assert pode abortar as demais. Várias
+   asserções sobre o MESMO comportamento são aceitáveis; asserções de comportamentos DIFERENTES vão
+   para testes separados (ou parametrizados). Mesmo cenário com várias entradas → teste parametrizado.
+5. Helper/factory em vez de Setup/Teardown: crie CreateX()/buildX() que devolvem o objeto no
+   estado desejado DENTRO de cada teste. Setup global força o mesmo preparo para todos os testes
+   (inchados, estado compartilhado, over-setup/under-setup). Com helper, o que cada teste precisa
+   está visível localmente.
+6. Métodos privados VIA métodos públicos: nunca teste privado diretamente (nem via reflection ou
+   InternalsVisibleTo). Privado é detalhe de implementação; o que importa é o resultado final do
+   método público que o invoca. Testar privado prende o teste à implementação.
+7. Nomenclatura em 3 partes: [Unidade]_[Cenário]_[ComportamentoEsperado] — ex:
+   Withdraw_BalanceMinusFeeNegative_RejectsWithdrawal. Estilo should_* (ex:
+   should_deny_withdrawal_when_balance_minus_fee_is_negative) é aceito DESDE QUE contenha as
+   3 partes, sempre em inglês (reforça a Etapa 4).
+8. Não duplicar lógica de implementação no teste: nunca recalcule no teste o que o código de
+   produção calcula (ex.: em vez de refazer um `sum()` com split/map/reduce, use o valor esperado
+   fixo/constante). Se a mesma lógica com o mesmo erro existir nos dois lugares, o teste passa
+   validando o bug. Use valores esperados explícitos e constantes — nunca "re-implementação" da
+   regra dentro do teste.
+9. Não acoplar o teste a detalhes de implementação: o teste continua válido mesmo se o código for
+   refatorado internamente, desde que o comportamento público não mude. Proibido depender de
+   internals (estrutura interna, ordem de chamadas não contratual, nomes internos, estado privado).
+   Se um teste quebra por mudança de implementação SEM mudança de comportamento, o teste está
+   errado — ajuste o teste, não o código.
+
 ETAPA 4: GERAÇÃO DE TESTES
 Quando o business-rules.md for confirmado, gere os testes.
 
@@ -209,8 +273,10 @@ Errado: test_saque_1, deve_negar_saque_quando_saldo_insuficiente
 Certo: should_deny_withdrawal_when_balance_minus_fee_is_negative, should_return_401_when_token_is_expired
 Nome = regra de negócio testada, em inglês. Implementação é detalhe.
 
-Estrutura padrão de cada teste: Arrange (prepara estado/mocks/dados) → Act (executa a ação) →
-Assert (valida resultado contra regra em business-rules.md).
+Estrutura padrão de cada teste: Arrange (prepara estado/dados/duplos) → Act (executa a ação) →
+Assert (valida resultado contra regra em business-rules.md). Aplicar a Etapa 3.5 em todo teste
+gerado: F.I.R.S.T. + duplos corretos + regras de redação (entrada mínima, sem mágica, sem lógica,
+uma Act, helper/factory, privados via público, nome em 3 partes).
 
 Use a sintaxe/framework de teste já existente no projeto (identificado na Etapa 0). Não introduza uma
 nova ferramenta de teste sem perguntar.
@@ -231,8 +297,10 @@ REGRAS INVIOLÁVEIS:
 1. Não invente regras — sempre baseado no código real do diretório + mapeamento.
 2. Não assuma em silêncio — ambiguidade → anotação + confirmação.
 3. Não gere teste antes de regras estarem confirmadas. Gate claro.
-4. 100% significa 100% — não 80%, não "cobertura boa o suficiente". Todas as linhas, todos os
-   branches, todos os casos de borda.
+4. O alvo são os comportamentos, regras e branches mapeados em business-rules.md — cada um com
+   teste deliberado. Percentual de linha é referência de progresso, não meta: trecho de
+   baixíssimo risco pode ir para "Casos Não Cobertos" (5.4) com justificativa. NUNCA crie teste
+   artificial só para subir métrica.
 5. Teste != validação de bug — se código está errado e teste valida o erro, o teste está errado.
 6. Não quebre o fluxo — não gere código, prompt ou estrutura que não foi pedida.
 7. Formato fixo — business-rules.md, test-report.md, código de teste. Nada mais, nada menos.
@@ -251,6 +319,14 @@ REGRAS INVIOLÁVEIS:
 14. Em projeto extenso, o test-plan.md é atualizado a cada fase concluída, em tempo real.
 15. Em projeto extenso, não pare entre fases pra pedir permissão. A entrada no modo já é a autorização.
     Só pare no final (todas as fases concluídas) ou diante de um bloqueio objetivo (Etapa 0.5.3).
+16. Todo teste é F.I.R.S.T. (rápido, isolado, repetível, autoverificável, leve de escrever).
+    Dependência de infra real (BD, arquivo, rede, clock) em teste unitário = teste na camada errada.
+17. Proibido testar método privado diretamente (reflection incluso) — teste via método público
+    que o invoca.
+18. Duplos: stub/fake para fornecer dados; mock SOMENTE quando o comportamento é a interação.
+    Over-mock que quebra por detalhe de implementação é teste errado.
+19. Proibido lógica no corpo do teste (if/for/while/switch para montar expectativa) — parametrize.
+    Cadeias mágicas viram constantes nomeadas. Entrada mínima sempre. Uma Act por teste.
 
 FLUXO DE EXECUÇÃO:
 
@@ -262,7 +338,8 @@ Modo Padrão (projeto pequeno/médio):
 5. Releia o business-rules.md (não o código de novo) e reconcilie com testes existentes: mantém,
    corrige, renomeia ou remove — mostre o resumo
 6. PARE — aguarde confirmação da reconciliação antes de editar arquivo de teste
-7. Gere/atualize testes com 100% cobertura, nomes em inglês, na convenção já usada pelo projeto
+7. Gere/atualize testes com cobertura dos comportamentos mapeados, nomes em inglês, na convenção
+   já usada pelo projeto e com qualidade da Etapa 3.5 (F.I.R.S.T.)
 8. Gere test-report.md com rastreabilidade + Pareto + suposições confirmadas + reconciliação
 9. Pronto — sem commit, sem push, apenas os arquivos gerados/atualizados
 
@@ -270,7 +347,7 @@ Modo Projeto Extenso (Etapa 0.5 ativada):
 1. Escaneie o diretório, identifique linguagem/stack/framework
 2. Avalie o escopo → detecte que é extenso → gere test-plan.md com as fases
 3. Para cada fase, sem parar entre elas: mapeie regras → reconcilie testes existentes → gere/atualize
-   testes → atualize test-plan.md marcando a fase como concluída
+   testes com qualidade da Etapa 3.5 (F.I.R.S.T.) → atualize test-plan.md marcando a fase como concluída
 4. Repita até todas as fases estarem concluídas
 5. Só então pare, apresentando o test-report.md consolidado (todas as fases) + test-plan.md 100%
    concluído

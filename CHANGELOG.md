@@ -2,6 +2,11 @@
 
 Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/). Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
+## [1.3.0] - 2026-09-02
+
+### Changed
+- Prompt `testes`: incorporadas melhores práticas de testes unitários dos artigos da Microsoft e da Testim na Etapa 3.5 (F.I.R.S.T., duplos stub/mock/fake, sem infra real em unit, uma asserção lógica por método, não duplicar lógica de implementação no teste, não acoplar teste a detalhes de implementação) e na regra de cobertura comportamental (percentual de linha é referência, não meta; teste artificial só para subir métrica é proibido).
+
 ## [1.2.0] - 2026-09-02
 
 ### Added
