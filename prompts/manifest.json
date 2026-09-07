@@ -76,5 +76,11 @@
     "file": "seo.md",
     "title": "Auditoria de SEO — Técnico + Conteúdo (read-only)",
     "description": "Crawlability, indexação, Core Web Vitals (sinais estruturais), marcação estruturada e conteúdo, com plano de ação priorizado. Agnóstico de stack e sem risco de alteração no código."
+  },
+  {
+    "id": "pipeline",
+    "file": "pipeline.md",
+    "title": "Pipeline Completo (Orquestrador)",
+    "description": "Orquestra a execução fase a fase de todos os prompts aplicáveis ao projeto: plano personalizado, gates de revisão, arquivo de estado para retomar entre sessões."
   }
 ]

@@ -35,6 +35,7 @@ npx prompts-unificando get <id> --copy
 | `revisao-copy` | Ortografia, gramática e UX copy voltados ao usuário final | Só texto, nunca lógica |
 | `refatoracao-faseada` | Pipeline autônomo de 10 fases (agnóstico de stack) — detecção automática, gates de build/lint/test e patch reversível por fase | Sim (sob contrato: sem commit/push) |
 | `seo` | SEO técnico e de conteúdo — crawlability, indexação, Core Web Vitals (sinais estruturais), marcação estruturada, thin content, linkagem interna | Não — somente leitura |
+| `pipeline` | Orquestrador do fluxo completo — plano personalizado por projeto, gates de triagem/revisão e retomada entre sessões (executa os outros prompts fase a fase) | Sim — via prompts filhos |
 
 ## Como escolher
 
@@ -48,6 +49,7 @@ npx prompts-unificando get <id> --copy
 - **Gerou ou revisou copy com IA?** Use `revisao-copy` a qualquer momento.
 - **Quer que o agente execute a refatoração sozinho, com gates e rollback por fase, em vez de só sugerir?** Use `refatoracao-faseada` — cobre código morto, duplicação, arquitetura, integração, segurança, performance, erros, a11y/SEO e testes em um único pipeline autônomo.
 - **Quer um raio-x de SEO técnico e de conteúdo antes de lançar ou depois de uma migração?** Use `seo` — read-only, com plano de ação priorizado.
+- **Quer rodar o fluxo completo de ponta a ponta, sem lembrar a ordem?** Rode `pipeline` em uma IDE agêntica — ele monta o plano só com o que se aplica ao projeto, controla os gates de revisão e retoma de onde parou entre sessões.
 
 ## Fluxo recomendado
 
@@ -68,7 +70,7 @@ npx prompts-unificando get <id> --copy
    revisao-copy — a qualquer momento após gerar conteúdo com IA
 ```
 
-Rodar o diagnóstico primeiro evita refatorar às cegas: os dois prompts de auditoria não alteram nada, apenas mapeiam os problemas reais antes de você decidir onde investir esforço.
+Rodar o diagnóstico primeiro evita refatorar às cegas: os dois prompts de auditoria não alteram nada, apenas mapeiam os problemas reais antes de você decidir onde investir esforço. Para automatizar essa sequência com plano personalizado, gates de revisão e retomada entre sessões, use o `pipeline`.
 
 ## Como usar um prompt
 

@@ -2,6 +2,11 @@
 
 Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/). Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
+## [1.6.0] - 2026-09-07
+
+### Added
+- Prompt `pipeline` (orquestrador): conduz a execução fase a fase de todos os prompts aplicáveis ao projeto em IDEs agênticas — detecção de contexto e plano personalizado (gate de aplicabilidade no nível do pipeline), cadeia de fases na ordem do fluxo recomendado (diagnóstico → triagem → refatoração → testes → E2E → copy → fechamento), gate de triagem obrigatório pós-diagnóstico, arquivo de estado `pipeline-state.md` para retomar entre sessões e fallback manual para ambientes sem terminal. O orquestrador conduz, não duplica: cada fase é executada pelo prompt filho buscado via `npx prompts-unificando get <id>`.
+
 ## [1.5.0] - 2026-09-07
 
 ### Changed
