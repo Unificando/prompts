@@ -2,6 +2,11 @@
 
 Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/). Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
+## [1.5.0] - 2026-09-07
+
+### Changed
+- Prompt `auditoria-seguranca`: adicionado PROMPT 2 — Módulos de Ataque (read-only), executado na sequência do PROMPT 1, com cinco módulos ofensivos: varredura de secrets e credenciais (com lista de rotação e verificações manuais de histórico do git), teste de autenticação como um invasor (matriz de sessão por rota, invalidação, abuso de reset), interrogatório adversarial do banco de dados (RLS tabela a tabela, policies de escrita, buckets), auditoria de input (injeção SQL/NoSQL, execução de código, uploads, XSS) e checagem de bomba de custo (rotas de IA, brute force, e-mail/SMS, queries sem teto, medição fail-closed). Gate de aplicabilidade do PROMPT 1 reescrito sem contagem fixa de itens; README e manifest atualizados.
+
 ## [1.4.0] - 2026-09-02
 
 ### Changed

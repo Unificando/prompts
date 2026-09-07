@@ -31,7 +31,7 @@ npx prompts-unificando get <id> --copy
 | `testes-e2e` | Geração/expansão disciplinada da suíte E2E — elegibilidade, jornadas (happy path + falha obrigatória), reconciliação e anti-flakiness | Sim (gera specs) |
 | `ci-e2e` | Pipeline CI para a suíte E2E existente — estratégia de execução, cache, artefatos de falha | Não — patch proposto |
 | `auditoria-engenharia` | Diagnóstico de qualidade de código (SOLID, código morto, dependências não usadas) | Não — somente leitura |
-| `auditoria-seguranca` | Segurança (OWASP), conformidade LGPD e checklist de deploy | Não — somente leitura |
+| `auditoria-seguranca` | Segurança (OWASP), conformidade LGPD, checklist de deploy e módulos de ataque (secrets, autenticação, banco de dados, input, bomba de custo) | Não — somente leitura |
 | `revisao-copy` | Ortografia, gramática e UX copy voltados ao usuário final | Só texto, nunca lógica |
 | `refatoracao-faseada` | Pipeline autônomo de 10 fases (agnóstico de stack) — detecção automática, gates de build/lint/test e patch reversível por fase | Sim (sob contrato: sem commit/push) |
 | `seo` | SEO técnico e de conteúdo — crawlability, indexação, Core Web Vitals (sinais estruturais), marcação estruturada, thin content, linkagem interna | Não — somente leitura |
@@ -39,7 +39,7 @@ npx prompts-unificando get <id> --copy
 ## Como escolher
 
 - **Não sabe onde estão os problemas?** Comece por `auditoria-engenharia`.
-- **Vai para produção ou lida com dados pessoais?** Rode `auditoria-seguranca` antes do deploy.
+- **Vai para produção ou lida com dados pessoais?** Rode `auditoria-seguranca` antes do deploy — e, para a varredura ofensiva completa, execute o PROMPT 2 do mesmo prompt na sequência (secrets, autenticação, banco de dados, input, custo).
 - **Projeto React/Next.js sem backend próprio?** Use `frontend`.
 - **Next.js com API Routes no mesmo repositório?** Use `fullstack` (e `frontend` se quiser focar só na camada visual).
 - **Backend NestJS em repositório separado?** Use `backend`.

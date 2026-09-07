@@ -57,7 +57,7 @@
     "id": "auditoria-seguranca",
     "file": "auditoria-seguranca.md",
     "title": "Auditoria de Segurança, LGPD e Deploy",
-    "description": "Revisão de segurança, conformidade LGPD e práticas de deploy."
+    "description": "Revisão de segurança, conformidade LGPD, práticas de deploy e módulos de ataque read-only (secrets, autenticação, banco de dados, input, custo)."
   },
   {
     "id": "revisao-copy",
