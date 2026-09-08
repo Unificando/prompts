@@ -78,6 +78,12 @@
     "description": "Crawlability, indexação, Core Web Vitals (sinais estruturais), marcação estruturada e conteúdo, com plano de ação priorizado. Agnóstico de stack e sem risco de alteração no código."
   },
   {
+    "id": "agents",
+    "file": "agents.md",
+    "title": "Criação de AGENTS.md Padronizado (Bootstrap)",
+    "description": "Gera o AGENTS.md do projeto a partir do README e das regras da biblioteca: contexto do repositório, comandos reais, regras de trabalho padronizadas e guia dos prompts aplicáveis. PROMPT 2 revisa/reconcilia o arquivo existente."
+  },
+  {
     "id": "pipeline",
     "file": "pipeline.md",
     "title": "Pipeline Completo (Orquestrador)",

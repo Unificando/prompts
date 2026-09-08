@@ -32,6 +32,14 @@ test('get imprime o conteúdo de um prompt da cadeia E2E', () => {
   assert.match(result.stdout, /Testes E2E/);
 });
 
+test('get imprime o conteúdo do prompt de criação de AGENTS.md', () => {
+  const result = runCli(['get', 'agents']);
+  assert.equal(result.status, 0);
+  assert.match(result.stdout, /AGENTS\.md Padronizado/);
+  assert.match(result.stdout, /REGRAS INVIOLÁVEIS/);
+  assert.match(result.stdout, /PROMPT 2: REVISÃO\/RECONCILIAÇÃO/);
+});
+
 test('get com id inválido falha com mensagem clara', () => {
   const result = runCli(['get', 'nao-existe']);
   assert.notEqual(result.status, 0);

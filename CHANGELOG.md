@@ -2,6 +2,11 @@
 
 Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/). Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
+## [1.7.0] - 2026-09-07
+
+### Added
+- Prompt `agents`: criação do AGENTS.md padronizado do projeto — PROMPT 1 gera o guia de trabalho para agentes de IA a partir do README.md (fonte primária das regras), com contexto do repositório, tabela de comandos reais verificados nos scripts/compose, particularidades que quebram com evidência, regras de trabalho universais destiladas da biblioteca (evidência obrigatória, sem commit sem pedido, contrato de testes, gates, report-only), regras condicionais ativadas pelo contexto detectado (migration+seed, reprocessamento de índice, contrato de API/MCP/CLI) e guia dos prompts aplicáveis à stack. PROMPT 2 reconcilia um AGENTS.md existente contra README/docs/scripts atuais, editando somente o AGENTS.md, com tabela de divergências e divergências ambíguas reportadas em vez de resolvidas.
+
 ## [1.6.0] - 2026-09-07
 
 ### Added
