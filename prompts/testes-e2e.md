@@ -4,7 +4,7 @@
 ---
 
 ## 📋 Índice de Execução
-1. Leitura Autônoma do Diretório E2E
+1. Leitura Autônoma do Diretório E2E & Detecção de Modo (Arquivo Único / Padrão)
 2. Pré-Requisito — Auditoria de `data-testid` Já Concluída
 3. Critério de Elegibilidade — Quando um Fluxo Merece E2E
 4. Mapeamento de Jornadas de Usuário
@@ -22,7 +22,9 @@ Diferente do `testes` (que cobre unit+integration+e2e com cobertura 100%), este 
 
 **Quando usar:** você quer gerar ou expandir a suíte `e2e/*.spec.ts` (ou equivalente) de forma disciplinada — não "cria um teste aqui, cola um teste ali". Use depois de já ter cobertura unit/integration adequada, porque este prompt assume que regra de negócio granular já está coberta em outro nível e foca só na jornada crítica ponta a ponta.
 
-**Pré-requisito:** este prompt depende do `auditoria-testid` já ter rodado (ele gera o `testid-changes-report.md`, que é a fonte de verdade de seletor pra Etapa 2 aqui). Auditoria de `data-testid` foi extraída pra um prompt separado — vasculhar o app inteiro em busca de elemento sem testid é uma tarefa de exaustão que compete por atenção com as regras de jornada/gate se ficasse no mesmo prompt, então separar reduz a chance de algo passar despercebido nos dois lados.
+**Pré-requisito:** este prompt depende do `auditoria-testid` já ter rodado (ele gera o `testid-changes-report.md`, que é a fonte de verdade de seletor pra Etapa 2 aqui). Auditoria de `data-testid` foi extraída pra um prompt separado — vasculhar o app inteiro em busca de elemento sem testid é uma tarefa de exaustão que compete por atenção com as regras de jornada/gate se ficasse no mesmo prompt, então separar reduz a chance de algo passar despercebido nos dois lados. **Exceção — modo arquivo único:** quando o pedido cita um componente/arquivo como alvo exclusivo (Etapa 0.1), a ausência do `testid-changes-report.md` não bloqueia — vale a verificação escopada de `data-testid` descrita na Etapa 0.2 (leitura apenas, restrita ao alvo).
+
+Também inclui um **modo arquivo único**: quando o pedido cita **um** componente/arquivo de UI como alvo exclusivo — ex: "só os specs E2E do fluxo de checkout" — o pipeline completo (elegibilidade → jornada → reconciliação → geração → relatório) roda restrito aos fluxos que atravessam esse alvo, com a verificação de seletor escopada e os gates preservados.
 
 **⚠️ Decisão de arquitetura assumida (flag — você deixou em aberto):** o prompt de origem trazia a pirâmide de testes (unit ~70-80% / integration ~15-25% / e2e ~3-5%) pra decidir em que nível cada regra entra. Como este prompt é E2E-only, removi a pirâmide e troquei por um **critério de elegibilidade** (Etapa 0.5) — a lógica muda de "que % disso é E2E" pra "esse fluxo específico justifica um E2E ou não". Se preferir manter a pirâmide como referência de contexto (mesmo sem uso prático aqui), me avisa que eu adiciono de volta.
 
@@ -40,6 +42,11 @@ Cypress, TestCafe, WebdriverIO etc). Não force uma ferramenta diferente da que 
 
 ETAPA 0: LEITURA AUTÔNOMA DO DIRETÓRIO E2E
 Antes de qualquer coisa, escaneie o projeto:
+- PRIMEIRO, classifique o pedido: ele cita UM componente/arquivo de UI (caminho ou nome) como alvo
+  exclusivo do trabalho? (ex: "só os specs do fluxo de checkout", "cobre a tela de login"). Se sim,
+  ative a ETAPA 0.1 (modo arquivo único) e restrinja a leitura ao escopo dela — não mapeie as jornadas
+  do app inteiro. Se o pedido é sobre a suíte como um todo (ex: "expanda a suíte E2E"), siga o fluxo
+  completo.
 - Localize o arquivo de configuração E2E (ex: playwright.config.ts, cypress.config.ts) e identifique
   a pasta onde os specs vivem
 - Leia os specs existentes na pasta E2E pra entender: convenção de nomes de arquivo, estrutura de
@@ -56,6 +63,34 @@ Antes de qualquer coisa, escaneie o projeto:
 - Se não houver nenhum framework E2E configurado, pergunte qual usar antes de prosseguir
 Você não pede pra colar código nem specs. Você lê o projeto diretamente.
 
+ETAPA 0.1: MODO ARQUIVO ÚNICO (ALVO EXPLÍCITO NO PEDIDO)
+Ativado quando o pedido cita UM componente/arquivo de UI (caminho ou nome) como alvo exclusivo do
+trabalho — o pipeline completo roda restrito aos fluxos que atravessam esse alvo, com as mesmas
+etapas, qualidade e gates do modo padrão. Não é um atalho: é o mesmo pipeline com escopo menor.
+
+0.1.1 — Resolução do alvo
+- O alvo pode vir como caminho de arquivo ("src/components/Checkout.tsx") ou nome de
+  componente/tela ("CardCheckout", "página de login"). Resolva o nome para o arquivo real do projeto
+  antes de prosseguir.
+- Nome ambíguo (múltiplos arquivos correspondem, ex: vários "Card*") ou dúvida sobre se o alvo é
+  exclusivo → PERGUNTE antes de prosseguir. Não assuma em silêncio.
+- Alvo inexistente no projeto → pare e informe; não gere spec para tela que não existe.
+
+0.1.2 — Escopo de leitura (restrito, em vez da varredura ampla da Etapa 0)
+- Configuração E2E e convenções globais (stack, pasta de specs, estratégia de seletor, helpers
+  reutilizáveis) — essas leituras da Etapa 0 continuam obrigatórias, pois definem COMO escrever
+- Specs existentes relacionadas aos fluxos do alvo (para a reconciliação da Etapa 1.5)
+- O componente/tela alvo no frontend (elementos, estados, interações)
+- PROIBIDO mapear jornadas ou specs de outras partes do app
+
+0.1.3 — Interação com as demais etapas
+- Etapa 0.2: verificação de data-testid escopada ao alvo (variante do modo arquivo único)
+- Etapa 0.5: candidatos de elegibilidade = apenas fluxos que atravessam o componente alvo
+- Etapa 1.5: reconciliação restrita aos specs dos fluxos do alvo
+- Etapa 4: relatório contém/atualiza somente as entradas do alvo
+- Gates preservados: os PARADA AQUI do pipeline (0.5 e pós-reconciliação) se aplicam integralmente —
+  restringidos ao alvo, mas presentes.
+
 ETAPA 0.2: PRÉ-REQUISITO — AUDITORIA DE data-testid JÁ CONCLUÍDA
 Antes de mapear qualquer fluxo, confirme que o app já passou pela auditoria de seletor:
 - Procure por um `testid-changes-report.md` (ou equivalente) já existente no projeto, gerado pelo
@@ -63,9 +98,15 @@ Antes de mapear qualquer fluxo, confirme que o app já passou pela auditoria de 
 - Se o relatório não existir, pare e avise: rode o auditoria-testid primeiro. Não tente
   fazer essa varredura por conta própria aqui — isso duplicaria trabalho e sairia sem o rigor de fase
   que aquele prompt tem pra apps grandes
+  - **Exceção — modo arquivo único (Etapa 0.1 ativada):** não bloqueie. Faça a verificação escopada
+    de data-testid (item 4.6 da Etapa 4): leitura apenas, restrita aos elementos do componente/tela
+    alvo. Seletor ausente ou ambíguo no alvo → pare e direcione ao auditoria-testid (não aplique nem
+    defina testid aqui — proibido em qualquer modo)
 - Se o relatório existir, leia as "Pendências de Revisão" registradas nele — elementos que ficaram sem
   testid por ambiguidade. Guarde essa lista: se algum fluxo mapeado na Etapa 1 depender de um desses
-  elementos, você vai precisar sinalizar isso antes de escrever o spec (Etapa 2)
+  elementos, você vai precisar sinalizar isso antes de escrever o spec (Etapa 2). No modo arquivo
+  único, filtre o relatório aos fluxos do componente/tela alvo — ele prevalece sobre a verificação
+  escopada
 
 ETAPA 0.5: CRITÉRIO DE ELEGIBILIDADE — QUANDO UM FLUXO MERECE E2E
 E2E é o teste mais caro e mais lento da pirâmide. Antes de mapear qualquer fluxo, filtre o que
@@ -85,6 +126,8 @@ Um fluxo NÃO é elegível pra E2E (delegue pra unit/integration, fora do escopo
 
 Liste os fluxos candidatos e classifique cada um como Elegível/Não Elegível com o motivo. Fluxos não
 elegíveis não geram spec — ficam só registrados no relatório final como "fora de escopo E2E, motivo X".
+No modo arquivo único (Etapa 0.1 ativada), os candidatos são apenas os fluxos que atravessam o
+componente/tela alvo — nenhum fluxo de outra parte do app entra na lista.
 
 PARADA AQUI. Mostre a lista de fluxos elegíveis/não elegíveis com motivo e aguarde confirmação antes de
 mapear a jornada de cada um.
@@ -146,7 +189,8 @@ Reconcilie:
    estrutura paralela de specs E2E.
 
 PARADA AQUI. Mostre o resumo da reconciliação (mantidos/corrigidos/renomeados/removidos/novos) e
-aguarde confirmação antes de editar qualquer arquivo de spec.
+aguarde confirmação antes de editar qualquer arquivo de spec. No modo arquivo único (Etapa 0.1
+ativada), a reconciliação cobre apenas os specs dos fluxos do componente/tela alvo.
 
 ETAPA 2: REGRAS DE CONSISTÊNCIA E ANTI-FLAKINESS (APLICAR EM TODO SPEC GERADO)
 1. Seletor: use o `data-testid` confirmado no `testid-changes-report.md` (Etapa 0.2). Se algum elemento
@@ -192,6 +236,12 @@ Gere com:
 4.4 Riscos Residuais — ex: seletor instável detectado e não resolvido, dependência externa testada
     contra ambiente real (custo/flakiness), fluxo não elegível que pode merecer revisão futura
 4.5 Suposições Confirmadas — lista das Assumptions Section de cada jornada, já validadas
+4.6 Verificação Escopada de data-testid (SOMENTE modo arquivo único, Etapa 0.1 ativada) — quando o
+    testid-changes-report.md não existe: tabela dos elementos do componente/tela alvo verificados em
+    leitura (Elemento | testid presente? | Seletor utilizável?), registrada como seção do relatório.
+    Leitura apenas: proibido aplicar, definir ou sugerir testid aqui. Seletor ausente ou ambíguo no
+    alvo → pare e direcione ao auditoria-testid. Se o relatório do auditoria-testid existir, ele
+    prevalece (filtrado aos fluxos do alvo) e esta seção não é gerada.
 
 REGRAS INVIOLÁVEIS:
 1. Não gera spec pra fluxo não elegível (Etapa 0.5) sem confirmação explícita de exceção.
@@ -210,6 +260,9 @@ REGRAS INVIOLÁVEIS:
 10. Um spec = uma jornada. Não infla um spec único pra "cobrir tudo de uma vez".
 11. Não faz varredura de `data-testid` por conta própria — depende do `auditoria-testid` já
     ter rodado (Etapa 0.2). Se o relatório não existir, para e avisa, não tenta compensar aqui.
+    **Única exceção — modo arquivo único (Etapa 0.1 ativada):** verificação escopada de leitura,
+    restrita aos elementos do componente/tela alvo (item 4.6), nunca a varredura do app inteiro.
+    Proibido aplicar/adicionar `data-testid` em qualquer modo.
 12. Toda jornada elegível cobre happy path + pelo menos 1 estado de falha. Não é opcional. Se não
     houver falha aplicável, a ausência é justificada explicitamente no relatório — nunca omitida.
 13. Dado de setup é sempre sintético realista (formato/variação de mundo real), nunca cópia de dado
@@ -218,8 +271,13 @@ REGRAS INVIOLÁVEIS:
 14. Passo de UI repetido em mais de 1 jornada nunca é copiado entre specs — vira componente
     reutilizável (Page Object Model/helper/fixture). Componente existente é reusado, nunca duplicado
     ou reescrito na mão dentro de um spec novo.
+15. No modo arquivo único (Etapa 0.1), elegibilidade, jornada, reconciliação, specs e relatório cobrem
+    SOMENTE os fluxos que atravessam o componente/tela alvo. Nenhum fluxo de outra parte do app é
+    mapeado ou gerado — nem parcialmente.
 
 FLUXO DE EXECUÇÃO:
+
+Modo Padrão:
 1. Escaneia o diretório E2E, identifica framework/config/convenções já em uso
 2. Confirma que o testid-changes-report.md existe (Etapa 0.2) — se não existir, para e avisa
 3. Lista fluxos candidatos, classifica elegibilidade (Etapa 0.5)
@@ -230,6 +288,22 @@ FLUXO DE EXECUÇÃO:
 8. Gera/atualiza specs aplicando regras de consistência (Etapa 2)
 9. Gera e2e-test-report.md
 10. Pronto — sem commit, sem push, apenas os specs gerados/atualizados
+
+Modo Arquivo Único (Etapa 0.1 ativada — pedido cita um componente/arquivo de UI como alvo exclusivo):
+1. Classifique o pedido na Etapa 0 → alvo exclusivo detectado → resolva o nome para o arquivo real
+   (ambíguo ou inexistente → pergunte/pare — 0.1.1)
+2. Escaneia config/convenções E2E + specs e elementos do alvo (escopo de leitura da 0.1.2)
+3. Verificação de data-testid: relatório do auditoria-testid prevalece (filtrado ao alvo); se não
+   existir, verificação escopada de leitura no alvo (variante da Etapa 0.2 / item 4.6) — seletor
+   ausente ou ambíguo → pare e direcione ao auditoria-testid
+4. Lista fluxos candidatos que atravessam o alvo, classifica elegibilidade (Etapa 0.5)
+5. PARE — aguarda confirmação da lista de elegíveis/não elegíveis
+6. Mapeia jornada de cada fluxo elegível do alvo (Etapa 1)
+7. Reconcilia com specs existentes do alvo (Etapa 1.5) — mostra resumo
+8. PARE — aguarda confirmação da reconciliação antes de editar/criar arquivo
+9. Gera/atualiza specs do alvo aplicando regras de consistência (Etapa 2)
+10. Gera/atualiza e2e-test-report.md somente com as entradas do alvo (incluindo 4.6 se aplicável)
+11. Pronto — sem commit, sem push, apenas os specs gerados/atualizados
 ```
 
 ---
@@ -241,6 +315,8 @@ FLUXO DE EXECUÇÃO:
   `testid-changes-report.md`, idioma, estrutura)
 - Zero hard wait, zero teste flaky introduzido de propósito
 - Passo repetido (login, navegação comum) vira componente reutilizável, não copiado em cada spec
+- 🎯 **Modo arquivo único** (ex: pedido "só os specs do fluxo de checkout" → elegibilidade, jornada,
+  reconciliação e specs restritos aos fluxos que atravessam o alvo; resto da suíte intacto)
 - Reconciliação de specs antigos frágeis/duplicados, com rastreabilidade
 - `e2e-test-report.md` com fluxos cobertos, reconciliação e riscos residuais
 
@@ -248,7 +324,8 @@ FLUXO DE EXECUÇÃO:
 
 ## 🔗 Onde Este Documento Se Encaixa
 Segundo passo da cadeia de testes E2E da biblioteca:
-1. **`auditoria-testid`** — garante seletor estável em todo o app (pré-requisito obrigatório)
+1. **`auditoria-testid`** — garante seletor estável em todo o app (pré-requisito obrigatório; no modo
+   arquivo único, sua ausência é suprida pela verificação escopada de leitura do item 4.6)
 2. **Este documento** — mapeia jornadas elegíveis (happy path + falha obrigatória), reconcilia specs
    existentes e gera os novos
 3. **`testes`** (já existente na lib) — cobre unit+integration+e2e com relatório de cobertura; use quando o pedido é cobertura geral, não só da camada E2E

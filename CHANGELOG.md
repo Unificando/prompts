@@ -2,6 +2,13 @@
 
 Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/). Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
+## [1.8.0] - 2026-09-09
+
+### Changed
+- Prompt `testes`: adicionado modo arquivo único (nova Etapa 0.1) — quando o pedido cita um arquivo (caminho) ou componente (nome) como alvo exclusivo, o pipeline completo (mapear → reconciliar → gerar/atualizar → relatório) roda restrito ao alvo, com leitura escopada (arquivo alvo + dependências diretas como contexto de contrato + testes existentes dele), guarda contra nome ambíguo/inexistente, gates de confirmação preservados e artefatos incrementais: `business-rules.md`/`test-report.md` ganham ou atualizam apenas as seções do alvo (nunca regeneram seções de outros módulos — nova Regra Inviolável 20) e `test-plan.md` não é criado (mutuamente exclusivo com o modo projeto extenso).
+- Prompt `testes-e2e`: adicionado modo arquivo único (nova Etapa 0.1, gatilho idêntico ao do `testes`) — elegibilidade, jornada, reconciliação e specs restritos aos fluxos que atravessam o componente/tela alvo (nova Regra Inviolável 15). A dependência do `auditoria-testid` ganhou exceção carimbada: sem `testid-changes-report.md`, o modo arquivo único permite verificação escopada de `data-testid` em leitura apenas, restrita ao alvo (novo item 4.6 do relatório); seletor ausente/ambíguo direciona ao `auditoria-testid` e a proibição de aplicar testid vale em qualquer modo — a varredura do app inteiro continua proibida no modo padrão (Regra 11 reescrita sem enfraquecê-la).
+- README, `prompts/manifest.json` e testes do CLI atualizados: tabela e bullets de escolha mencionam o modo arquivo único, descrições do manifest idem, e os testes de `get testes`/`get testes-e2e` agora assertam o marcador `MODO ARQUIVO ÚNICO`.
+
 ## [1.7.0] - 2026-09-07
 
 ### Added

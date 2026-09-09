@@ -24,12 +24,14 @@ test('get imprime o conteúdo de um prompt válido', () => {
   const result = runCli(['get', 'testes']);
   assert.equal(result.status, 0);
   assert.match(result.stdout, /Cobertura de Testes/);
+  assert.match(result.stdout, /MODO ARQUIVO ÚNICO/);
 });
 
 test('get imprime o conteúdo de um prompt da cadeia E2E', () => {
   const result = runCli(['get', 'testes-e2e']);
   assert.equal(result.status, 0);
   assert.match(result.stdout, /Testes E2E/);
+  assert.match(result.stdout, /MODO ARQUIVO ÚNICO/);
 });
 
 test('get imprime o conteúdo do prompt de criação de AGENTS.md', () => {

@@ -25,10 +25,10 @@ npx prompts-unificando get <id> --copy
 | `frontend` | React/Next.js — código morto, duplicação, performance, tratamento de erros, acessibilidade e SEO | Sim |
 | `fullstack` | Next.js full-stack — integração front-back, validação e segurança end-to-end, performance | Sim |
 | `backend` | NestJS — arquitetura, banco de dados, segurança OWASP, escalabilidade, documentação de API | Sim |
-| `testes` | Cobertura de testes real, qualquer stack — mapeamento de regras de negócio, reconciliação de testes existentes | Sim (gera testes) |
+| `testes` | Cobertura de testes real, qualquer stack — mapeamento de regras de negócio, reconciliação de testes existentes; modo arquivo único para testar só um componente/arquivo | Sim (gera testes) |
 | `setup-e2e` | Bootstrap de stack E2E (Playwright) — instalação, configuração, estrutura de pastas (e2e/, e2e/pages/, e2e/fixtures/) e smoke test inicial | Sim |
 | `auditoria-testid` | Auditoria/aplicação de `data-testid` — convenção única e seletor estável em todo o app | Sim (aditivo) |
-| `testes-e2e` | Geração/expansão disciplinada da suíte E2E — elegibilidade, jornadas (happy path + falha obrigatória), reconciliação e anti-flakiness | Sim (gera specs) |
+| `testes-e2e` | Geração/expansão disciplinada da suíte E2E — elegibilidade, jornadas (happy path + falha obrigatória), reconciliação e anti-flakiness; modo arquivo único para cobrir só os fluxos de um componente | Sim (gera specs) |
 | `ci-e2e` | Pipeline CI para a suíte E2E existente — estratégia de execução, cache, artefatos de falha | Não — patch proposto |
 | `auditoria-engenharia` | Diagnóstico de qualidade de código (SOLID, código morto, dependências não usadas) | Não — somente leitura |
 | `auditoria-seguranca` | Segurança (OWASP), conformidade LGPD, checklist de deploy e módulos de ataque (secrets, autenticação, banco de dados, input, bomba de custo) | Não — somente leitura |
@@ -46,6 +46,7 @@ npx prompts-unificando get <id> --copy
 - **Next.js com API Routes no mesmo repositório?** Use `fullstack` (e `frontend` se quiser focar só na camada visual).
 - **Backend NestJS em repositório separado?** Use `backend`.
 - **Já refatorou e quer cobertura de testes real?** Use `testes` — rode por último, depois da arquitetura estabilizar.
+- **Quer testar só um arquivo/componente?** Cite o caminho ou nome no pedido ao usar `testes` (ou `testes-e2e`) — o modo arquivo único restringe o pipeline ao alvo e atualiza os artefatos (`business-rules.md`, relatórios) só na seção dele.
 - **Quer uma cadeia completa de testes E2E?** Rode em ordem: `setup-e2e` (bootstrap, só projeto sem stack E2E) → `auditoria-testid` (seletor estável) → `testes-e2e` (specs consistentes) → `ci-e2e` (pipeline no CI).
 - **Gerou ou revisou copy com IA?** Use `revisao-copy` a qualquer momento.
 - **Quer que o agente execute a refatoração sozinho, com gates e rollback por fase, em vez de só sugerir?** Use `refatoracao-faseada` — cobre código morto, duplicação, arquitetura, integração, segurança, performance, erros, a11y/SEO e testes em um único pipeline autônomo.

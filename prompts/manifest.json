@@ -21,7 +21,7 @@
     "id": "testes",
     "file": "testes.md",
     "title": "Testes & Cobertura (agnóstico de stack)",
-    "description": "Cobertura de testes real em qualquer linguagem/framework: mapeamento de regras de negócio, reconciliação de testes existentes, pirâmide de testes."
+    "description": "Cobertura de testes real em qualquer linguagem/framework: mapeamento de regras de negócio, reconciliação de testes existentes, pirâmide de testes. Modo arquivo único restringe o pipeline a um arquivo/componente citado no pedido."
   },
   {
     "id": "setup-e2e",
@@ -39,7 +39,7 @@
     "id": "testes-e2e",
     "file": "testes-e2e.md",
     "title": "Testes E2E Consistentes (agnóstico de framework)",
-    "description": "Gera/expande uma suíte E2E disciplinada: critério de elegibilidade, mapeamento de jornadas (happy path + falha obrigatória), reconciliação de specs existentes e regras anti-flakiness."
+    "description": "Gera/expande uma suíte E2E disciplinada: critério de elegibilidade, mapeamento de jornadas (happy path + falha obrigatória), reconciliação de specs existentes e regras anti-flakiness. Modo arquivo único restringe o pipeline aos fluxos de um componente/arquivo citado no pedido."
   },
   {
     "id": "ci-e2e",

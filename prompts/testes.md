@@ -4,7 +4,7 @@
 ---
 
 ## 📋 Índice de Execução
-1. **Leitura Autônoma do Diretório & Plano de Fases**
+1. **Detecção de Modo (Arquivo Único / Padrão / Projeto Extenso), Leitura Autônoma do Diretório & Plano de Fases**
 2. **Mapeamento Ultra-Específico de Regras de Negócio**
 3. **Reconciliação com Testes Existentes**
 4. **Árvore de Branches & Pirâmide de Testes**
@@ -20,10 +20,13 @@ Diferente dos outros documentos desta biblioteca (focados em **refatoração** d
 
 Também inclui um **modo projeto extenso**: para bases de código grandes (múltiplos domínios/módulos), ele quebra o trabalho em fases documentadas em `test-plan.md` e executa de fase em fase sem parar para confirmação a cada etapa — só retomando a conversa quando **todas** as fases estiverem concluídas.
 
+E inclui um **modo arquivo único**: quando o pedido cita **um** arquivo (caminho) ou componente (nome) como alvo exclusivo — ex: "só atualiza/cria os testes do `WithdrawalService`" — o pipeline completo (mapear → reconciliar → gerar/atualizar → relatório) roda restrito a esse alvo, com leitura escopada, gates de confirmação preservados e atualização incremental dos artefatos (`business-rules.md`, `test-report.md` ganham/atualizam só as seções do alvo; nada do resto do projeto é regenerado ou apagado).
+
 **Quando usar:** Você quer **cobertura de testes real** (que encontra defeitos, não só "passa") para um projeto em qualquer linguagem/framework — use depois de rodar os prompts de arquitetura/segurança/performance (Docs 1-3), já que testar o código já refatorado evita retrabalho.
 
 **Testes & Qualidade:**
 - 📂 Leitura autônoma do diretório (sem colar código)
+- 🎯 Modo arquivo único — pipeline completo restrito a um arquivo/componente citado no pedido, com atualização incremental dos artefatos
 - 🗂️ Plano de fases para projetos extensos
 - 📋 Mapeamento de regras de negócio ultra-específico
 - 🔄 Reconciliação de testes existentes (mantém/corrige/renomeia/remove)
@@ -50,6 +53,11 @@ específico. Você se adapta ao que encontrar no diretório atual.
 
 ETAPA 0: LEITURA AUTÔNOMA DO DIRETÓRIO
 Antes de qualquer coisa, escaneie a pasta onde está sendo executado:
+- PRIMEIRO, classifique o pedido: ele cita UM arquivo (caminho) ou componente (nome) como alvo
+  exclusivo do trabalho? (ex: "só os testes do WithdrawalService", "cobre o arquivo
+  src/services/pagamento.ts"). Se sim, ative a ETAPA 0.1 (modo arquivo único) e restrinja a leitura
+  ao escopo dela — não faça a varredura ampla abaixo. Se o pedido é sobre o projeto como um todo
+  (ex: "cobre o projeto de testes"), siga a varredura completa.
 - Identifique a estrutura do projeto (linguagem, framework de teste já usado, se houver)
 - Localize os arquivos de código-fonte relevantes (varra o diretório e subpastas relacionadas, não
   apenas o que foi mencionado)
@@ -58,6 +66,41 @@ Antes de qualquer coisa, escaneie a pasta onde está sendo executado:
 - Se não houver framework de teste configurado, pergunte qual usar antes de prosseguir
 - Ignore diretórios irrelevantes (dependências, build, cache, config de IDE)
 Você não pede pra colar código. Você lê o projeto diretamente.
+
+ETAPA 0.1: MODO ARQUIVO ÚNICO (ALVO EXPLÍCITO NO PEDIDO)
+Ativado quando o pedido cita UM arquivo (caminho) ou componente (nome) como alvo exclusivo do
+trabalho — o pipeline completo roda restrito a esse alvo, com as mesmas etapas, qualidade e gates
+do modo padrão. Não é um atalho: é o mesmo pipeline com escopo menor.
+
+0.1.1 — Resolução do alvo
+- O alvo pode vir como caminho de arquivo ("src/services/pagamento.ts") ou nome de
+  componente/classe ("WithdrawalService", "CardCheckout"). Resolva o nome para o arquivo real do
+  projeto antes de prosseguir.
+- Nome ambíguo (múltiplos arquivos correspondem, ex: vários "Card*") ou dúvida sobre se o alvo é
+  exclusivo → PERGUNTE antes de prosseguir. Não assuma em silêncio.
+- Alvo inexistente no projeto → pare e informe; não gere teste para código que não existe.
+
+0.1.2 — Escopo de leitura (restrito, em vez da varredura ampla da Etapa 0)
+- O arquivo alvo, na íntegra
+- Dependências diretas dele (imports): apenas o suficiente para os contratos usados (assinaturas,
+  tipos, retornos) — NÃO mapeie dependências para teste, elas são contexto, não alvo
+- Testes existentes do arquivo alvo, na convenção já usada pelo projeto
+- Configuração do framework de teste (a regra da Etapa 0 continua valendo: sem framework
+  configurado → pergunte antes de prosseguir)
+- PROIBIDO varrer o resto do projeto
+
+0.1.3 — Artefatos incrementais (o formato fixo se mantém; muda o escopo das seções escritas)
+- business-rules.md existe → atualize SOMENTE as seções ## [NOME] do arquivo alvo (crie as que
+  faltam; não toque nas seções dos demais módulos). Não existe → crie contendo apenas as seções do
+  alvo, no formato fixo da Etapa 1.2.
+- test-plan.md existe → registre o trabalho na entrada correspondente ao alvo. Não existe → NÃO
+  crie (o modo arquivo único e o modo projeto extenso são mutuamente exclusivos).
+- test-report.md → contém/atualiza somente as entradas do alvo (ver Etapa 5).
+- Nunca regenere ou apague seções de outros arquivos nos artefatos (ver Regra Inviolável 20).
+
+0.1.4 — Gates preservados
+- Os dois PARADA AQUI do pipeline (após o mapeamento da 1.4 e após a reconciliação da 1.3) se
+  aplicam integralmente no modo arquivo único — restringidos ao alvo, mas presentes.
 
 ETAPA 0.5: PLANO DE FASES (SOMENTE PROJETOS EXTENSOS)
 Depois de escanear o diretório, avalie o tamanho do escopo. Considere "projeto extenso" quando pelo
@@ -166,9 +209,10 @@ Se o diretório já tiver testes para o código mapeado, não ignore e não dupl
    convenção mais comum pra linguagem/framework identificado na Etapa 0. Nunca crie uma segunda
    estrutura paralela de testes.
 
-PARADA AQUI (apenas no modo padrão). Antes de tocar em qualquer arquivo de teste existente, mostre um
+PARADA AQUI (modos padrão e arquivo único). Antes de tocar em qualquer arquivo de teste existente, mostre um
 resumo da reconciliação (quantos mantidos, corrigidos, renomeados, removidos, novos) e aguarde
-confirmação antes de editar os arquivos.
+confirmação antes de editar os arquivos. No modo arquivo único, o resumo cobre apenas os testes do
+arquivo alvo.
 No modo projeto extenso: a reconciliação é executada direto e registrada na seção de artefatos da
 fase, dentro do test-plan.md. Sem parada.
 
@@ -181,11 +225,12 @@ Antes de gerar testes, liste todos os caminhos possíveis que a execução pode 
 ├─ Path 3: invalid input + early-return exception → Output: [SPECIFIC_ERROR]
 └─ ...
 
-PARADA AQUI (apenas no modo padrão). Mostre o mapeamento ultra-específico + árvore de branches +
+PARADA AQUI (modos padrão e arquivo único). Mostre o mapeamento ultra-específico + árvore de branches +
 seção de suposições. NÃO gere testes ainda. Aguarde confirmação de que:
 - Regras estão corretas (não extrapoladas, não faltando)
 - Suposições fazem sentido (ou peça pra revisar)
 - Árvore de branches está completa
+No modo arquivo único, o mapeamento mostrado cobre apenas o arquivo alvo.
 No modo projeto extenso: não pare aqui — o mapeamento desta fase é registrado no business-rules.md e
 no test-plan.md, e siga direto pra reconciliação/testes desta mesma fase.
 
@@ -285,7 +330,8 @@ Nenhum teste vazio: nunca gere teste que só chama a função e verifica ausênc
 !== undefined, ou faz mock de tudo sem assertion real. Cada teste tem que validar uma regra específica.
 
 ETAPA 5: RELATÓRIO FINAL test-report.md
-Gere com:
+Gere com (no modo arquivo único, o relatório contém/atualiza somente as entradas do arquivo alvo —
+seções de outros módulos já existentes no test-report.md permanecem intactas):
 5.1 Sumário de Cobertura — tabela Unit/Integration/E2E: contagem, % do total, tempo estimado.
 5.2 Tabela de Rastreabilidade — Test ID | Name (English) | Rule (ref. business-rules.md) | Type | ISTQB Principle | Status.
 5.3 Matriz de Risco (Pareto) — Module | Tests | Risk | Reason.
@@ -327,6 +373,10 @@ REGRAS INVIOLÁVEIS:
     Over-mock que quebra por detalhe de implementação é teste errado.
 19. Proibido lógica no corpo do teste (if/for/while/switch para montar expectativa) — parametrize.
     Cadeias mágicas viram constantes nomeadas. Entrada mínima sempre. Uma Act por teste.
+20. No modo arquivo único (Etapa 0.1), leitura, mapeamento, reconciliação, testes e relatório cobrem
+    SOMENTE o arquivo alvo (+ dependências diretas como contexto de contrato). Artefatos existentes
+    (business-rules.md, test-plan.md, test-report.md) são atualizados apenas nas seções do alvo —
+    nunca regenere, sobrescreva ou apague seções de outros arquivos.
 
 FLUXO DE EXECUÇÃO:
 
@@ -341,6 +391,22 @@ Modo Padrão (projeto pequeno/médio):
 7. Gere/atualize testes com cobertura dos comportamentos mapeados, nomes em inglês, na convenção
    já usada pelo projeto e com qualidade da Etapa 3.5 (F.I.R.S.T.)
 8. Gere test-report.md com rastreabilidade + Pareto + suposições confirmadas + reconciliação
+9. Pronto — sem commit, sem push, apenas os arquivos gerados/atualizados
+
+Modo Arquivo Único (Etapa 0.1 ativada — pedido cita um arquivo/componente como alvo exclusivo):
+1. Classifique o pedido na Etapa 0 → alvo exclusivo detectado → resolva o nome para o arquivo real
+   (ambíguo ou inexistente → pergunte/pare — 0.1.1)
+2. Identifique linguagem, stack e framework de teste já em uso (escopo de leitura da 0.1.2)
+3. Mapeie as regras do arquivo alvo (business-rules.md incremental — 0.1.3) + árvore de branches +
+   suposições, restritos ao alvo
+4. PARE — aguarde confirmação do mapeamento do alvo
+5. Releia o business-rules.md (seções do alvo) e reconcilie os testes existentes do alvo: mantém,
+   corrige, renomeia ou remove — mostre o resumo
+6. PARE — aguarde confirmação da reconciliação antes de editar arquivo de teste
+7. Gere/atualize os testes do alvo com cobertura dos comportamentos mapeados, nomes em inglês, na
+   convenção já usada pelo projeto e com qualidade da Etapa 3.5 (F.I.R.S.T.)
+8. Atualize o test-report.md somente com as entradas do alvo (rastreabilidade + Pareto + suposições
+   confirmadas + reconciliação)
 9. Pronto — sem commit, sem push, apenas os arquivos gerados/atualizados
 
 Modo Projeto Extenso (Etapa 0.5 ativada):
@@ -366,6 +432,8 @@ Um pipeline de cobertura mostrando:
 - 🟡 **Teste renomeado** (ex: `deveValidarLogin` → `should_return_true_when_credentials_are_valid`)
 - ⚪ **Teste redundante removido** (ex: `test_generic_ok` duplicava T003)
 - 🧪 **Testes novos gerados** (ex: 14 unit, 5 integration, 1 E2E para o módulo de pagamentos)
+- 🎯 **Modo arquivo único** (ex: pedido "só os testes do WithdrawalService" → business-rules.md ganha
+  só a seção dele, testes do alvo gerados/atualizados, seções de outros módulos intactas)
 - 📊 **test-report.md** com rastreabilidade teste → regra e matriz de risco (Pareto)
 
 ---
@@ -378,7 +446,7 @@ Diferente dos Documentos 1-3 (que refatoram arquitetura, segurança e performanc
 2. **Doc 2 (Full-Stack)** — se aplicável, integração e performance E2E
 3. **Doc 4 (Testes)** — cobertura de testes sobre o código já refatorado, evitando retestar código que ainda vai mudar
 
-**Tempo de execução:** varia com o tamanho do projeto — projetos pequenos/médios seguem o fluxo padrão (com 2 pontos de confirmação); projetos extensos usam o modo de fases autônomo (sem parada entre fases).
+**Tempo de execução:** varia com o tamanho do projeto — pedidos com alvo único seguem o modo arquivo único (mesmos 2 pontos de confirmação do padrão, escopo menor); projetos pequenos/médios seguem o fluxo padrão (com 2 pontos de confirmação); projetos extensos usam o modo de fases autônomo (sem parada entre fases).
 
 ---
 
