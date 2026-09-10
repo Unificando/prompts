@@ -1,9 +1,12 @@
 {
-  "name": "prompts-unificando",
+  "name": "@unificando/prompts",
   "version": "1.8.0",
   "description": "Biblioteca de prompts padronizados para auditoria, refatoração, testes, segurança/LGPD e revisão de copy, agnóstica de stack e de LLM.",
   "bin": {
-    "prompts-unificando": "bin/cli.js"
+    "unificando-prompts": "bin/cli.js"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "test": "node --test"
@@ -29,6 +32,6 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/renatojuniordw/prompts-unificando.git"
+    "url": "git+https://github.com/Unificando/prompts.git"
   }
 }

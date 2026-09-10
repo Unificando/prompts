@@ -19,7 +19,7 @@ function printList() {
     console.log(`  ${p.id.padEnd(22)} ${p.title}`);
     console.log(`  ${''.padEnd(22)} ${p.description}\n`);
   }
-  console.log('Uso: npx prompts-unificando get <id> [--copy]');
+  console.log('Uso: npx @unificando/prompts get <id> [--copy]');
 }
 
 function copyToClipboard(text) {
@@ -47,7 +47,7 @@ function copyToClipboard(text) {
 function printGet(id, { copy }) {
   const prompt = findPrompt(id);
   if (!prompt) {
-    console.error(`Prompt "${id}" não encontrado. Rode "npx prompts-unificando list" para ver os disponíveis.`);
+    console.error(`Prompt "${id}" não encontrado. Rode "npx @unificando/prompts list" para ver os disponíveis.`);
     process.exitCode = 1;
     return;
   }
@@ -79,7 +79,7 @@ function main() {
     const id = rest.find((a) => !a.startsWith('--'));
     const copy = rest.includes('--copy');
     if (!id) {
-      console.error('Uso: npx prompts-unificando get <id> [--copy]');
+      console.error('Uso: npx @unificando/prompts get <id> [--copy]');
       process.exitCode = 1;
       return;
     }

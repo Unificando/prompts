@@ -2,6 +2,11 @@
 
 Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/). Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
+## [Não lançado]
+
+### Changed
+- **Pacote renomeado** de `prompts-unificando` para `@unificando/prompts` (escopo da organização Unificando). Publicado no npmjs.com e no GitHub Packages com o mesmo nome. Comando do CLI: `npx @unificando/prompts` (bin global `unificando-prompts`). O nome antigo `prompts-unificando` fica deprecado no npm apontando para o novo. Repositório movido para `github.com/Unificando/prompts`.
+
 ## [1.8.0] - 2026-09-09
 
 ### Changed
@@ -17,7 +22,7 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/). 
 ## [1.6.0] - 2026-09-07
 
 ### Added
-- Prompt `pipeline` (orquestrador): conduz a execução fase a fase de todos os prompts aplicáveis ao projeto em IDEs agênticas — detecção de contexto e plano personalizado (gate de aplicabilidade no nível do pipeline), cadeia de fases na ordem do fluxo recomendado (diagnóstico → triagem → refatoração → testes → E2E → copy → fechamento), gate de triagem obrigatório pós-diagnóstico, arquivo de estado `pipeline-state.md` para retomar entre sessões e fallback manual para ambientes sem terminal. O orquestrador conduz, não duplica: cada fase é executada pelo prompt filho buscado via `npx prompts-unificando get <id>`.
+- Prompt `pipeline` (orquestrador): conduz a execução fase a fase de todos os prompts aplicáveis ao projeto em IDEs agênticas — detecção de contexto e plano personalizado (gate de aplicabilidade no nível do pipeline), cadeia de fases na ordem do fluxo recomendado (diagnóstico → triagem → refatoração → testes → E2E → copy → fechamento), gate de triagem obrigatório pós-diagnóstico, arquivo de estado `pipeline-state.md` para retomar entre sessões e fallback manual para ambientes sem terminal. O orquestrador conduz, não duplica: cada fase é executada pelo prompt filho buscado via `npx @unificando/prompts get <id>`.
 
 ## [1.5.0] - 2026-09-07
 

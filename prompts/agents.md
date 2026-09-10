@@ -25,7 +25,7 @@ O padrão segue o mesmo esqueleto do AGENTS.md de referência do ecossistema: **
 
 Este prompt é um **bootstrap**: escreve exatamente um arquivo (`AGENTS.md`) e nada mais. Se o projeto já tem `AGENTS.md`, ele NÃO sobrescreve — o PROMPT 2 (mais abaixo) é quem reconcilia um arquivo existente.
 
-**Quando usar:** projeto que ainda não tem `AGENTS.md` e você quer padronizar como agentes de IA trabalham nele — com as regras da biblioteca `prompts-unificando` destiladas no guia e o contexto real do projeto extraído do README.
+**Quando usar:** projeto que ainda não tem `AGENTS.md` e você quer padronizar como agentes de IA trabalham nele — com as regras da biblioteca `@unificando/prompts` destiladas no guia e o contexto real do projeto extraído do README.
 
 **Quando NÃO usar:**
 - `AGENTS.md` já existe na raiz → use o PROMPT 2 deste mesmo documento (nunca regenere por cima).
@@ -38,7 +38,7 @@ Este prompt é um **bootstrap**: escreve exatamente um arquivo (`AGENTS.md`) e n
 ```
 Você atuará como um engenheiro de padronização de repositórios: seu trabalho é gerar o
 AGENTS.md deste projeto — o guia de trabalho que rege o comportamento de agentes de IA que
-desenvolvem aqui. Você destila o padrão da biblioteca prompts-unificando + o contexto real
+desenvolvem aqui. Você destila o padrão da biblioteca @unificando/prompts + o contexto real
 deste projeto, extraído com evidência do README.md e dos arquivos do repositório. Responda
 SEMPRE em português do Brasil (PT-BR).
 
@@ -216,7 +216,7 @@ evidenciado das etapas anteriores:
 # AGENTS.md — <nome-do-repositório>
 
 Guia de trabalho para agentes de IA que desenvolvem neste repositório.
-Padrões de comportamento destilados da biblioteca `prompts-unificando`,
+Padrões de comportamento destilados da biblioteca `@unificando/prompts`,
 aplicados ao contexto real deste projeto (fonte: README.md e arquivos do repo).
 
 ---
@@ -266,12 +266,12 @@ Particularidades que quebram com frequência:
 
 ## Guia dos prompts
 
-A biblioteca `prompts-unificando` é a fonte para tarefas episódicas (auditoria,
+A biblioteca `@unificando/prompts` é a fonte para tarefas episódicas (auditoria,
 refatoração faseada, cobertura, E2E, copy), quando o usuário pedir explicitamente:
 
 ```bash
-npx prompts-unificando list
-npx prompts-unificando get <id>
+npx @unificando/prompts list
+npx @unificando/prompts get <id>
 ```
 
 | Prompt (id) | Aplicável a este projeto? | Quando rodar |
@@ -422,7 +422,7 @@ FLUXO DE EXECUÇÃO:
 
 ## 🔗 Onde Este Documento Se Encaixa
 
-Este é um prompt de **infraestrutura**: não executa disciplina episódica nenhuma — ele cria e mantém o guia que rege o trabalho diário dos agentes no repositório. Depois que o AGENTS.md existe, os prompts episódicos da biblioteca continuam sendo buscados sob demanda (`npx prompts-unificando get <id>`), e o guia passa a carregar a tabela de quais se aplicam àquele projeto.
+Este é um prompt de **infraestrutura**: não executa disciplina episódica nenhuma — ele cria e mantém o guia que rege o trabalho diário dos agentes no repositório. Depois que o AGENTS.md existe, os prompts episódicos da biblioteca continuam sendo buscados sob demanda (`npx @unificando/prompts get <id>`), e o guia passa a carregar a tabela de quais se aplicam àquele projeto.
 
 1. **`agents` (este documento)** — PROMPT 1 cria o guia; PROMPT 2 o reconcilia com as fontes
 2. **`pipeline`** — orquestra as disciplinas episódicas; o AGENTS.md gerado por este prompt é o complemento diário do pipeline (regras permanentes vs. fluxo sob demanda)

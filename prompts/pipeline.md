@@ -17,7 +17,7 @@
 ### 📖 O QUE ESTE PROMPT FAZ:
 Diferente de todos os outros prompts da biblioteca — que executam uma disciplina específica —, este prompt **não executa nenhuma delas**: ele é o **orquestrador** que conduz a execução fase a fase de todos os prompts aplicáveis ao seu projeto, na ordem certa, com gates de revisão entre fases.
 
-O princípio é simples: **o orquestrador conduz, não duplica.** Ele define o plano, a ordem, os gates e o estado; a disciplina de cada fase vem do prompt filho, buscado no momento da execução via `npx prompts-unificando get <id>`. Cada filho segue seu próprio contrato — read-only nunca edita, refatoração segue suas regras invioláveis, revisão de copy nunca toca lógica.
+O princípio é simples: **o orquestrador conduz, não duplica.** Ele define o plano, a ordem, os gates e o estado; a disciplina de cada fase vem do prompt filho, buscado no momento da execução via `npx @unificando/prompts get <id>`. Cada filho segue seu próprio contrato — read-only nunca edita, refatoração segue suas regras invioláveis, revisão de copy nunca toca lógica.
 
 Este prompt foi desenhado para **IDEs agênticas** (Claude Code, Cursor, Windsurf etc.), onde o agente tem acesso a terminal e arquivos — ele busca cada prompt via CLI e executa a fase sem você colar nada. Se o ambiente não tiver terminal disponível, há um fallback manual (seção Fallback de Ambiente).
 
@@ -32,7 +32,7 @@ Você atuará como um orquestrador de prompts de engenharia de software: monta o
 execução personalizado para o projeto atual, conduz a execução fase a fase buscando cada
 prompt filho via CLI, controla os gates de revisão e mantém o estado do pipeline em arquivo.
 Você não improvisa o conteúdo de prompts filhos — sempre busca o texto oficial via
-`npx prompts-unificando get <id>` (sem --copy) e o executa conforme o próprio contrato.
+`npx @unificando/prompts get <id>` (sem --copy) e o executa conforme o próprio contrato.
 
 ETAPA 0 — DETECÇÃO DE CONTEXTO E PLANO PERSONALIZADO
 1. Detecte no projeto: stack (front/back — React/Next.js/NestJS/outros), presença de CI
@@ -81,7 +81,7 @@ GATES DE REVISÃO (REGRAS NÃO-NEGOCIÁVEIS)
   regras invioláveis; revisão de copy nunca toca lógica. Se um filho reportar que um item
   não é verificável no repositório, trate como débito — não tente verificar por fora
 - Nunca re-execute uma fase já concluída sem pedido explícito — consulte o pipeline-state.md
-- Se `npx prompts-unificando get <id>` falhar (prompt não encontrado, sem rede, CLI ausente):
+- Se `npx @unificando/prompts get <id>` falhar (prompt não encontrado, sem rede, CLI ausente):
   reporte o erro e PARE a fase — não improvise o conteúdo do prompt filho
 - Oriente uma fase por sessão de chat quando possível (qualidade de contexto); o arquivo de
   estado existe exatamente para permitir retomadas limpas
@@ -98,7 +98,7 @@ lê o pipeline-state.md e propõe continuar de onde parou.
 
 FALLBACK DE AMBIENTE
 Se o ambiente não tiver terminal disponível: ao iniciar cada fase, liste ao usuário o comando
-`npx prompts-unificando get <id> --copy` da fase atual para ele colar manualmente no chat, e
+`npx @unificando/prompts get <id> --copy` da fase atual para ele colar manualmente no chat, e
 conduza os gates e o estado normalmente com base no resultado colado de volta.
 
 FORMATO DE SAÍDA

@@ -1,8 +1,9 @@
 # Prompts Unificando
 
-[![npm version](https://img.shields.io/npm/v/prompts-unificando.svg)](https://www.npmjs.com/package/prompts-unificando)
-[![npm downloads](https://img.shields.io/npm/dm/prompts-unificando.svg)](https://www.npmjs.com/package/prompts-unificando)
-[![license](https://img.shields.io/npm/l/prompts-unificando.svg)](./LICENSE)
+[![npm version](https://img.shields.io/npm/v/@unificando/prompts.svg)](https://www.npmjs.com/package/@unificando/prompts)
+[![npm downloads](https://img.shields.io/npm/dm/@unificando/prompts.svg)](https://www.npmjs.com/package/@unificando/prompts)
+[![license](https://img.shields.io/npm/l/@unificando/prompts.svg)](./LICENSE)
+[![GitHub Packages](https://img.shields.io/badge/GitHub%20Packages-%40unificando%2Fprompts-2b3137?logo=github)](https://github.com/Unificando/prompts/pkgs/npm/prompts)
 
 Biblioteca de prompts padronizados para auditoria, refatoração, testes, segurança/LGPD e revisão de copy. Agnóstica de stack e de LLM — funciona com Claude, ChatGPT, Gemini ou qualquer outro modelo, em qualquer IDE.
 
@@ -11,12 +12,30 @@ Biblioteca de prompts padronizados para auditoria, refatoração, testes, segura
 Nenhuma instalação é necessária — use via `npx` (requer Node.js 18+):
 
 ```bash
-npx prompts-unificando list
-npx prompts-unificando get <id>
-npx prompts-unificando get <id> --copy
+npx @unificando/prompts list
+npx @unificando/prompts get <id>
+npx @unificando/prompts get <id> --copy
 ```
 
 `list` mostra os prompts disponíveis. `get <id>` imprime o conteúdo no terminal; `--copy` envia direto para a área de transferência, pronto para colar em qualquer chat de IA.
+
+Instalação global opcional expõe o comando `unificando-prompts`:
+
+```bash
+npm install -g @unificando/prompts
+unificando-prompts list
+```
+
+### Instalar pelo GitHub Packages
+
+O pacote também é publicado no [GitHub Packages da organização](https://github.com/Unificando/prompts/pkgs/npm/prompts), com o mesmo nome `@unificando/prompts`, conteúdo e versão. Para puxá-lo de lá em vez do npmjs.com, autentique o registry do GitHub num `.npmrc` (na home ou no projeto):
+
+```
+@unificando:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=SEU_GITHUB_TOKEN
+```
+
+O token precisa do escopo `read:packages`. Para uso rápido sem autenticar, prefira o `npx @unificando/prompts` do npmjs.com acima.
 
 ## Prompts disponíveis
 
@@ -77,7 +96,7 @@ Rodar o diagnóstico primeiro evita refatorar às cegas: os dois prompts de audi
 
 ## Como usar um prompt
 
-1. `npx prompts-unificando get <id> --copy`
+1. `npx @unificando/prompts get <id> --copy`
 2. Cole no chat da sua LLM de preferência
 3. Aguarde a análise — o resultado é um relatório estruturado com achados, soluções e prioridade
 4. Aplique as mudanças e, se o documento tiver múltiplos prompts, execute o próximo na sequência indicada dentro do próprio arquivo
