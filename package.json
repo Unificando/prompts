@@ -1,6 +1,6 @@
 {
   "name": "@unificando/prompts",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "description": "Biblioteca de prompts padronizados para auditoria, refatoração, testes, segurança/LGPD e revisão de copy, agnóstica de stack e de LLM.",
   "bin": {
     "unificando-prompts": "bin/cli.js"
