@@ -4,7 +4,7 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/). 
 
 ## [Não lançado]
 
-Preparação local da versão **2.0.0**; publicação pendente.
+## [2.0.0] - 2026-09-23
 
 ### Added
 
