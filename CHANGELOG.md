@@ -8,6 +8,8 @@ Preparação local da versão **2.0.0**; publicação pendente.
 
 ### Added
 
+- Prompt `documentacao`: geração/reconciliação de docs/ com catálogo inicial extensível de documentos técnicos, índices de módulos, modos da biblioteca e alcance completo/incremental/documento único. Inclui rastreabilidade, preservação manual, detecção de alterações locais e baseline por documento; integrado à CLI, README, guia de agentes e pipeline.
+
 - Contrato comum versionado para modos `AUDITORIA`, `PROPOSTA` e `IMPLEMENTAÇÃO`, evidência, escopo, autorização persistente e validação proporcional.
 - Composição modular de `frontend`, `backend` e `fullstack`, com módulos compartilhados de limpeza, arquitetura, performance, erros, framework, acessibilidade, integração, segurança, banco, testes/observabilidade e contratos de API.
 - CLI: `--mode`, `--module`, `--scope`, `inspect <id>` e `validate`; metadados de versão, modos suportados, entradas, saídas, dependências e hash SHA-256 por definição completa.
@@ -16,6 +18,8 @@ Preparação local da versão **2.0.0**; publicação pendente.
 - Testes de composição, seleção, argumentos, catálogo, clipboard, fixtures e validador de avaliações; comandos `npm run validate` e `npm run evals`.
 
 ### Changed
+
+- `documentacao`: os onze documentos iniciais deixam explícito que não há limite fixo; novos documentos temáticos são descobertos a partir de evidências, com critérios de utilidade, prevenção de duplicação e integração ao índice/manifesto, respeitando o alcance selecionado.
 
 - Frontend dedicado à interface: módulo `acessibilidade-seo` renomeado para `acessibilidade`, com remoção do checklist de SEO. SEO permanece nos prompts dedicados `seo` e `seo-llm`; catálogo e exemplos da CLI atualizados.
 

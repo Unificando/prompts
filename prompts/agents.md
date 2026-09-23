@@ -30,7 +30,7 @@ Compare cada orientação operacional com arquivos atuais. Monte tabela regra �
 
 ## Guia de prompts
 
-Liste apenas IDs relevantes a partir do catálogo da biblioteca, indicando modo e escopo. frontend/backend/fullstack permitem módulos; testes/testes-e2e aceitam alvo único; seo → seo-llm compartilham fatos. Não incorpore toda a biblioteca ao guia.
+Liste apenas IDs relevantes a partir do catálogo da biblioteca, indicando modo e escopo. frontend/backend/fullstack permitem módulos; testes/testes-e2e aceitam alvo único; seo → seo-llm compartilham fatos. documentacao gera/reconcilia docs/ e não substitui este guia. Não incorpore toda a biblioteca ao guia.
 
 ## Conclusão
 

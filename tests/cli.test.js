@@ -136,3 +136,17 @@ test('falha de clipboard com saída não zero oferece conteúdo para cópia manu
     assert.doesNotMatch(result.stdout, /copiado para a área de transferência/);
   } finally { fs.rmSync(temp, { recursive: true, force: true }); }
 });
+
+test('documentacao está disponível com contrato e escopo de documento único', () => {
+  const result = runCli(['get', 'documentacao', '--mode', 'proposta', '--scope', 'documento:API.md']);
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /Modo selecionado: PROPOSTA/);
+  assert.match(result.stdout, /documento:API\.md/);
+  assert.match(result.stdout, /Contrato comum/);
+  for (const file of ['API.md', 'ARCHITECTURE.md', 'BUSINESS_RULES.md', 'CRON.md', 'DATABASE.md', 'DEPLOYMENT.md', 'DESIGN_SYSTEM.md', 'DEVELOPMENT.md', 'MCP.md', 'SECURITY.md', 'USER_STORIES.md']) {
+    assert.ok(result.stdout.includes(file), `Documento não contemplado: ${file}`);
+  }
+  const info = runCli(['inspect', 'documentacao']);
+  assert.equal(info.status, 0, info.stderr);
+  assert.equal(JSON.parse(info.stdout).defaultMode, 'implementacao');
+});

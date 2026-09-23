@@ -532,6 +532,38 @@
     "modules": []
   },
   {
+    "id": "documentacao",
+    "file": "documentacao.md",
+    "title": "Documentação Técnica — Geração e Atualização",
+    "description": "Gera ou reconcilia docs/ com catálogo extensível, fontes e preservação manual; alcance completo, incremental ou documento único.",
+    "version": "2.0.0",
+    "contractVersion": "2.0.0",
+    "modes": [
+      "auditoria",
+      "proposta",
+      "implementacao"
+    ],
+    "defaultMode": "implementacao",
+    "inputs": [
+      "objetivo",
+      "projeto",
+      "escopo",
+      "alcance",
+      "fontes_adicionais",
+      "docs_manifest"
+    ],
+    "outputs": [
+      "documentos_aplicaveis",
+      "indices",
+      "manifesto_por_documento",
+      "fontes",
+      "validacao",
+      "pendencias_e_conflitos"
+    ],
+    "dependencies": [],
+    "modules": []
+  },
+  {
     "id": "agents",
     "file": "agents.md",
     "title": "Criação de AGENTS.md Padronizado (Bootstrap)",

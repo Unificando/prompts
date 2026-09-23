@@ -61,6 +61,7 @@ Autorizações já dadas valem durante a execução; não há pausa obrigatória
 | `refatoracao-faseada` | Lotes verificáveis e reversão localizada | Implementação |
 | `seo` | Identidade, palavras-chave, conteúdo, indexação e busca local | Auditoria |
 | `seo-llm` | Identificação correta e conteúdo citável em respostas de IA | Auditoria |
+| `documentacao` | Documentos técnicos em docs/, com evidências e atualização incremental | Implementação |
 | `agents` | Criação ou reconciliação factual de AGENTS.md | Implementação |
 | `pipeline` | Orquestração por objetivo, com versões e estado verificável | Implementação |
 
@@ -96,6 +97,24 @@ Use apenas serviços e credenciais confirmados no projeto.
 ```
 
 As melhorias não garantem ranking, indexação ou recomendação por IA. Uma consulta isolada não comprova causa técnica. Resultados de busca exigem observação real e acompanhamento.
+
+## Documentação técnica do projeto
+
+Use `documentacao` para gerar/reconciliar `docs/` no projeto de destino:
+
+```bash
+node bin/cli.js get documentacao --mode implementacao --scope completo --copy
+node bin/cli.js get documentacao --mode implementacao --scope incremental --copy
+node bin/cli.js get documentacao --mode proposta --scope "documento:API.md" --copy
+```
+
+Cole a saída no agente que está trabalhando no projeto a documentar. O modo controla se há escrita; o alcance controla quais documentos serão tratados. Sem alcance, o prompt usa completo se docs/ não existir e incremental se existir. A CLI fornece o prompt; quem lê o projeto e gera os arquivos é o agente.
+
+O catálogo inicial, extensível e sem limite fixo de documentos, contempla ARCHITECTURE.md, DEVELOPMENT.md, SECURITY.md e, conforme recursos existentes, API.md, DATABASE.md, BUSINESS_RULES.md, USER_STORIES.md, CRON.md, DESIGN_SYSTEM.md, MCP.md e DEPLOYMENT.md. Inclui índices e documentação de componentes, hooks, services e utils quando justificados. O agente também identifica assuntos que mereçam documentos próprios, como INTEGRATIONS.md, OBSERVABILITY.md, EVENTS.md ou TESTING.md, sempre com evidências e sem duplicar conteúdo existente.
+
+A escrita fica em docs/. O manifesto acompanha fontes e baseline por documento, incluindo mudanças locais e arquivos novos. Conteúdo manual é preservado; recurso removido não causa exclusão automática de documentação. Em documento único, índices/manifesto ficam apenas propostos, salvo autorização para atualizá-los também.
+
+`documentacao` descreve o sistema; `agents` cria o guia de trabalho dos agentes. Use ambos quando precisar dessas duas entregas, sem duplicar responsabilidades.
 
 ## Pipeline e retomada
 

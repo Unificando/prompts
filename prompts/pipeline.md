@@ -25,7 +25,7 @@ Se o pedido for apenas diagnóstico, não converta achados em autorização para
 - frontend/backend/fullstack: escolha camada e módulos pertinentes, evitando duplicação. refatoracao-faseada é alternativa para trabalho amplo, não obrigação adicional.
 - testes: prepare proteção do comportamento antes/junto das correções arriscadas; execute depois. Não adie todos os testes para o fim.
 - E2E: setup-e2e se faltar runner; auditoria-testid se faltarem seletores estáveis; testes-e2e para jornadas elegíveis; ci-e2e quando integração CI estiver no escopo. Ausência de CI não impede propor sua criação se solicitada.
-- revisao-copy para texto; agents para guia de trabalho quando pedido.
+- revisao-copy para texto; documentacao para gerar/reconciliar docs/ quando pedido, após as mudanças que precisa refletir; agents para guia de trabalho quando pedido. A documentação deve consumir evidências atuais, sem refazer auditorias já válidas.
 - seo e depois seo-llm para presença orgânica/IA quando pertinente, com registro factual e URLs compartilhados. Não execute todas as disciplinas por padrão.
 
 ## Estado e retomada
