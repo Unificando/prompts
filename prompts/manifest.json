@@ -567,7 +567,7 @@
     "id": "agents",
     "file": "agents.md",
     "title": "Criação de AGENTS.md Padronizado (Bootstrap)",
-    "description": "Criação ou reconciliação factual de AGENTS.md, respeitando instruções locais e o usuário.",
+    "description": "Guia AGENTS.md autossuficiente, com comportamento contextual, fontes verificadas e prompts complementares por situação.",
     "version": "2.0.0",
     "contractVersion": "2.0.0",
     "modes": [

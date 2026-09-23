@@ -114,7 +114,7 @@ O catálogo inicial, extensível e sem limite fixo de documentos, contempla ARCH
 
 A escrita fica em docs/. O manifesto acompanha fontes e baseline por documento, incluindo mudanças locais e arquivos novos. Conteúdo manual é preservado; recurso removido não causa exclusão automática de documentação. Em documento único, índices/manifesto ficam apenas propostos, salvo autorização para atualizá-los também.
 
-`documentacao` descreve o sistema; `agents` cria o guia de trabalho dos agentes. Use ambos quando precisar dessas duas entregas, sem duplicar responsabilidades.
+`documentacao` descreve o sistema; `agents` cria um guia de trabalho autossuficiente, com comandos, limites, critérios de validação e decisões contextualizadas. O guia referencia documentação existente e prompts complementares por situação, sem exigir uma auditoria completa ou acesso à biblioteca para tarefas comuns. Use ambos quando precisar dessas duas entregas, sem duplicar responsabilidades.
 
 ## Pipeline e retomada
 

@@ -19,6 +19,8 @@ Preparação local da versão **2.0.0**; publicação pendente.
 
 ### Changed
 
+- `agents`: guia gerado autossuficiente, com distinção entre regras explícitas, convenções observadas e preferências; critérios para decidir/perguntar, concluir e validar; documentação referenciada sem duplicação e prompts opcionais por situação, preservando escopo e autorizações existentes.
+
 - `documentacao`: os onze documentos iniciais deixam explícito que não há limite fixo; novos documentos temáticos são descobertos a partir de evidências, com critérios de utilidade, prevenção de duplicação e integração ao índice/manifesto, respeitando o alcance selecionado.
 
 - Frontend dedicado à interface: módulo `acessibilidade-seo` renomeado para `acessibilidade`, com remoção do checklist de SEO. SEO permanece nos prompts dedicados `seo` e `seo-llm`; catálogo e exemplos da CLI atualizados.
