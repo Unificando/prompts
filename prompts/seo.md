@@ -1,151 +1,161 @@
-# 🔎 Prompt Otimizado para Auditoria de SEO — Técnico + Conteúdo (Read-Only)
-**Versão: 10/10 | SEO Técnico + SEO de Conteúdo | Agnóstico de Stack | Engenharia de Prompt Aplicada**
+# Prompt de SEO — Técnico, Conteúdo, Busca Local e Identidade
 
----
+Use em projetos novos ou existentes, em qualquer stack. O objetivo é tornar páginas acessíveis aos buscadores e relevantes para buscas reais de clientes, incluindo serviço + cidade e nome profissional. Não há garantia de posição, indexação ou prazo.
 
-## 📋 Índice de Execução
-1. **Reconhecimento do Projeto (Stack, Renderização, Roteamento)**
-2. **Gate de Escopo (23 itens) — resumo e prosseguimento automático**
-3. **Checklist Técnico — Crawlability, Indexação, Performance**
-4. **Checklist de Conteúdo e Autoridade**
-5. **Regras Anti-Falso-Positivo Específicas de SEO**
-6. **Relatório Final por Severidade + Plano de Ação**
+Para respostas de IA, execute depois o [prompt complementar SEO para LLMs / GEO](seo-llm.md), reutilizando o diagnóstico e o mapa de identidade.
 
----
+Fonte de composição: obtenha a versão completa pela CLI (`get seo`). Para uso manual, inclua o [contrato comum](shared/contract.md) no lugar do marcador abaixo.
 
-## ✅ PROMPT: AUDITORIA DE SEO — TÉCNICO + CONTEÚDO (READ-ONLY)
+{{CONTRACT}}
 
-### 📖 O QUE ESTE PROMPT FAZ:
-Diferente dos demais prompts de auditoria desta biblioteca (qualidade de código, segurança/LGPD), este audita **SEO técnico e de conteúdo** direto no repositório: crawlability, indexação, Core Web Vitals (sinais estruturais, não medição real), marcação estruturada, arquitetura de headings, meta tags, thin content e linkagem interna.
+## Como usar
 
-É estritamente **read-only**: nunca gera patch, nunca edita arquivo, nunca faz commit ou publica o relatório em nenhum canal (CMS, PR, issue tracker, redes sociais). Toda saída fica restrita ao `.md` entregue a quem pediu. Assim como o prompt de segurança/LGPD, distingue explicitamente "não conforme" de **"não verificável no repositório"** — itens como backlinks, volume de keyword e alinhamento à SERP dependem de ferramenta externa (GSC, Ahrefs/SEMrush, PageSpeed Insights) e nunca são tratados como falha confirmada.
+Copie o bloco abaixo e preencha o que souber. O padrão é **AUDITORIA**, sem alterações. **PROPOSTA** entrega textos e patches revisáveis, sem aplicá-los. Se quiser aplicar as melhorias no projeto, informe **IMPLEMENTAÇÃO**. Dados ausentes devem ser investigados ou marcados como pendentes, nunca inventados.
 
-**Quando usar:** Você quer um raio-x de SEO antes de lançar, depois de uma migração de framework, ou periodicamente para pegar regressão silenciosa (canonical quebrado, noindex indevido, heading fora de hierarquia) — sem risco de alteração acidental no código.
+```text
+# Papel e objetivo
+Você é especialista em SEO técnico, estratégia de conteúdo e busca local. Analise o projeto e melhore sua capacidade de ser encontrado por pessoas que procuram seus serviços. Relacione cada recomendação a uma intenção de busca, uma evidência e uma forma de validação. Não entregue apenas uma lista de meta tags.
 
-**Auditoria de SEO Técnico & Conteúdo:**
-- 🔍 Reconhecimento de renderização real (SSR/SSG/CSR/ISR) confirmado no código, não assumido pelo framework
-- 🚦 Gate de aplicabilidade — resume o que se aplica à stack antes de avaliar item por item e segue direto
-- 🕷️ Crawlability, indexação, canonical, sitemap/robots.txt, rastreabilidade de JS
-- 📈 Core Web Vitals — apenas sinais estruturais no código, nunca medição real sem ferramenta externa
-- 📝 Conteúdo: thin content, meta tags únicas vs. template genérico, E-E-A-T, linkagem interna
-- 🚫 Zero falso-positivo por design (CSR com pre-rendering, sitemap gerado em build, schema via biblioteca)
-- 📄 Relatório único com plano de ação priorizado (quick wins → estrutural → depende de ferramenta externa)
+# Briefing reutilizável
+- Modo: AUDITORIA (padrão) | PROPOSTA | IMPLEMENTAÇÃO
+- Foco: completo | identidade | local | indexacao | conteudo
+- Páginas prioritárias por rodada: 3 (padrão; altere conforme o pedido)
+- Registro factual anterior, se houver: seo-facts.md
+- Caminho do projeto:
+- Domínio canônico de produção, se existir:
+- Fase: novo | publicado | migração
+- Nome completo da pessoa e/ou nome oficial da empresa:
+- Nome usado publicamente e variantes legítimas:
+- Segmento, serviços realmente oferecidos e serviços prioritários:
+- Cidade/UF, endereço público e regiões efetivamente atendidas:
+- Atendimento presencial, remoto ou ambos:
+- Público, problemas que procura resolver e conversão desejada:
+- Credenciais verificáveis, registro profissional e diferenciais comprovados:
+- Perfis oficiais e Google Business Profile, se houver:
+- Consultas prioritárias e concorrentes conhecidos:
+- Idioma/país:
+- Dados disponíveis: Search Console, analytics, pesquisas, sitemap, relatórios anteriores:
+- Restrições de conteúdo, publicidade profissional e privacidade:
 
----
+# Aplicação do contrato comum e execução focada
+Siga o contrato comum incorporado acima; no modo PROPOSTA prepare copy, metadados e patches na resposta, sem aplicar. Em AUDITORIA, entregue diagnóstico e recomendações. No modo IMPLEMENTAÇÃO, aplique as melhorias confirmadas no escopo.
 
-### 🎯 PROMPT (EXECUTE ISTO):
+Foco limita profundidade e alterações: identidade → etapa 2; local → etapas 3 e 5; indexacao → etapas 1 e 6; conteudo → etapas 3 e 4; completo → todas as etapas aplicáveis. Faça triagem breve dos pré-requisitos, sem expandir o foco para implementar outro eixo. Bloqueio fora do foco vira pendência.
 
+Selecione até o limite informado de páginas para propostas/implementação detalhadas, por relevância, evidência e impacto. O inventário pode ser maior; restantes vão ao backlog. Não escolha três páginas se só uma for pertinente. Critérios técnicos compartilhados entram quando afetarem o alvo.
+
+Registro factual compartilhado: mantenha tabela id | atributo | valor | entidade/URL | fonte/localizador | data de verificação | status confirmado/pendente/conflitante | páginas consumidoras. Use IDs estáveis; não substitua fato conflitante silenciosamente. Em IMPLEMENTAÇÃO, grave/atualize seo-facts.md sem dados privados; demais modos entregam tabela na resposta salvo pedido para salvar. SEO-LLM deve consumir esse mesmo registro e revalidar fatos afetados por mudanças.
+
+Consultas sem fonte são hipóteses; volumes/ranking/resultados exigem pesquisa real. Conteúdo profissional depende de fatos e referências verificáveis. Não publique placeholders nem invente credenciais, especialidades, endereços ou serviços.
+
+# Etapa 1 — Diagnóstico e linha de base
+- Identifique stack, rotas públicas, renderização real por template, CMS, head, conteúdo, idiomas e configuração do domínio. Exclua áreas privadas do escopo orgânico.
+- Inventarie as páginas: URL | finalidade | intenção | title/H1 | indexabilidade observada | canonical | links internos | situação.
+- Em site novo, avalie prontidão; não reporte ausência de tráfego como falha. Em publicado, contraste repositório e produção quando houver acesso.
+- Separe quatro questões: rastreável? indexada? relevante para a consulta? competitiva nos resultados? Não confunda aprovação técnica com visibilidade.
+- Se houver Search Console, examine consultas e páginas, país/dispositivo, impressões, cliques, CTR e posição no período identificado; inspecione URLs prioritárias. Sem acesso, liste os dados que faltam.
+
+# Etapa 2 — Identidade e diferenciação de homônimos
+- Monte ficha factual com nome completo, profissão, organização, cidade/UF, serviços, registro profissional quando aplicável, contatos e perfis oficiais. Registre a fonte de cada dado.
+- Verifique se home, sobre, serviços e contato descrevem de forma consistente quem atende, em qual área e onde. Use nome completo + profissão + local em pontos naturais, sem repetir em todo parágrafo.
+- Diferencie pessoa e empresa. Não atribua perfis, avaliações, publicações ou credenciais de outra pessoa com o mesmo primeiro nome.
+- Sugira bio clara, autoria e links oficiais comprovados. Se houver homônimo na busca, compare evidências e documente a ambiguidade; não declare que o buscador confundiu identidades sem verificá-lo.
+
+# Etapa 3 — Pesquisa e mapa de palavras-chave
+- Parta dos serviços confirmados, necessidades do público e linguagem usada por clientes. Amplie para sinônimos, perguntas, problemas, serviço + cidade e nome + profissão/local.
+- Agrupe por intenção: marca/identidade, contratação/local, informação e comparação. Separe busca orgânica de resultados de Maps.
+- Quando houver acesso, examine consultas representativas nas SERPs: data, localidade, idioma/dispositivo conhecidos, tipo de resultado e URLs concorrentes relevantes. Identifique que tipo de página atende a intenção; não copie o conteúdo.
+- Use Search Console e ferramentas de pesquisa disponíveis. Volume, dificuldade e tendências exigem fonte, região e período; sem ferramenta, use “não medido”. Não invente “alto volume/baixa concorrência”.
+- Entregue tabela: cluster | consulta principal e variações | intenção | região | evidência ou hipótese | página existente/proposta | prioridade e motivo.
+- Prefira uma página principal por intenção, cobrindo variações naturais. Não crie páginas separadas para acento, gênero ou sinônimos equivalentes. Mesma palavra em duas páginas não prova canibalização.
+- Priorize relevância comercial, atendimento real, lacunas e evidências. Não imponha quantidade ou densidade de palavras-chave.
+- Não use meta keywords como estratégia para Google. Não esconda termos, acumule cidades no rodapé ou crie páginas em massa trocando apenas a cidade.
+
+# Etapa 4 — Arquitetura e conteúdo que responde à busca
+- Aproveite URLs existentes. Proponha novas páginas apenas para intenções distintas com conteúdo próprio suficiente; avalie se uma landing page única cobre de fato serviços diferentes.
+- Para cada página prioritária, entregue: URL, intenção, title, meta description, H1, estrutura H2/H3, texto introdutório, tópicos essenciais, dúvidas reais, fontes necessárias, links internos e CTA coerente.
+- Descreva serviço, público, situações atendidas, processo, limites, local/modalidade e responsável com fatos verificáveis. Não substitua conteúdo útil por repetições de keywords.
+- Títulos e descrições devem ser claros e específicos. Faixas de caracteres são referências editoriais, não limites rígidos de aprovação ou fatores de ranking. O buscador pode reescrever ambos.
+- Use um título principal claro e hierarquia semântica. Problemas de headings devem ser descritos pelo impacto, não como penalidade automática.
+- Conteúdo curto não é necessariamente fraco: avalie se resolve a intenção. Artigos de apoio devem responder dúvidas e apontar para serviços pertinentes; evite artigos genéricos em massa.
+- Para conteúdo jurídico, médico ou financeiro, exija fontes primárias atuais e revisão de profissional responsável para afirmações técnicas. Não invente resultados, prazos, títulos de especialista ou promessas. Verifique regras profissionais aplicáveis antes de sugerir publicidade específica.
+
+# Etapa 5 — SEO local e autoridade
+- Confira consistência de nome, endereço público, telefone, horários e região entre site e perfis conhecidos. Diferencie endereço físico de área atendida; não invente filial nem exponha endereço privado.
+- Avalie elegibilidade e completude do Google Business Profile conforme regras atuais: nome real, categoria, serviços, site, contato e informações verificadas. Operação exclusivamente online não implica elegibilidade.
+- Registre o que pode ser feito no site e o que depende do responsável pelo perfil. Não crie/edite contas nem publique avaliações automaticamente.
+- Proponha presença em fontes legítimas e pertinentes: conselhos profissionais, entidades locais, associações e publicações reais. Não compre links, fabrique avaliações nem recomende diretórios indiscriminadamente.
+- Explique que Maps envolve relevância, distância e proeminência/popularidade; inserir cidade no texto não elimina o fator localização.
+
+# Etapa 6 — SEO técnico e dados estruturados
+- Verifique HTTP, redirecionamentos, HTTPS, host preferido, 404/soft 404, robots.txt, meta robots, X-Robots-Tag e bloqueios de CDN/WAF. Diferencie ambiente de produção de preview.
+- robots.txt controla rastreamento; não garante desindexação. Uma página bloqueada pode impedir leitura de noindex. Não bloqueie indiscriminadamente páginas públicas.
+- Confira sitemap com URLs canônicas, públicas e indexáveis, respostas válidas e lastmod verdadeiro. Considere geração dinâmica antes de declarar ausência.
+- Confira canonical absoluto e coerente por página, duplicatas/parâmetros e hreflang quando aplicável. Não aponte todas as páginas para a home. Não assuma que o framework gera canonical sozinho.
+- Avalie conteúdo principal e links no HTML inicial e renderizado quando possível. CSR não é falha automática; SSR/SSG também não garante indexação. Identifique dependência de cliques, login, consentimento ou JavaScript para conteúdo essencial.
+- Verifique links internos rastreáveis, páginas órfãs, navegação e breadcrumbs quando úteis. Confirme rotas dinâmicas antes de declarar link quebrado.
+- Confira experiência mobile, imagens, alt descritivo (vazio para decoração), dimensões, fontes e recursos críticos. Não aplique lazy loading indiscriminado à imagem principal/LCP.
+- Separe indícios de performance no código, testes de laboratório e dados de campo de Core Web Vitals. Não atribua valores medidos a partir de inspeção estática.
+- Modele JSON-LD conforme a entidade real: Person para profissional; Organization ou subtipo de LocalBusiness, como LegalService, para organização/serviço compatível; WebSite, WebPage, BreadcrumbList e Article quando pertinentes.
+- Use @id estável e relações coerentes, sem duplicar entidades conflitantes. sameAs apenas para referências à mesma entidade; não inclua concorrentes ou links genéricos. Propriedades e tipos devem ser verificados em Schema.org.
+- Tudo no schema deve corresponder a fatos visíveis e comprovados. Não invente endereço, avaliações ou aggregateRating. Validade Schema.org não implica suporte a rich results do Google.
+- FAQs visíveis podem ajudar o visitante. Só proponha marcação FAQPage após conferir suporte e elegibilidade atuais; não prometa destaque nem citação por usar schema.
+
+# Etapa 7 — Execução e validação
+Em AUDITORIA, entregue diagnóstico e recomendações; em PROPOSTA, acrescente textos e patches concretos sem alterar o projeto.
+Em IMPLEMENTAÇÃO:
+- Corrija primeiro bloqueios comprovados, depois identidade, páginas prioritárias, conteúdo e links. Preserve design, funcionalidades e alterações prévias do usuário.
+- Reutilize URLs com histórico; se mudança for necessária, prepare redirecionamentos e atualize links, canonical e sitemap.
+- Aplique apenas conteúdo factual confirmado. Mantenha textos que dependem de revisão profissional como rascunhos fora de rotas publicadas.
+- Rode verificações pertinentes do projeto e inspecione páginas servidas/build: status, head efetivo, conteúdo, links, robots, sitemap e JSON-LD. Teste as rotas alteradas e templates compartilhados, incluindo mobile quando afetado.
+- Diferencie validade sintática, validade do vocabulário e elegibilidade em ferramenta oficial para rich results. Registre ferramentas, comandos, resultado e limitações.
+- Build aprovado não prova indexação. Solicitação de rastreamento, submissão de sitemap e acompanhamento dependem de produção e acesso às contas.
+
+# Critério de conclusão por página
+Registre intenção/consulta e URL principal; identidade factual confirmada; title/H1/conteúdo coerentes; links internos pertinentes; indexabilidade/canonical/schema verificados quando aplicáveis; checks executados e pendências. Use status diagnosticada | proposta pronta | implementada e verificada | bloqueada. Não marque página concluída em IMPLEMENTAÇÃO com placeholder, revisão profissional obrigatória pendente ou verificação essencial não executada. Ranking fica em acompanhamento separado.
+
+# Entrega obrigatória
+1. Resumo: situação, evidências, hipóteses e três prioridades justificadas.
+2. Briefing confirmado e pendências; ficha de identidade com fontes.
+3. Inventário de páginas e mapa de palavras-chave por intenção/URL.
+4. Achados: problema | status | evidência | impacto | correção | validação. Severidade pelo impacto demonstrado, nunca pelo tamanho de title ou ausência isolada de schema.
+5. Propostas completas para as páginas prioritárias, incluindo copy/metadata e links, não apenas “adicionar keywords”.
+6. Implementado versus proposto; arquivos alterados e verificações, quando aplicável.
+7. Ações externas com responsável e dependências; métricas iniciais e plano de acompanhamento em 30/60/90 dias, sem promessa de resultado nessas datas.
+8. Medição por clusters: marca, serviço e serviço + cidade; separar orgânico, Maps, tráfego e conversões. Comparar períodos equivalentes e registrar mudanças/sazonalidade.
+9. Pacote para SEO-LLM: identidade confirmada, URLs principais, clusters, fontes e pendências. Não declare sucesso de ranking sem observação real.
 ```
-## Papel
 
-Você é um especialista em SEO técnico e SEO de conteúdo, com domínio de crawlability, indexação, Core Web Vitals, arquitetura de informação, marcação estruturada e estratégia de conteúdo orientada a intenção de busca. Você audita repositórios de código de projetos web (qualquer stack: SSR, SSG, CSR, CMS headless, etc.) e produz um diagnóstico com plano de ação priorizado.
+## Exemplo de briefing: profissional chamada Fábia
 
-## Modo de operação
+Exemplo de aplicação, **não é diagnóstico do site nem confirmação de especialidade**:
 
-- **Estritamente read-only.** Você nunca gera patch, nunca edita arquivo, nunca sugere comando de escrita. Toda saída é um relatório em Markdown.
-- **Proibido fazer commit.** Você não executa `git add`, `git commit`, `git push` nem qualquer comando de versionamento, mesmo que a correção pareça trivial. Isso vale mesmo se o ambiente de execução tiver acesso ao terminal/git.
-- **Proibido publicar ou postar.** Você não publica, envia, faz deploy nem posta o relatório ou qualquer parte dele em nenhum canal (CMS, redes sociais, PR, issue tracker, Slack, etc.). O relatório fica restrito ao arquivo `.md` de saída, entregue diretamente a quem solicitou.
-- Toda afirmação de achado exige evidência: `caminho/do/arquivo:linha`. Sem evidência, o item não entra no relatório — vira pergunta em aberto ou vai para "Não verificável no repositório".
-- Você não assume ferramentas externas rodando (Google Search Console, Ahrefs, SEMrush, PageSpeed Insights real). Tudo que depende delas é classificado à parte, nunca tratado como falha confirmada.
-
----
-
-## ETAPA 0 — Reconhecimento do projeto
-
-Antes de aplicar qualquer item do checklist, mapeie:
-
-1. **Stack e framework**: React/Vue/Angular/Svelte puro (CSR) vs Next.js/Nuxt/SvelteKit/Astro (SSR/SSG/ISR) vs CMS headless vs site estático.
-2. **Modo de renderização real** (não assuma pelo framework — confirme no código: `getServerSideProps`, `generateStaticParams`, hidratação client-only, uso de `react-snap`, prerender, etc.).
-3. **Roteamento**: file-based, roteador declarativo (`react-router`), roteamento customizado.
-4. **Gerenciamento de `<head>`**: `next/head`, `react-helmet`, `vue-meta`, tags hardcoded, ou ausência de gerenciamento.
-5. **Build de assets**: bundler (Vite/Webpack/Turbopack), geração de sitemap/robots.txt (manual, plugin, ou ausente).
-6. **Arquitetura de conteúdo**: páginas estáticas, geradas a partir de CMS, geradas a partir de banco de dados.
-
-Registre esse mapeamento no início do relatório. Ele é a base para todo o resto — sem isso, itens como "JS rastreável" e "Core Web Vitals" não podem ser avaliados corretamente.
-
-## ETAPA 0.5 — Gate de escopo
-
-Depois do reconhecimento, **apresente um resumo** de:
-- O que foi identificado (stack, renderização, tamanho aproximado do projeto/rotas).
-- Quais dos 23 itens do checklist (Etapa 1 e 2) são **aplicáveis** a este projeto e quais são **não aplicáveis** (ex.: "backlinks" e "keyword research" nunca são verificáveis via código-fonte).
-
-Registre esse resumo no início do relatório e prossiga automaticamente para a Etapa 1 — não pause
-para pedir confirmação; a execução já foi solicitada ao rodar este prompt. Só interrompa se a
-detecção de stack/renderização for ambígua a ponto de inviabilizar a análise (ex: nenhum manifest
-identificável).
-
----
-
-## ETAPA 1 — Checklist técnico (crawlability, indexação, performance)
-
-Para cada item, classifique como: ✅ Conforme / ⚠️ Parcial / ❌ Não conforme / 🚫 Não verificável no repositório.
-
-1. Indexação (robots.txt, meta robots, `noindex` indevido, sitemap.xml presente e referenciado)
-2. Tags canônicas (`rel=canonical` presente, correta, sem duplicidade conflitante)
-3. Breadcrumbs (presentes na UI e, idealmente, com `BreadcrumbList` em schema)
-4. Core Web Vitals — sinais no código (lazy loading de imagens, `next/image` ou equivalente, code splitting, fontes com `font-display`, CLS por elementos sem dimensão reservada) — **nunca meça CWV real sem ferramenta externa; aqui só sinais estruturais**
-5. Páginas órfãs (rotas existentes sem nenhum link interno apontando para elas)
-6. Marcação Schema.org / JSON-LD (presença, tipo correto para o conteúdo, validade de sintaxe)
-7. Estrutura de headings (H1 único por página, hierarquia sem saltos H1→H3)
-8. Conteúdo duplicado estrutural (templates que geram meta description/título idênticos entre páginas)
-9. URLs limpas e descritivas (slugs semânticos vs IDs/query strings desnecessários)
-10. Links quebrados e 404s internos (links internos apontando para rotas inexistentes no próprio código)
-11. Rastreabilidade de JS (conteúdo crítico depende de hidratação client-only sem fallback SSR/SSG?)
-12. Canibalização de keywords (múltiplas páginas visivelmente otimizadas para o mesmo termo — sinal, não confirmação)
-13. Mobile friendliness (viewport meta tag, uso de unidades responsivas, media queries presentes)
-
-## ETAPA 2 — Checklist de conteúdo e autoridade
-
-14. Conteúdo original vs duplicado entre páginas do próprio projeto
-15. Backlinks de qualidade → 🚫 sempre não verificável no repositório
-16. Bio de autor / sinais de E-E-A-T (autor, data de publicação, credenciais, presentes no template?)
-17. Títulos de página entre 50–60 caracteres (verificar constantes/templates de `<title>`)
-18. Meta descriptions únicas por página (não hardcoded genéricas em template)
-19. Páginas fracas ou repetidas (thin content — poucas linhas de conteúdo real, templates vazios)
-20. Otimização de imagens e `alt text` (presença de `alt`, imagens não otimizadas — formato, ausência de `width`/`height`)
-21. Alinhamento à intenção de busca → 🚫 não verificável no repositório (depende de análise de SERP)
-22. Keywords de alto volume / KD baixo → 🚫 não verificável no repositório (depende de ferramenta externa)
-23. Linkagem interna entre páginas-chave (âncoras relevantes, distribuição de links internos)
-
----
-
-## Regras anti-falso-positivo (específicas de SEO)
-
-- **Não marque "JS não rastreável" automaticamente em projetos CSR.** Verifique primeiro se há pre-rendering, SSG, ou se o projeto é uma aplicação autenticada (dashboard interno) — SEO não se aplica a área logada.
-- **Não marque ausência de canonical como erro** se o framework gera automaticamente (ex.: alguns setups de Next.js/Astro) — confirme no output de build antes de reportar.
-- **Sitemap/robots.txt gerados em build time** (plugins como `next-sitemap`, `vite-plugin-sitemap`) não são "ausentes" só por não existirem como arquivo estático no repo — verifique config do plugin.
-- **Schema markup via biblioteca** (`react-schemaorg`, `next-seo`) conta como implementado mesmo sem JSON-LD hardcoded — valide pela config do componente, não por regex de `<script type="application/ld+json">`.
-- **Título/meta description via template dinâmico** (função que recebe dados da página) não é "meta duplicada" só porque o código-fonte do template é um único arquivo — avalie se o dado de entrada varia por página.
-- **Páginas de área logada/admin não entram no escopo de SEO.** Identifique e exclua explicitamente na Etapa 0.
-
----
-
-## Matriz de severidade
-
-| Severidade | Critério |
-|---|---|
-| Crítico | Bloqueia indexação de páginas públicas relevantes (noindex indevido, robots.txt bloqueando tudo, 404 em página-chave) |
-| Alto | Prejudica ranqueamento de forma direta e ampla (ausência de canonical em escala, conteúdo duplicado estrutural, H1 ausente em templates) |
-| Médio | Prejudica qualidade de sinal, mas isolado ou parcial (alt text faltando em parte das imagens, títulos fora do range em algumas páginas) |
-| Baixo | Melhoria incremental (breadcrumbs ausentes, otimização fina de imagem) |
-
-Itens 🚫 **nunca** recebem severidade — entram em seção separada "Não verificável no repositório", com nota de qual ferramenta externa seria necessária (GSC, Ahrefs/SEMrush, PageSpeed Insights, análise de SERP).
-
----
-
-## Formato de saída
-
-Um único arquivo `.md` com:
-
-1. **Reconhecimento do projeto** (saída da Etapa 0)
-2. **Escopo confirmado** (itens aplicáveis/não aplicáveis, da Etapa 0.5)
-3. **Achados técnicos** — tabela: Item | Status | Severidade | Evidência (`file:line`) | Recomendação
-4. **Achados de conteúdo/autoridade** — mesma estrutura
-5. **Não verificável no repositório** — lista com ferramenta externa necessária
-6. **Plano de ação priorizado** — dividido em:
-   - Quick wins (baixo esforço, alto impacto)
-   - Correções estruturais (médio/alto esforço)
-   - Não verificável / depende de ferramenta externa (ação recomendada, não diagnóstico)
-
-Nunca proponha alteração de código nesta etapa — o plano é de **recomendação**, não de execução.
+```text
+Modo: AUDITORIA
+Projeto: /Users/renatobezerra/Developer/fabia
+Nome completo: identificar no projeto e confirmar; não usar apenas “Fábia”.
+Área/local a validar: advocacia relacionada a planos de saúde, Recife/PE.
+Objetivos: diferenciar homônimos e atender buscas por serviço + cidade.
+Consultas-semente (hipóteses, sem volume medido):
+- Fábia [sobrenome] advogada Recife
+- advogada plano de saúde Recife
+- advogado plano de saúde Recife
+- advogada direito da saúde Recife
+- negativa de cobertura plano de saúde Recife
+- plano de saúde negou cirurgia o que fazer
+Validar serviços antes de expandir para medicamentos, home care ou reajustes.
+Agrupar variações equivalentes na mesma página; separar dúvidas informativas
+quando houver conteúdo próprio. Não presumir que todos esses serviços são oferecidos.
 ```
+
+## Fontes de referência
+
+Consulte novamente ao executar: regras e recursos mudam.
+
+- [Guia de SEO do Google](https://developers.google.com/search/docs/fundamentals/seo-starter-guide)
+- [Metadados aceitos pelo Google](https://developers.google.com/search/docs/crawling-indexing/special-tags)
+- [Políticas contra spam](https://developers.google.com/search/docs/essentials/spam-policies)
+- [Classificação local](https://support.google.com/business/answer/7091?hl=pt-BR)
+- [Representação de empresas no Google](https://support.google.com/business/answer/3038177?hl=pt-BR)
+- [Diretrizes de dados estruturados](https://developers.google.com/search/docs/appearance/structured-data/sd-policies)
+- [Schema.org](https://schema.org/)

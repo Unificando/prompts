@@ -3,90 +3,596 @@
     "id": "frontend",
     "file": "frontend.md",
     "title": "Front-End (React/Next.js)",
-    "description": "Refatoração de camada frontend: código morto, duplicação, performance (Core Web Vitals), erros com UX, acessibilidade e SEO."
+    "description": "UI React/Next.js por módulos: limpeza, arquitetura, performance, erros, framework e acessibilidade.",
+    "version": "2.0.0",
+    "contractVersion": "2.0.0",
+    "modes": [
+      "auditoria",
+      "proposta",
+      "implementacao"
+    ],
+    "defaultMode": "implementacao",
+    "inputs": [
+      "objetivo",
+      "projeto",
+      "escopo",
+      "restricoes",
+      "evidencias"
+    ],
+    "outputs": [
+      "resultado",
+      "achados_com_evidencia",
+      "aplicado_ou_proposto",
+      "validacao",
+      "pendencias"
+    ],
+    "dependencies": [],
+    "modules": [
+      {
+        "id": "limpeza",
+        "file": "modules/limpeza.md"
+      },
+      {
+        "id": "arquitetura",
+        "file": "modules/arquitetura.md"
+      },
+      {
+        "id": "performance",
+        "file": "modules/performance.md"
+      },
+      {
+        "id": "erros",
+        "file": "modules/erros.md"
+      },
+      {
+        "id": "framework",
+        "file": "modules/framework.md"
+      },
+      {
+        "id": "acessibilidade",
+        "file": "modules/acessibilidade.md"
+      }
+    ]
   },
   {
     "id": "fullstack",
     "file": "fullstack.md",
     "title": "Full-Stack (Next.js)",
-    "description": "Refatoração full-stack em repositório único Next.js: integração front-back, validação e segurança end-to-end, performance, testes."
+    "description": "Fluxos Next.js entre UI e servidor: integração, segurança, performance, erros, framework e testes.",
+    "version": "2.0.0",
+    "contractVersion": "2.0.0",
+    "modes": [
+      "auditoria",
+      "proposta",
+      "implementacao"
+    ],
+    "defaultMode": "implementacao",
+    "inputs": [
+      "objetivo",
+      "projeto",
+      "escopo",
+      "restricoes",
+      "evidencias"
+    ],
+    "outputs": [
+      "resultado",
+      "achados_com_evidencia",
+      "aplicado_ou_proposto",
+      "validacao",
+      "pendencias"
+    ],
+    "dependencies": [],
+    "modules": [
+      {
+        "id": "integracao",
+        "file": "modules/integracao.md"
+      },
+      {
+        "id": "seguranca",
+        "file": "modules/seguranca.md"
+      },
+      {
+        "id": "performance",
+        "file": "modules/performance.md"
+      },
+      {
+        "id": "erros",
+        "file": "modules/erros.md"
+      },
+      {
+        "id": "framework",
+        "file": "modules/framework.md"
+      },
+      {
+        "id": "observabilidade-testes",
+        "file": "modules/observabilidade-testes.md"
+      }
+    ]
   },
   {
     "id": "backend",
     "file": "backend.md",
     "title": "Backend (NestJS)",
-    "description": "Arquitetura, banco de dados, segurança (OWASP Top 10), performance, testes e documentação de API para backend NestJS."
+    "description": "Backend NestJS por módulos: arquitetura, banco, segurança, performance, erros, testes e contratos.",
+    "version": "2.0.0",
+    "contractVersion": "2.0.0",
+    "modes": [
+      "auditoria",
+      "proposta",
+      "implementacao"
+    ],
+    "defaultMode": "implementacao",
+    "inputs": [
+      "objetivo",
+      "projeto",
+      "escopo",
+      "restricoes",
+      "evidencias"
+    ],
+    "outputs": [
+      "resultado",
+      "achados_com_evidencia",
+      "aplicado_ou_proposto",
+      "validacao",
+      "pendencias"
+    ],
+    "dependencies": [],
+    "modules": [
+      {
+        "id": "arquitetura",
+        "file": "modules/arquitetura.md"
+      },
+      {
+        "id": "banco",
+        "file": "modules/banco.md"
+      },
+      {
+        "id": "seguranca",
+        "file": "modules/seguranca.md"
+      },
+      {
+        "id": "performance",
+        "file": "modules/performance.md"
+      },
+      {
+        "id": "erros",
+        "file": "modules/erros.md"
+      },
+      {
+        "id": "observabilidade-testes",
+        "file": "modules/observabilidade-testes.md"
+      },
+      {
+        "id": "contratos-api",
+        "file": "modules/contratos-api.md"
+      }
+    ]
   },
   {
     "id": "testes",
     "file": "testes.md",
     "title": "Testes & Cobertura (agnóstico de stack)",
-    "description": "Cobertura de testes real em qualquer linguagem/framework: mapeamento de regras de negócio, reconciliação de testes existentes, pirâmide de testes. Modo arquivo único restringe o pipeline a um arquivo/componente citado no pedido."
+    "description": "Testes por comportamento, reconciliação e alvo único; sem metas artificiais de cobertura.",
+    "version": "2.0.0",
+    "contractVersion": "2.0.0",
+    "modes": [
+      "auditoria",
+      "proposta",
+      "implementacao"
+    ],
+    "defaultMode": "implementacao",
+    "inputs": [
+      "objetivo",
+      "projeto",
+      "escopo",
+      "restricoes",
+      "evidencias"
+    ],
+    "outputs": [
+      "resultado",
+      "achados_com_evidencia",
+      "aplicado_ou_proposto",
+      "validacao",
+      "pendencias",
+      "rastreabilidade_comportamento_teste"
+    ],
+    "dependencies": [],
+    "modules": []
   },
   {
     "id": "setup-e2e",
     "file": "setup-e2e.md",
     "title": "Setup de Stack E2E (Playwright)",
-    "description": "Bootstrap de stack E2E para projeto novo: instalação e configuração do Playwright, estrutura de pastas (e2e/, e2e/pages/, e2e/fixtures/) e smoke test inicial."
+    "description": "Bootstrap E2E mínimo, reaproveitando stack existente e verificando um smoke test real.",
+    "version": "2.0.0",
+    "contractVersion": "2.0.0",
+    "modes": [
+      "auditoria",
+      "proposta",
+      "implementacao"
+    ],
+    "defaultMode": "implementacao",
+    "inputs": [
+      "objetivo",
+      "projeto",
+      "escopo",
+      "restricoes",
+      "evidencias"
+    ],
+    "outputs": [
+      "resultado",
+      "achados_com_evidencia",
+      "aplicado_ou_proposto",
+      "validacao",
+      "pendencias"
+    ],
+    "dependencies": [],
+    "modules": []
   },
   {
     "id": "auditoria-testid",
     "file": "auditoria-testid.md",
     "title": "Auditoria e Aplicação de data-testid",
-    "description": "Garante seletor estável em todo o app: varredura do frontend, detecção/definição de convenção e aplicação aditiva de data-testid (pré-requisito da cadeia E2E)."
+    "description": "Seletores estáveis no alvo, com data-testid quando necessário e preservação de consumidores.",
+    "version": "2.0.0",
+    "contractVersion": "2.0.0",
+    "modes": [
+      "auditoria",
+      "proposta",
+      "implementacao"
+    ],
+    "defaultMode": "implementacao",
+    "inputs": [
+      "objetivo",
+      "projeto",
+      "escopo",
+      "restricoes",
+      "evidencias"
+    ],
+    "outputs": [
+      "resultado",
+      "achados_com_evidencia",
+      "aplicado_ou_proposto",
+      "validacao",
+      "pendencias"
+    ],
+    "dependencies": [],
+    "modules": []
   },
   {
     "id": "testes-e2e",
     "file": "testes-e2e.md",
     "title": "Testes E2E Consistentes (agnóstico de framework)",
-    "description": "Gera/expande uma suíte E2E disciplinada: critério de elegibilidade, mapeamento de jornadas (happy path + falha obrigatória), reconciliação de specs existentes e regras anti-flakiness. Modo arquivo único restringe o pipeline aos fluxos de um componente/arquivo citado no pedido."
+    "description": "Jornadas relevantes com isolamento, seletores estáveis, falhas aplicáveis e validação real.",
+    "version": "2.0.0",
+    "contractVersion": "2.0.0",
+    "modes": [
+      "auditoria",
+      "proposta",
+      "implementacao"
+    ],
+    "defaultMode": "implementacao",
+    "inputs": [
+      "objetivo",
+      "projeto",
+      "escopo",
+      "restricoes",
+      "evidencias"
+    ],
+    "outputs": [
+      "resultado",
+      "achados_com_evidencia",
+      "aplicado_ou_proposto",
+      "validacao",
+      "pendencias",
+      "jornadas_e_fronteiras"
+    ],
+    "dependencies": [
+      {
+        "id": "setup-e2e",
+        "kind": "conditional",
+        "reason": "Somente se não existir runner E2E."
+      },
+      {
+        "id": "auditoria-testid",
+        "kind": "conditional",
+        "reason": "Somente se faltarem seletores estáveis no alvo."
+      }
+    ],
+    "modules": []
   },
   {
     "id": "ci-e2e",
     "file": "ci-e2e.md",
-    "title": "Pipeline CI para Suíte E2E (read-only)",
-    "description": "Coloca a suíte E2E existente pra rodar em CI de forma confiável: estratégia de execução, cache, artefatos de falha e patch do pipeline para revisão manual."
+    "title": "Pipeline CI para Suíte E2E",
+    "description": "Patch CI revisável por padrão; implementação local opcional, com permissões e validação.",
+    "version": "2.0.0",
+    "contractVersion": "2.0.0",
+    "modes": [
+      "auditoria",
+      "proposta",
+      "implementacao"
+    ],
+    "defaultMode": "proposta",
+    "inputs": [
+      "objetivo",
+      "projeto",
+      "escopo",
+      "restricoes",
+      "evidencias"
+    ],
+    "outputs": [
+      "resultado",
+      "achados_com_evidencia",
+      "aplicado_ou_proposto",
+      "validacao",
+      "pendencias"
+    ],
+    "dependencies": [
+      {
+        "id": "testes-e2e",
+        "kind": "conditional",
+        "reason": "Suíte executável é pré-requisito; reutilizar a existente."
+      }
+    ],
+    "modules": []
   },
   {
     "id": "auditoria-engenharia",
     "file": "auditoria-engenharia.md",
-    "title": "Auditoria de Engenharia de Software (read-only)",
-    "description": "Diagnóstico técnico sem alteração de código, com detecção automática de stack."
+    "title": "Auditoria de Engenharia de Software",
+    "description": "Diagnóstico com evidências e contraexemplos; auditoria ou proposta, sem implementação.",
+    "version": "2.0.0",
+    "contractVersion": "2.0.0",
+    "modes": [
+      "auditoria",
+      "proposta"
+    ],
+    "defaultMode": "auditoria",
+    "inputs": [
+      "objetivo",
+      "projeto",
+      "escopo",
+      "restricoes",
+      "evidencias"
+    ],
+    "outputs": [
+      "resultado",
+      "achados_com_evidencia",
+      "aplicado_ou_proposto",
+      "validacao",
+      "pendencias"
+    ],
+    "dependencies": [],
+    "modules": []
   },
   {
     "id": "auditoria-seguranca",
     "file": "auditoria-seguranca.md",
     "title": "Auditoria de Segurança, LGPD e Deploy",
-    "description": "Revisão de segurança, conformidade LGPD, práticas de deploy e módulos de ataque read-only (secrets, autenticação, banco de dados, input, custo)."
+    "description": "Controles, privacidade, deploy e modelagem estática de abuso; sem exploração ativa.",
+    "version": "2.0.0",
+    "contractVersion": "2.0.0",
+    "modes": [
+      "auditoria",
+      "proposta"
+    ],
+    "defaultMode": "auditoria",
+    "inputs": [
+      "objetivo",
+      "projeto",
+      "escopo",
+      "restricoes",
+      "evidencias"
+    ],
+    "outputs": [
+      "resultado",
+      "achados_com_evidencia",
+      "aplicado_ou_proposto",
+      "validacao",
+      "pendencias"
+    ],
+    "dependencies": [],
+    "modules": []
   },
   {
     "id": "revisao-copy",
     "file": "revisao-copy.md",
     "title": "Revisão Ortográfica e UX Copy",
-    "description": "Revisão de texto, ortografia e copy voltada para experiência do usuário."
+    "description": "Revisão textual pontual, preservando significado, idioma, placeholders e lógica.",
+    "version": "2.0.0",
+    "contractVersion": "2.0.0",
+    "modes": [
+      "auditoria",
+      "proposta",
+      "implementacao"
+    ],
+    "defaultMode": "implementacao",
+    "inputs": [
+      "objetivo",
+      "projeto",
+      "escopo",
+      "restricoes",
+      "evidencias"
+    ],
+    "outputs": [
+      "resultado",
+      "achados_com_evidencia",
+      "aplicado_ou_proposto",
+      "validacao",
+      "pendencias"
+    ],
+    "dependencies": [],
+    "modules": []
   },
   {
     "id": "refatoracao-faseada",
     "file": "refatoracao-faseada.md",
     "title": "Refatoração Faseada Autônoma (agnóstico de stack)",
-    "description": "Pipeline autônomo de 10 fases com detecção de stack, gates de build/lint/test e patch reversível por fase — para quando você quer que o agente execute, não só analise."
+    "description": "Lotes de refatoração com validação proporcional, reversão localizada e estado verificável.",
+    "version": "2.0.0",
+    "contractVersion": "2.0.0",
+    "modes": [
+      "auditoria",
+      "proposta",
+      "implementacao"
+    ],
+    "defaultMode": "implementacao",
+    "inputs": [
+      "objetivo",
+      "projeto",
+      "escopo",
+      "restricoes",
+      "evidencias"
+    ],
+    "outputs": [
+      "resultado",
+      "achados_com_evidencia",
+      "aplicado_ou_proposto",
+      "validacao",
+      "pendencias"
+    ],
+    "dependencies": [],
+    "modules": []
   },
   {
     "id": "seo",
     "file": "seo.md",
-    "title": "Auditoria de SEO — Técnico + Conteúdo (read-only)",
-    "description": "Crawlability, indexação, Core Web Vitals (sinais estruturais), marcação estruturada e conteúdo, com plano de ação priorizado. Agnóstico de stack e sem risco de alteração no código."
+    "title": "SEO — Técnico, Conteúdo e Busca Local",
+    "description": "SEO técnico, identidade, conteúdo e busca local com foco, limite de páginas e registro factual.",
+    "version": "2.0.0",
+    "contractVersion": "2.0.0",
+    "modes": [
+      "auditoria",
+      "proposta",
+      "implementacao"
+    ],
+    "defaultMode": "auditoria",
+    "inputs": [
+      "objetivo",
+      "projeto",
+      "escopo",
+      "restricoes",
+      "evidencias",
+      "foco",
+      "limite_paginas",
+      "registro_factual"
+    ],
+    "outputs": [
+      "resultado",
+      "achados_com_evidencia",
+      "aplicado_ou_proposto",
+      "validacao",
+      "pendencias",
+      "seo_facts",
+      "criterios_por_pagina"
+    ],
+    "dependencies": [],
+    "modules": []
+  },
+  {
+    "id": "seo-llm",
+    "file": "seo-llm.md",
+    "title": "SEO para LLMs — GEO e Identidade",
+    "description": "Identidade e conteúdo citável para IA com fatos compartilhados, foco e medição reproduzível.",
+    "version": "2.0.0",
+    "contractVersion": "2.0.0",
+    "modes": [
+      "auditoria",
+      "proposta",
+      "implementacao"
+    ],
+    "defaultMode": "auditoria",
+    "inputs": [
+      "objetivo",
+      "projeto",
+      "escopo",
+      "restricoes",
+      "evidencias",
+      "foco",
+      "limite_paginas",
+      "registro_factual"
+    ],
+    "outputs": [
+      "resultado",
+      "achados_com_evidencia",
+      "aplicado_ou_proposto",
+      "validacao",
+      "pendencias",
+      "seo_facts",
+      "criterios_por_pagina"
+    ],
+    "dependencies": [
+      {
+        "id": "seo",
+        "kind": "recommended",
+        "reason": "Reutilizar identidade, URLs e evidências atuais."
+      }
+    ],
+    "modules": []
   },
   {
     "id": "agents",
     "file": "agents.md",
     "title": "Criação de AGENTS.md Padronizado (Bootstrap)",
-    "description": "Gera o AGENTS.md do projeto a partir do README e das regras da biblioteca: contexto do repositório, comandos reais, regras de trabalho padronizadas e guia dos prompts aplicáveis. PROMPT 2 revisa/reconcilia o arquivo existente."
+    "description": "Criação ou reconciliação factual de AGENTS.md, respeitando instruções locais e o usuário.",
+    "version": "2.0.0",
+    "contractVersion": "2.0.0",
+    "modes": [
+      "auditoria",
+      "proposta",
+      "implementacao"
+    ],
+    "defaultMode": "implementacao",
+    "inputs": [
+      "objetivo",
+      "projeto",
+      "escopo",
+      "restricoes",
+      "evidencias"
+    ],
+    "outputs": [
+      "resultado",
+      "achados_com_evidencia",
+      "aplicado_ou_proposto",
+      "validacao",
+      "pendencias"
+    ],
+    "dependencies": [],
+    "modules": []
   },
   {
     "id": "pipeline",
     "file": "pipeline.md",
     "title": "Pipeline Completo (Orquestrador)",
-    "description": "Orquestra a execução fase a fase de todos os prompts aplicáveis ao projeto: plano personalizado, gates de revisão, arquivo de estado para retomar entre sessões."
+    "description": "Orquestração com modos persistentes, versões fixadas, dependências e invalidação de evidências.",
+    "version": "2.0.0",
+    "contractVersion": "2.0.0",
+    "modes": [
+      "auditoria",
+      "proposta",
+      "implementacao"
+    ],
+    "defaultMode": "implementacao",
+    "inputs": [
+      "objetivo",
+      "projeto",
+      "escopo",
+      "restricoes",
+      "evidencias",
+      "pipeline_state",
+      "versao_biblioteca"
+    ],
+    "outputs": [
+      "resultado",
+      "achados_com_evidencia",
+      "aplicado_ou_proposto",
+      "validacao",
+      "pendencias",
+      "estado_com_hashes",
+      "fases_invalidadas"
+    ],
+    "dependencies": [],
+    "modules": []
   }
 ]

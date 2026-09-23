@@ -1,105 +1,146 @@
 # Prompts Unificando
 
 [![npm version](https://img.shields.io/npm/v/@unificando/prompts.svg)](https://www.npmjs.com/package/@unificando/prompts)
-[![npm downloads](https://img.shields.io/npm/dm/@unificando/prompts.svg)](https://www.npmjs.com/package/@unificando/prompts)
 [![license](https://img.shields.io/npm/l/@unificando/prompts.svg)](./LICENSE)
-[![GitHub Packages](https://img.shields.io/badge/GitHub%20Packages-%40unificando%2Fprompts-2b3137?logo=github)](https://github.com/Unificando/prompts/pkgs/npm/prompts)
 
-Biblioteca de prompts padronizados para auditoria, refatoração, testes, segurança/LGPD e revisão de copy. Agnóstica de stack e de LLM — funciona com Claude, ChatGPT, Gemini ou qualquer outro modelo, em qualquer IDE.
+Biblioteca de prompts para auditoria, implementação, testes, segurança, conteúdo e SEO. Cada disciplina declara seus modos, entradas, saídas e dependências. Os prompts orientam agentes com acesso a código; quando uma ferramenta ou evidência não estiver disponível, a entrega deve explicitar a limitação.
 
-## Instalação
+## Uso
 
-Nenhuma instalação é necessária — use via `npx` (requer Node.js 18+):
+Requer Node.js 18+. Para a versão publicada:
 
 ```bash
 npx @unificando/prompts list
-npx @unificando/prompts get <id>
-npx @unificando/prompts get <id> --copy
+npx @unificando/prompts get seo --copy
+npx @unificando/prompts get frontend --mode proposta --module performance --scope "src/Cart.tsx"
+npx @unificando/prompts inspect frontend
 ```
 
-`list` mostra os prompts disponíveis. `get <id>` imprime o conteúdo no terminal; `--copy` envia direto para a área de transferência, pronto para colar em qualquer chat de IA.
+Para usar as alterações deste checkout antes da publicação:
 
-Instalação global opcional expõe o comando `unificando-prompts`:
+```bash
+node bin/cli.js list
+node bin/cli.js get frontend --module limpeza,performance --mode implementacao
+node bin/cli.js get seo-llm --mode proposta --scope "identidade da página inicial"
+node bin/cli.js validate
+```
+
+`get` entrega contrato comum, disciplina e módulos selecionados em um único texto. `--copy` copia esse mesmo conteúdo; se o clipboard falhar, o texto é impresso para cópia manual. `--scope` descreve o alvo, não verifica sua existência: o agente confirma isso no projeto de destino. A CLI compõe instruções; ela não executa o trabalho do agente.
+
+`list` informa módulos e modos padrão. `inspect <id>` entrega JSON com versão do pacote/prompt/contrato, modos, entradas, saídas, dependências e SHA-256 da definição completa. Esse hash inclui metadados e conteúdo de contrato/módulos; registre também opções selecionadas quando precisar reproduzir uma execução.
+
+A CLI rejeita opções, modos e módulos desconhecidos, seleções duplicadas e argumentos sem valor. Use IDs de módulos separados por vírgula, sem espaços. Modo aceita português com ou sem acento.
+
+## Modos
+
+| Modo | Comportamento |
+| --- | --- |
+| `auditoria` | Diagnóstico com evidências; sem escrita nem comandos que gerem artefatos |
+| `proposta` | Análise e patches/textos revisáveis na resposta; sem aplicar |
+| `implementacao` | Alterações locais no escopo e verificações pertinentes |
+
+Autorizações já dadas valem durante a execução; não há pausa obrigatória a cada fase. Perguntas ficam para dados bloqueantes, decisões relevantes ou ações ainda não autorizadas. Commit, publicação, deploy e alterações de contas não estão implícitos.
+
+`auditoria-engenharia` e `auditoria-seguranca` suportam apenas auditoria e proposta. Segurança é análise estática, sem exploração ativa. Os demais suportam os três modos; respeitam a restrição de disciplina, como editar somente texto em `revisao-copy` ou somente AGENTS.md em `agents`.
+
+## Catálogo
+
+| ID | Escopo | Padrão |
+| --- | --- | --- |
+| `frontend` | UI, limpeza, arquitetura, performance, erros, framework, acessibilidade | Implementação |
+| `backend` | NestJS, banco, segurança, performance, erros, testes e contratos | Implementação |
+| `fullstack` | Integração entre UI/servidor, segurança, performance, erros e testes | Implementação |
+| `testes` | Comportamentos, reconciliação, risco e alvo único | Implementação |
+| `setup-e2e` | Base E2E mínima com smoke test executado | Implementação |
+| `auditoria-testid` | Seletores estáveis no alvo; data-testid quando necessário | Implementação |
+| `testes-e2e` | Jornadas relevantes, isolamento e falhas aplicáveis | Implementação |
+| `ci-e2e` | Pipeline CI revisável; implementação local opcional | Proposta |
+| `auditoria-engenharia` | Qualidade e riscos com evidências e contraexemplos | Auditoria |
+| `auditoria-seguranca` | Controles, privacidade, deploy e modelagem de abuso | Auditoria |
+| `revisao-copy` | Texto, preservando significado, idioma, placeholders e lógica | Implementação |
+| `refatoracao-faseada` | Lotes verificáveis e reversão localizada | Implementação |
+| `seo` | Identidade, palavras-chave, conteúdo, indexação e busca local | Auditoria |
+| `seo-llm` | Identificação correta e conteúdo citável em respostas de IA | Auditoria |
+| `agents` | Criação ou reconciliação factual de AGENTS.md | Implementação |
+| `pipeline` | Orquestração por objetivo, com versões e estado verificável | Implementação |
+
+## Módulos e escopo
+
+`frontend`, `backend` e `fullstack` têm núcleo curto e módulos compartilhados. Sem `--module`, `get` inclui todos os módulos daquela disciplina; o agente deve aplicar somente os pertinentes. A seleção explícita reduz o texto recebido.
+
+```bash
+node bin/cli.js get backend --module banco,contratos-api --mode proposta
+node bin/cli.js get frontend --module acessibilidade --scope "src/Checkout.tsx"
+```
+
+O modo arquivo único vale também para testes e relatórios: examine dependências necessárias, mas preserve arquivos e seções fora do alvo. O usuário pode delimitar isso no pedido mesmo sem `--scope`.
+
+## SEO e respostas de IA
+
+SEO é tratado pelos prompts dedicados, separadamente do frontend. Execute `seo` e reutilize suas evidências em `seo-llm`. Ambos aceitam no briefing:
+
+- Foco: `completo`, `identidade`, `local`, `indexacao` ou `conteudo`.
+- Limite de páginas prioritárias: três por padrão, ajustável ao pedido.
+- Registro factual compartilhado: `seo-facts.md`, com fonte, data, estado e páginas consumidoras.
+- Critérios de conclusão por página e separação entre diagnóstico, proposta, implementação verificada e bloqueio.
+
+Exemplo de pedido após colar o prompt:
+
+```text
+Modo: PROPOSTA
+Foco: local
+Páginas prioritárias: 2
+Projeto: [caminho]
+Objetivo: atender buscas por serviço + cidade.
+Use apenas serviços e credenciais confirmados no projeto.
+```
+
+As melhorias não garantem ranking, indexação ou recomendação por IA. Uma consulta isolada não comprova causa técnica. Resultados de busca exigem observação real e acompanhamento.
+
+## Pipeline e retomada
+
+O pipeline seleciona disciplinas pelo objetivo, não executa automaticamente toda a biblioteca. Testes de comportamento acompanham alterações arriscadas, em vez de começar somente no final. Setup E2E, seletores, CI e SEO entram quando pertinentes.
+
+O estado registra versões exatas, hashes, modos, módulos, escopo, código/alterações locais, dependências e evidências. Uma fase concluída pode ficar desatualizada se seus arquivos, contrato ou dependências mudarem; revalide o necessário e preserve fases independentes.
+
+Para reprodução, use `npx @unificando/prompts@<versão-exata> ...` com uma versão realmente disponível. Não misture o prompt de uma versão com módulos de outra. Sem rede, uma cópia local verificada pode ser utilizada.
+
+## Fontes, manutenção e avaliação
+
+- [Contrato comum](prompts/shared/contract.md): evidência, modos, autorização, escopo e validação.
+- [Catálogo versionado](prompts/manifest.json): metadados e módulos.
+- [Avaliações comportamentais](evals/README.md): fixtures, rubrica e registro reproduzível de respostas reais.
+- [Changelog](CHANGELOG.md): alterações e migração.
+
+Os arquivos Markdown em `prompts/` são fontes de composição. `{{CONTRACT}}` e `{{MODULES}}` são substituídos pela CLI. Para copiar manualmente, inclua o contrato e os módulos referenciados; prefira `get` para não perder instruções. Não cole apenas um bloco interno de SEO sem o contrato.
+
+Ao alterar um módulo compartilhado, revise todos os prompts consumidores, seus critérios e versões. Preserve IDs públicos; mudanças de contrato/modo incompatíveis pedem versão principal. Não use selos de qualidade sem avaliação.
+
+```bash
+npm test
+npm run validate
+npm run evals -- list
+node bin/evals.js show public-route
+node bin/evals.js template > /tmp/prompt-eval-results.json
+node bin/evals.js check /tmp/prompt-eval-results.json
+```
+
+`npm test` verifica CLI, composição, metadados, consistência estrutural e ferramenta de avaliações. **Não mede sozinho a qualidade das respostas de uma IA.** O último comando retorna código 2 enquanto a avaliação não tiver sido executada/revisada; isso evita aprovar um relatório vazio.
+
+## Migração da biblioteca 1.x
+
+IDs, `list`, `get <id>` e `--copy` continuam disponíveis. A saída de `get` passa a ser composta e inclui metadados; não é uma cópia byte a byte do arquivo fonte. Os três prompts maiores agora têm módulos. Foram removidos gates repetitivos e regras absolutas sem contexto; `ci-e2e` permite implementação local quando explicitamente escolhida. Scripts que dependiam de títulos internos ou toleravam opções desconhecidas devem ser atualizados.
+
+A versão 2.0.0 deste checkout está preparada localmente; a publicação é uma ação separada.
+
+## Instalação alternativa
 
 ```bash
 npm install -g @unificando/prompts
 unificando-prompts list
 ```
 
-### Instalar pelo GitHub Packages
-
-O pacote também é publicado no [GitHub Packages da organização](https://github.com/Unificando/prompts/pkgs/npm/prompts), com o mesmo nome `@unificando/prompts`, conteúdo e versão. Para puxá-lo de lá em vez do npmjs.com, autentique o registry do GitHub num `.npmrc` (na home ou no projeto):
-
-```
-@unificando:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=SEU_GITHUB_TOKEN
-```
-
-O token precisa do escopo `read:packages`. Para uso rápido sem autenticar, prefira o `npx @unificando/prompts` do npmjs.com acima.
-
-## Prompts disponíveis
-
-| ID | Escopo | Edita código |
-| --- | --- | --- |
-| `frontend` | React/Next.js — código morto, duplicação, performance, tratamento de erros, acessibilidade e SEO | Sim |
-| `fullstack` | Next.js full-stack — integração front-back, validação e segurança end-to-end, performance | Sim |
-| `backend` | NestJS — arquitetura, banco de dados, segurança OWASP, escalabilidade, documentação de API | Sim |
-| `testes` | Cobertura de testes real, qualquer stack — mapeamento de regras de negócio, reconciliação de testes existentes; modo arquivo único para testar só um componente/arquivo | Sim (gera testes) |
-| `setup-e2e` | Bootstrap de stack E2E (Playwright) — instalação, configuração, estrutura de pastas (e2e/, e2e/pages/, e2e/fixtures/) e smoke test inicial | Sim |
-| `auditoria-testid` | Auditoria/aplicação de `data-testid` — convenção única e seletor estável em todo o app | Sim (aditivo) |
-| `testes-e2e` | Geração/expansão disciplinada da suíte E2E — elegibilidade, jornadas (happy path + falha obrigatória), reconciliação e anti-flakiness; modo arquivo único para cobrir só os fluxos de um componente | Sim (gera specs) |
-| `ci-e2e` | Pipeline CI para a suíte E2E existente — estratégia de execução, cache, artefatos de falha | Não — patch proposto |
-| `auditoria-engenharia` | Diagnóstico de qualidade de código (SOLID, código morto, dependências não usadas) | Não — somente leitura |
-| `auditoria-seguranca` | Segurança (OWASP), conformidade LGPD, checklist de deploy e módulos de ataque (secrets, autenticação, banco de dados, input, bomba de custo) | Não — somente leitura |
-| `revisao-copy` | Ortografia, gramática e UX copy voltados ao usuário final | Só texto, nunca lógica |
-| `refatoracao-faseada` | Pipeline autônomo de 10 fases (agnóstico de stack) — detecção automática, gates de build/lint/test e patch reversível por fase | Sim (sob contrato: sem commit/push) |
-| `seo` | SEO técnico e de conteúdo — crawlability, indexação, Core Web Vitals (sinais estruturais), marcação estruturada, thin content, linkagem interna | Não — somente leitura |
-| `agents` | Criação do AGENTS.md padronizado — guia de trabalho para agentes de IA a partir do README, com comandos reais, regras universais da biblioteca e guia dos prompts aplicáveis (PROMPT 2 revisa/reconcilia o existente) | Sim (só AGENTS.md) |
-| `pipeline` | Orquestrador do fluxo completo — plano personalizado por projeto, gates de triagem/revisão e retomada entre sessões (executa os outros prompts fase a fase) | Sim — via prompts filhos |
-
-## Como escolher
-
-- **Não sabe onde estão os problemas?** Comece por `auditoria-engenharia`.
-- **Vai para produção ou lida com dados pessoais?** Rode `auditoria-seguranca` antes do deploy — e, para a varredura ofensiva completa, execute o PROMPT 2 do mesmo prompt na sequência (secrets, autenticação, banco de dados, input, custo).
-- **Projeto React/Next.js sem backend próprio?** Use `frontend`.
-- **Next.js com API Routes no mesmo repositório?** Use `fullstack` (e `frontend` se quiser focar só na camada visual).
-- **Backend NestJS em repositório separado?** Use `backend`.
-- **Já refatorou e quer cobertura de testes real?** Use `testes` — rode por último, depois da arquitetura estabilizar.
-- **Quer testar só um arquivo/componente?** Cite o caminho ou nome no pedido ao usar `testes` (ou `testes-e2e`) — o modo arquivo único restringe o pipeline ao alvo e atualiza os artefatos (`business-rules.md`, relatórios) só na seção dele.
-- **Quer uma cadeia completa de testes E2E?** Rode em ordem: `setup-e2e` (bootstrap, só projeto sem stack E2E) → `auditoria-testid` (seletor estável) → `testes-e2e` (specs consistentes) → `ci-e2e` (pipeline no CI).
-- **Gerou ou revisou copy com IA?** Use `revisao-copy` a qualquer momento.
-- **Quer que o agente execute a refatoração sozinho, com gates e rollback por fase, em vez de só sugerir?** Use `refatoracao-faseada` — cobre código morto, duplicação, arquitetura, integração, segurança, performance, erros, a11y/SEO e testes em um único pipeline autônomo.
-- **Quer um raio-x de SEO técnico e de conteúdo antes de lançar ou depois de uma migração?** Use `seo` — read-only, com plano de ação priorizado.
-- **Quer padronizar como agentes de IA trabalham no seu projeto?** Use `agents` — gera o AGENTS.md na raiz a partir do README, com comandos reais, regras de trabalho destiladas da biblioteca e o guia dos prompts aplicáveis à stack. Já tem AGENTS.md? Rode o PROMPT 2 do mesmo prompt para reconciliar com as fontes atuais.
-- **Quer rodar o fluxo completo de ponta a ponta, sem lembrar a ordem?** Rode `pipeline` em uma IDE agêntica — ele monta o plano só com o que se aplica ao projeto, controla os gates de revisão e retoma de onde parou entre sessões.
-
-## Fluxo recomendado
-
-```
-1. Diagnóstico (opcional, sem risco)
-   auditoria-engenharia + auditoria-seguranca
-
-2. Refatoração (conforme a stack)
-   frontend e/ou fullstack e/ou backend
-
-3. Testes
-   testes — depois que a arquitetura estiver estável
-
-4. E2E (opcional, depois da suíte unit/integration estável)
-   setup-e2e → auditoria-testid → testes-e2e → ci-e2e
-
-5. Copy
-   revisao-copy — a qualquer momento após gerar conteúdo com IA
-```
-
-Rodar o diagnóstico primeiro evita refatorar às cegas: os dois prompts de auditoria não alteram nada, apenas mapeiam os problemas reais antes de você decidir onde investir esforço. Para automatizar essa sequência com plano personalizado, gates de revisão e retomada entre sessões, use o `pipeline`.
-
-## Como usar um prompt
-
-1. `npx @unificando/prompts get <id> --copy`
-2. Cole no chat da sua LLM de preferência
-3. Aguarde a análise — o resultado é um relatório estruturado com achados, soluções e prioridade
-4. Aplique as mudanças e, se o documento tiver múltiplos prompts, execute o próximo na sequência indicada dentro do próprio arquivo
+O projeto também possui workflow de publicação no GitHub Packages. Para usar esse registry, configure o escopo `@unificando` e autenticação de leitura conforme as permissões da sua conta, sem versionar credenciais. Publicação só ocorre mediante ação de release.
 
 ## Licença
 

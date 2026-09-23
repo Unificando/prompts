@@ -1,0 +1,1 @@
+A rota /shared é pública e usada em links enviados fora do site. Não há telemetria disponível. Nenhuma página contém link para /shared. Projeto sintético HTTP, sem React; ignore módulos específicos de React.

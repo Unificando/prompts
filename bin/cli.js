@@ -1,95 +1,79 @@
 #!/usr/bin/env node
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
-const { spawnSync } = require('child_process');
+const { spawnSync } = require('node:child_process');
+const { manifest, renderPrompt, inspectPrompt, validateManifest } = require('./library');
 
-const rootDir = path.join(__dirname, '..');
-const promptsDir = path.join(rootDir, 'prompts');
-const manifest = JSON.parse(fs.readFileSync(path.join(promptsDir, 'manifest.json'), 'utf8'));
+const usage = 'Uso: npx @unificando/prompts get <id> [--mode auditoria|proposta|implementacao] [--module id,id] [--scope "alvo"] [--copy]';
 
-function findPrompt(id) {
-  return manifest.find((p) => p.id === id);
-}
-
-function printList() {
+function list() {
   console.log('Prompts disponíveis:\n');
   for (const p of manifest) {
-    console.log(`  ${p.id.padEnd(22)} ${p.title}`);
-    console.log(`  ${''.padEnd(22)} ${p.description}\n`);
+    console.log(`  ${p.id.padEnd(22)} ${p.title} (${p.version}; padrão: ${p.defaultMode})\n                         ${p.description}`);
+    if (p.modules.length) console.log(`                         Módulos: ${p.modules.map(m => m.id).join(', ')}`);
   }
-  console.log('Uso: npx @unificando/prompts get <id> [--copy]');
+  console.log(`\n${usage}\nOutros comandos: list | inspect <id> | validate`);
 }
 
-function copyToClipboard(text) {
-  const platform = process.platform;
-  let cmd;
-  let args;
-  if (platform === 'darwin') {
-    cmd = 'pbcopy';
-    args = [];
-  } else if (platform === 'win32') {
-    cmd = 'clip';
-    args = [];
-  } else {
-    cmd = 'xclip';
-    args = ['-selection', 'clipboard'];
+function parseGet(args) {
+  const options = {};
+  let id;
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i];
+    if (arg === '--copy') {
+      if (options.copy) throw new Error('Opção repetida: --copy');
+      options.copy = true;
+    } else if (['--mode', '--module', '--scope'].includes(arg)) {
+      const key = arg.slice(2);
+      if (options[key] !== undefined) throw new Error(`Opção repetida: ${arg}`);
+      const value = args[++i];
+      if (!value?.trim() || value.startsWith('--')) throw new Error(`Valor ausente: ${arg}`);
+      options[key] = value;
+    } else if (arg.startsWith('-')) {
+      throw new Error(`Opção desconhecida: ${arg}`);
+    } else if (id) {
+      throw new Error(`Argumento inesperado: ${arg}`);
+    } else {
+      id = arg;
+    }
   }
-  const result = spawnSync(cmd, args, { input: text });
-  if (result.error) {
-    console.error(`Não foi possível copiar para a área de transferência (${cmd} indisponível). Copie manualmente a partir da saída acima.`);
+  if (!id) throw new Error(usage);
+  return { id, options };
+}
+
+function copyToClipboard(content) {
+  const [cmd, args] = process.platform === 'darwin' ? ['pbcopy', []]
+    : process.platform === 'win32' ? ['clip', []] : ['xclip', ['-selection', 'clipboard']];
+  const result = spawnSync(cmd, args, { input: content, encoding: 'utf8' });
+  if (result.error || result.status !== 0) {
+    console.error(`Não foi possível copiar (${cmd}). Conteúdo disponível na saída para cópia manual.`);
     return false;
   }
   return true;
 }
 
-function printGet(id, { copy }) {
-  const prompt = findPrompt(id);
-  if (!prompt) {
-    console.error(`Prompt "${id}" não encontrado. Rode "npx @unificando/prompts list" para ver os disponíveis.`);
-    process.exitCode = 1;
-    return;
+function main() {
+  const [command, ...args] = process.argv.slice(2);
+  if (!command || ['list', '--help', '-h'].includes(command)) {
+    if (args.length) throw new Error('list/help não aceita argumentos.');
+    list();
+  } else if (command === 'get') {
+    const { id, options } = parseGet(args);
+    const content = renderPrompt(id, options);
+    if (options.copy && copyToClipboard(content)) console.log(`Prompt "${id}" copiado para a área de transferência.`);
+    else process.stdout.write(content);
+  } else if (command === 'inspect') {
+    if (args.length !== 1) throw new Error('Uso: inspect <id>');
+    console.log(JSON.stringify(inspectPrompt(args[0]), null, 2));
+  } else if (command === 'validate') {
+    if (args.length) throw new Error('validate não aceita argumentos.');
+    console.log(`${validateManifest()} prompts válidos.`);
+  } else {
+    throw new Error(`Comando desconhecido: ${command}`);
   }
-  const content = fs.readFileSync(path.join(promptsDir, prompt.file), 'utf8');
-  if (copy) {
-    const ok = copyToClipboard(content);
-    if (ok) {
-      console.log(`Prompt "${prompt.title}" copiado para a área de transferência.`);
-      return;
-    }
-  }
-  console.log(content);
 }
 
-function main() {
-  const [, , command, ...rest] = process.argv;
-
-  if (!command || command === '--help' || command === '-h') {
-    printList();
-    return;
-  }
-
-  if (command === 'list') {
-    printList();
-    return;
-  }
-
-  if (command === 'get') {
-    const id = rest.find((a) => !a.startsWith('--'));
-    const copy = rest.includes('--copy');
-    if (!id) {
-      console.error('Uso: npx @unificando/prompts get <id> [--copy]');
-      process.exitCode = 1;
-      return;
-    }
-    printGet(id, { copy });
-    return;
-  }
-
-  console.error(`Comando desconhecido: ${command}`);
-  printList();
+try { main(); } catch (error) {
+  console.error(error.message);
   process.exitCode = 1;
 }
-
-main();

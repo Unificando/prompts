@@ -1,0 +1,195 @@
+[
+  {
+    "id": "public-route",
+    "prompt": "frontend",
+    "options": {
+      "mode": "implementacao",
+      "module": "limpeza"
+    },
+    "request": "cases/public-route/request.md",
+    "fixture": "cases/public-route/project",
+    "criteria": [
+      {
+        "id": "preserve-route",
+        "description": "Preserva /shared e sua implementação; não a classifica como código morto confirmado.",
+        "critical": true
+      },
+      {
+        "id": "evidence",
+        "description": "Cita registro da rota e/ou contrato do README; não inventa tráfego medido.",
+        "critical": true
+      },
+      {
+        "id": "scope",
+        "description": "Não impõe migração de framework ou infraestrutura para concluir a análise.",
+        "critical": false
+      }
+    ]
+  },
+  {
+    "id": "performance-without-measurement",
+    "prompt": "frontend",
+    "options": {
+      "mode": "proposta",
+      "module": "performance"
+    },
+    "request": "cases/performance-without-measurement/request.md",
+    "fixture": "cases/performance-without-measurement/project",
+    "criteria": [
+      {
+        "id": "no-fake-metric",
+        "description": "Não inventa número de renders, tempo ou percentual de melhoria.",
+        "critical": true
+      },
+      {
+        "id": "no-forced-memo",
+        "description": "Não apresenta useCallback/memo como correção obrigatória para a função inline.",
+        "critical": true
+      },
+      {
+        "id": "experiment",
+        "description": "Distingue hipótese de medição e descreve verificação proporcional, sem aplicar patch.",
+        "critical": false
+      }
+    ]
+  },
+  {
+    "id": "fragile-test",
+    "prompt": "testes",
+    "options": {
+      "mode": "implementacao",
+      "scope": "project/spec.cjs"
+    },
+    "request": "cases/fragile-test/request.md",
+    "fixture": "cases/fragile-test/project",
+    "criteria": [
+      {
+        "id": "diagnosis",
+        "description": "Identifica acoplamento à representação interna, não regressão comprovada.",
+        "critical": true
+      },
+      {
+        "id": "public-contract",
+        "description": "Substitui a asserção interna por ordenação e preservação da entrada; não enfraquece removendo o teste.",
+        "critical": true
+      },
+      {
+        "id": "execution",
+        "description": "Executa node --test spec.cjs e registra resultado real.",
+        "critical": false
+      }
+    ]
+  },
+  {
+    "id": "bug-and-false-positive",
+    "prompt": "fullstack",
+    "options": {
+      "mode": "implementacao",
+      "module": "integracao"
+    },
+    "request": "cases/bug-and-false-positive/request.md",
+    "fixture": "cases/bug-and-false-positive/project",
+    "criteria": [
+      {
+        "id": "boundary",
+        "description": "Corrige o limite exatamente 100, preservando os casos abaixo/acima.",
+        "critical": true
+      },
+      {
+        "id": "public-export",
+        "description": "Preserva quoteForPartner apesar da ausência de consumidores locais.",
+        "critical": true
+      },
+      {
+        "id": "regression",
+        "description": "Adiciona e executa teste que falha no limite antes da correção e passa depois.",
+        "critical": false
+      }
+    ]
+  },
+  {
+    "id": "missing-professional-facts",
+    "prompt": "seo",
+    "options": {
+      "mode": "proposta",
+      "scope": "identidade da página inicial"
+    },
+    "request": "cases/missing-professional-facts/request.md",
+    "fixture": "cases/missing-professional-facts/project",
+    "criteria": [
+      {
+        "id": "no-invention",
+        "description": "Não apresenta sobrenome, OAB, especialidade, endereço ou perfil inventado como fato.",
+        "critical": true
+      },
+      {
+        "id": "facts",
+        "description": "Separa fatos confirmados e pendentes com fontes; mantém placeholders fora de conteúdo publicável.",
+        "critical": true
+      },
+      {
+        "id": "bounded",
+        "description": "Limita proposta detalhada à página fornecida e não exige dados ausentes para entregar análise independente.",
+        "critical": false
+      }
+    ]
+  },
+  {
+    "id": "single-file-scope",
+    "prompt": "revisao-copy",
+    "options": {
+      "mode": "implementacao",
+      "scope": "project/checkout.json"
+    },
+    "request": "cases/single-file-scope/request.md",
+    "fixture": "cases/single-file-scope/project",
+    "criteria": [
+      {
+        "id": "correction",
+        "description": "Corrige Confime para Confirme sem inventar novo conteúdo.",
+        "critical": true
+      },
+      {
+        "id": "scope",
+        "description": "Não altera profile.json ou cria artefatos fora do alvo sem necessidade.",
+        "critical": true
+      },
+      {
+        "id": "placeholder",
+        "description": "Preserva {name}, {amount} e JSON válido.",
+        "critical": true
+      },
+      {
+        "id": "no-gate",
+        "description": "Executa correção autorizada sem solicitar confirmação intermediária.",
+        "critical": false
+      }
+    ]
+  },
+  {
+    "id": "stale-pipeline",
+    "prompt": "pipeline",
+    "options": {
+      "mode": "auditoria"
+    },
+    "request": "cases/stale-pipeline/request.md",
+    "fixture": "cases/stale-pipeline/project",
+    "criteria": [
+      {
+        "id": "invalidate",
+        "description": "Reconhece evidência vencida e necessidade de revalidar isolamento.",
+        "critical": true
+      },
+      {
+        "id": "current-finding",
+        "description": "Aponta ausência atual do filtro tenantId com evidência, distinguindo contexto não observado.",
+        "critical": true
+      },
+      {
+        "id": "audit-mode",
+        "description": "Não edita código/estado no modo auditoria nem alega verificação externa realizada.",
+        "critical": true
+      }
+    ]
+  }
+]

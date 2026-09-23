@@ -4,8 +4,44 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/). 
 
 ## [Não lançado]
 
+Preparação local da versão **2.0.0**; publicação pendente.
+
+### Added
+
+- Contrato comum versionado para modos `AUDITORIA`, `PROPOSTA` e `IMPLEMENTAÇÃO`, evidência, escopo, autorização persistente e validação proporcional.
+- Composição modular de `frontend`, `backend` e `fullstack`, com módulos compartilhados de limpeza, arquitetura, performance, erros, framework, acessibilidade, integração, segurança, banco, testes/observabilidade e contratos de API.
+- CLI: `--mode`, `--module`, `--scope`, `inspect <id>` e `validate`; metadados de versão, modos suportados, entradas, saídas, dependências e hash SHA-256 por definição completa.
+- Prompt `seo-llm`: identidade, tratamento de homônimos, conteúdo citável, acesso de crawlers e medição de menções/citações em respostas de IA.
+- Sete cenários de avaliação comportamental com fixtures, rubrica, geração de entrada e conferência de resultados revisados. Registros sem execução permanecem pendentes; hashes invalidam avaliações quando as entradas mudam. Não há nota de qualidade de modelo presumida.
+- Testes de composição, seleção, argumentos, catálogo, clipboard, fixtures e validador de avaliações; comandos `npm run validate` e `npm run evals`.
+
 ### Changed
-- **Pacote renomeado** de `prompts-unificando` para `@unificando/prompts` (escopo da organização Unificando). Publicado no npmjs.com e no GitHub Packages com o mesmo nome. Comando do CLI: `npx @unificando/prompts` (bin global `unificando-prompts`). O nome antigo `prompts-unificando` fica deprecado no npm apontando para o novo. Repositório movido para `github.com/Unificando/prompts`.
+
+- Frontend dedicado à interface: módulo `acessibilidade-seo` renomeado para `acessibilidade`, com remoção do checklist de SEO. SEO permanece nos prompts dedicados `seo` e `seo-llm`; catálogo e exemplos da CLI atualizados.
+
+- Todos os prompts revisados: removidos selos “10/10”, gates repetitivos e regras absolutas baseadas apenas em contagens. Evidências seguem observação → hipótese → verificação → decisão → validação.
+- Limpeza exige verificar entradas dinâmicas, rotas e consumidores externos; ausência de referência não comprova código morto. Performance exige contexto/medição, sem memoização ou TTL fixo prescritos por hábito.
+- Testes quebrados passam por diagnóstico de regressão, acoplamento interno, mudança de contrato ou ambiguidade. Abstração depende de responsabilidade e benefício de manutenção; não de um número fixo de repetições.
+- Prompts de testes preservam escopo de arquivo único e reconciliação, com critérios de risco em vez de cobertura artificial. E2E usa seletores estáveis existentes e exige auditoria de data-testid apenas quando houver lacuna.
+- `ci-e2e` entrega proposta concreta por padrão e permite implementar arquivos locais quando solicitado. Auditorias de engenharia e segurança suportam apenas auditoria/proposta; segurança continua sem exploração ativa.
+- `agents` reconcilia instruções com fontes reais, preserva decisões locais e não impõe políticas rígidas universais. `revisao-copy` mantém edições textuais pontuais, idioma e placeholders.
+- `pipeline` e `refatoracao-faseada` registram versões/hash, escopo, estado do código e dependências; fases afetadas por mudanças são revalidadas. Testes acompanham mudanças de risco, sem ficar todos para o final.
+- `seo` ampliado para busca local, mapa de palavras-chave por intenção e propostas por página. `seo` e `seo-llm` incluem foco, limite configurável de páginas, registro compartilhado `seo-facts.md` e critérios de conclusão por página.
+- README e catálogo atualizados para a nova composição e migração. Versões de package.json e lockfile preparadas para 2.0.0.
+- **Pacote renomeado** de `prompts-unificando` para `@unificando/prompts` (escopo da organização Unificando). Comando do CLI: `npx @unificando/prompts` (bin global `unificando-prompts`). Repositório movido para `github.com/Unificando/prompts`.
+
+### Fixed
+
+- CLI rejeita argumentos/opções desconhecidos, valores ausentes e seleções inválidas antes de imprimir um prompt.
+- Falha do clipboard com status diferente de zero não é mais reportada como cópia bem-sucedida; o conteúdo fica disponível na saída.
+
+### Breaking changes
+
+- Seleção de módulo do frontend: use `--module acessibilidade` no lugar de `--module acessibilidade-seo`.
+
+- `get <id>` entrega conteúdo composto com contrato e metadados, não uma cópia literal do arquivo Markdown. Fontes usam marcadores resolvidos pela CLI.
+- Estrutura interna e títulos dos prompts foram reorganizados; integrações que dependem desses textos precisam ser revisadas. IDs e comandos básicos foram preservados.
+- Argumentos antes ignorados agora falham explicitamente. A política de autorização usa modo e escopo, eliminando confirmações fixas por fase.
 
 ## [1.8.0] - 2026-09-09
 

@@ -1,0 +1,1 @@
+Contrato: frete gratuito para subtotal >= 100; abaixo disso custa 10. quoteForPartner é API pública usada por parceiro externo. Não há consumidores locais desse export. Use node:test sem dependências.
