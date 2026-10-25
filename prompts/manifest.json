@@ -396,6 +396,35 @@
     "modules": []
   },
   {
+    "id": "auditoria-ux",
+    "file": "auditoria-ux.md",
+    "title": "Auditoria de UX pelas 20 Leis",
+    "description": "Auditoria de interface pelas 20 leis de UX, com detecção de tecnologia, matriz por fluxo e acessibilidade em seção separada; auditoria ou proposta.",
+    "version": "2.0.0",
+    "contractVersion": "2.0.0",
+    "modes": [
+      "auditoria",
+      "proposta"
+    ],
+    "defaultMode": "auditoria",
+    "inputs": [
+      "objetivo",
+      "projeto",
+      "escopo",
+      "restricoes",
+      "evidencias"
+    ],
+    "outputs": [
+      "resultado",
+      "achados_com_evidencia",
+      "aplicado_ou_proposto",
+      "validacao",
+      "pendencias"
+    ],
+    "dependencies": [],
+    "modules": []
+  },
+  {
     "id": "revisao-copy",
     "file": "revisao-copy.md",
     "title": "Revisão Ortográfica e UX Copy",

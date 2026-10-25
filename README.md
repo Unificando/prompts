@@ -41,7 +41,7 @@ A CLI rejeita opções, modos e módulos desconhecidos, seleções duplicadas e 
 
 Autorizações já dadas valem durante a execução; não há pausa obrigatória a cada fase. Perguntas ficam para dados bloqueantes, decisões relevantes ou ações ainda não autorizadas. Commit, publicação, deploy e alterações de contas não estão implícitos.
 
-`auditoria-engenharia` e `auditoria-seguranca` suportam apenas auditoria e proposta. Segurança é análise estática, sem exploração ativa. Os demais suportam os três modos; respeitam a restrição de disciplina, como editar somente texto em `revisao-copy` ou somente AGENTS.md em `agents`.
+`auditoria-engenharia`, `auditoria-seguranca` e `auditoria-ux` suportam apenas auditoria e proposta. Segurança é análise estática, sem exploração ativa. Os demais suportam os três modos; respeitam a restrição de disciplina, como editar somente texto em `revisao-copy` ou somente AGENTS.md em `agents`.
 
 ## Catálogo
 
@@ -57,6 +57,7 @@ Autorizações já dadas valem durante a execução; não há pausa obrigatória
 | `ci-e2e` | Pipeline CI revisável; implementação local opcional | Proposta |
 | `auditoria-engenharia` | Qualidade e riscos com evidências e contraexemplos | Auditoria |
 | `auditoria-seguranca` | Controles, privacidade, deploy e modelagem de abuso | Auditoria |
+| `auditoria-ux` | Interface pelas 20 leis de UX, com acessibilidade à parte | Auditoria |
 | `revisao-copy` | Texto, preservando significado, idioma, placeholders e lógica | Implementação |
 | `refatoracao-faseada` | Lotes verificáveis e reversão localizada | Implementação |
 | `seo` | Identidade, palavras-chave, conteúdo, indexação e busca local | Auditoria |
