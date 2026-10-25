@@ -4,6 +4,8 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/). 
 
 ## [Não lançado]
 
+## [2.1.0] - 2026-10-25
+
 ### Added
 
 - Prompt `auditoria-ux`: auditoria de interfaces pelas 20 leis de UX, com detecção de ambiente e tecnologia, matriz lei × fluxo, correções na stack detectada, conflitos entre leis e acessibilidade em seção separada. Suporta auditoria e proposta.
