@@ -1,6 +1,6 @@
 {
   "name": "@unificando/prompts",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Prompts modulares e versionados para auditoria, implementação, testes, segurança, conteúdo e SEO, com avaliações de comportamento.",
   "bin": {
     "unificando-prompts": "bin/cli.js"
