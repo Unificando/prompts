@@ -4,6 +4,12 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/). 
 
 ## [Não lançado]
 
+## [2.1.1] - 2026-10-25
+
+### Fixed
+
+- Catálogo: `auditoria-ux` declarava versão `2.0.0` no manifesto; corrigida para `2.1.1`. Os demais prompts e o contrato comum não mudaram e permanecem em `2.0.0`.
+
 ## [2.1.0] - 2026-10-25
 
 ### Added

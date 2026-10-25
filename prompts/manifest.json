@@ -400,7 +400,7 @@
     "file": "auditoria-ux.md",
     "title": "Auditoria de UX pelas 20 Leis",
     "description": "Auditoria de interface pelas 20 leis de UX, com detecção de tecnologia, matriz por fluxo e acessibilidade em seção separada; auditoria ou proposta.",
-    "version": "2.0.0",
+    "version": "2.1.1",
     "contractVersion": "2.0.0",
     "modes": [
       "auditoria",
