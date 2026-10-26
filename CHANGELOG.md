@@ -4,6 +4,17 @@ Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/). 
 
 ## [Não lançado]
 
+## [2.2.0] - 2026-10-25
+
+### Added
+
+- Contrato comum `2.1.0`: regras para projetos atípicos (instruções locais e precedência, monorepo/workspaces, comando de verificação inexistente, pedido sem alvo e fluxo local como issue/branch/PR).
+- Teste que garante que o título do `contract.md` e o `contractVersion` do catálogo coincidem.
+
+### Changed
+
+- `contractVersion` passa a `2.1.0` em todos os prompts; `frontend` vai para `2.0.1` com a orientação de reutilizar tema, tokens e wrappers do app.
+
 ## [2.1.1] - 2026-10-25
 
 ### Fixed

@@ -59,3 +59,12 @@ test('frontend mantém acessibilidade sem incluir checklist de SEO', () => {
   assert.throws(() => renderPrompt('frontend', { module: 'acessibilidade-seo' }), /Módulo inválido/);
   assert.match(renderPrompt('seo'), /canonical/);
 });
+
+test('versão do contrato coincide com o título e cobre projetos atípicos', () => {
+  const title = fs.readFileSync(path.join(__dirname, '..', 'prompts', 'shared', 'contract.md'), 'utf8').match(/## Contrato comum — versão (\S+)/)[1];
+  for (const p of manifest) assert.equal(p.contractVersion, title, p.id);
+  const text = renderPrompt('frontend');
+  assert.match(text, /Projeto atípico/);
+  assert.match(text, /Monorepo\/workspaces/);
+  assert.match(text, /Comando de verificação inexistente/);
+});

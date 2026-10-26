@@ -151,7 +151,7 @@ node bin/evals.js check /tmp/prompt-eval-results.json
 
 IDs, `list`, `get <id>` e `--copy` continuam disponíveis. A saída de `get` passa a ser composta e inclui metadados; não é uma cópia byte a byte do arquivo fonte. Os três prompts maiores agora têm módulos. Foram removidos gates repetitivos e regras absolutas sem contexto; `ci-e2e` permite implementação local quando explicitamente escolhida. Scripts que dependiam de títulos internos ou toleravam opções desconhecidas devem ser atualizados.
 
-A versão 2.1.1 deste checkout está preparada localmente; a publicação é uma ação separada.
+A versão 2.2.0 deste checkout está preparada localmente; a publicação é uma ação separada.
 
 ## Instalação alternativa
 

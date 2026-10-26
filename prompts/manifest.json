@@ -4,8 +4,8 @@
     "file": "frontend.md",
     "title": "Front-End (React/Next.js)",
     "description": "UI React/Next.js por módulos: limpeza, arquitetura, performance, erros, framework e acessibilidade.",
-    "version": "2.0.0",
-    "contractVersion": "2.0.0",
+    "version": "2.0.1",
+    "contractVersion": "2.1.0",
     "modes": [
       "auditoria",
       "proposta",
@@ -60,7 +60,7 @@
     "title": "Full-Stack (Next.js)",
     "description": "Fluxos Next.js entre UI e servidor: integração, segurança, performance, erros, framework e testes.",
     "version": "2.0.0",
-    "contractVersion": "2.0.0",
+    "contractVersion": "2.1.0",
     "modes": [
       "auditoria",
       "proposta",
@@ -115,7 +115,7 @@
     "title": "Backend (NestJS)",
     "description": "Backend NestJS por módulos: arquitetura, banco, segurança, performance, erros, testes e contratos.",
     "version": "2.0.0",
-    "contractVersion": "2.0.0",
+    "contractVersion": "2.1.0",
     "modes": [
       "auditoria",
       "proposta",
@@ -174,7 +174,7 @@
     "title": "Testes & Cobertura (agnóstico de stack)",
     "description": "Testes por comportamento, reconciliação e alvo único; sem metas artificiais de cobertura.",
     "version": "2.0.0",
-    "contractVersion": "2.0.0",
+    "contractVersion": "2.1.0",
     "modes": [
       "auditoria",
       "proposta",
@@ -205,7 +205,7 @@
     "title": "Setup de Stack E2E (Playwright)",
     "description": "Bootstrap E2E mínimo, reaproveitando stack existente e verificando um smoke test real.",
     "version": "2.0.0",
-    "contractVersion": "2.0.0",
+    "contractVersion": "2.1.0",
     "modes": [
       "auditoria",
       "proposta",
@@ -235,7 +235,7 @@
     "title": "Auditoria e Aplicação de data-testid",
     "description": "Seletores estáveis no alvo, com data-testid quando necessário e preservação de consumidores.",
     "version": "2.0.0",
-    "contractVersion": "2.0.0",
+    "contractVersion": "2.1.0",
     "modes": [
       "auditoria",
       "proposta",
@@ -265,7 +265,7 @@
     "title": "Testes E2E Consistentes (agnóstico de framework)",
     "description": "Jornadas relevantes com isolamento, seletores estáveis, falhas aplicáveis e validação real.",
     "version": "2.0.0",
-    "contractVersion": "2.0.0",
+    "contractVersion": "2.1.0",
     "modes": [
       "auditoria",
       "proposta",
@@ -307,7 +307,7 @@
     "title": "Pipeline CI para Suíte E2E",
     "description": "Patch CI revisável por padrão; implementação local opcional, com permissões e validação.",
     "version": "2.0.0",
-    "contractVersion": "2.0.0",
+    "contractVersion": "2.1.0",
     "modes": [
       "auditoria",
       "proposta",
@@ -343,7 +343,7 @@
     "title": "Auditoria de Engenharia de Software",
     "description": "Diagnóstico com evidências e contraexemplos; auditoria ou proposta, sem implementação.",
     "version": "2.0.0",
-    "contractVersion": "2.0.0",
+    "contractVersion": "2.1.0",
     "modes": [
       "auditoria",
       "proposta"
@@ -372,7 +372,7 @@
     "title": "Auditoria de Segurança, LGPD e Deploy",
     "description": "Controles, privacidade, deploy e modelagem estática de abuso; sem exploração ativa.",
     "version": "2.0.0",
-    "contractVersion": "2.0.0",
+    "contractVersion": "2.1.0",
     "modes": [
       "auditoria",
       "proposta"
@@ -401,7 +401,7 @@
     "title": "Auditoria de UX pelas 20 Leis",
     "description": "Auditoria de interface pelas 20 leis de UX, com detecção de tecnologia, matriz por fluxo e acessibilidade em seção separada; auditoria ou proposta.",
     "version": "2.1.1",
-    "contractVersion": "2.0.0",
+    "contractVersion": "2.1.0",
     "modes": [
       "auditoria",
       "proposta"
@@ -430,7 +430,7 @@
     "title": "Revisão Ortográfica e UX Copy",
     "description": "Revisão textual pontual, preservando significado, idioma, placeholders e lógica.",
     "version": "2.0.0",
-    "contractVersion": "2.0.0",
+    "contractVersion": "2.1.0",
     "modes": [
       "auditoria",
       "proposta",
@@ -460,7 +460,7 @@
     "title": "Refatoração Faseada Autônoma (agnóstico de stack)",
     "description": "Lotes de refatoração com validação proporcional, reversão localizada e estado verificável.",
     "version": "2.0.0",
-    "contractVersion": "2.0.0",
+    "contractVersion": "2.1.0",
     "modes": [
       "auditoria",
       "proposta",
@@ -490,7 +490,7 @@
     "title": "SEO — Técnico, Conteúdo e Busca Local",
     "description": "SEO técnico, identidade, conteúdo e busca local com foco, limite de páginas e registro factual.",
     "version": "2.0.0",
-    "contractVersion": "2.0.0",
+    "contractVersion": "2.1.0",
     "modes": [
       "auditoria",
       "proposta",
@@ -525,7 +525,7 @@
     "title": "SEO para LLMs — GEO e Identidade",
     "description": "Identidade e conteúdo citável para IA com fatos compartilhados, foco e medição reproduzível.",
     "version": "2.0.0",
-    "contractVersion": "2.0.0",
+    "contractVersion": "2.1.0",
     "modes": [
       "auditoria",
       "proposta",
@@ -566,7 +566,7 @@
     "title": "Documentação Técnica — Geração e Atualização",
     "description": "Gera ou reconcilia docs/ com catálogo extensível, fontes e preservação manual; alcance completo, incremental ou documento único.",
     "version": "2.0.0",
-    "contractVersion": "2.0.0",
+    "contractVersion": "2.1.0",
     "modes": [
       "auditoria",
       "proposta",
@@ -598,7 +598,7 @@
     "title": "Criação de AGENTS.md Padronizado (Bootstrap)",
     "description": "Guia AGENTS.md autossuficiente, com comportamento contextual, fontes verificadas e prompts complementares por situação.",
     "version": "2.0.0",
-    "contractVersion": "2.0.0",
+    "contractVersion": "2.1.0",
     "modes": [
       "auditoria",
       "proposta",
@@ -628,7 +628,7 @@
     "title": "Pipeline Completo (Orquestrador)",
     "description": "Orquestração com modos persistentes, versões fixadas, dependências e invalidação de evidências.",
     "version": "2.0.0",
-    "contractVersion": "2.0.0",
+    "contractVersion": "2.1.0",
     "modes": [
       "auditoria",
       "proposta",

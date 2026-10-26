@@ -7,7 +7,7 @@ Fonte modular: use `get frontend` para receber contrato e módulos completos; `-
 ## Objetivo e reconhecimento
 
 UI, estado, efeitos, navegação e renderização. Preserve design e comportamento público.
-Identifique stack, versão, convenções, alvo e comandos disponíveis. Apresente um plano curto e continue no modo escolhido. Priorize o problema solicitado; módulos não pertinentes são não aplicáveis, não novas obrigações.
+Identifique stack, versão, convenções, alvo e comandos disponíveis. Antes de criar componente ou estilo novo, confira as regras de UI do app (tema/tokens, wrappers e componentes compartilhados) e reutilize-os. Apresente um plano curto e continue no modo escolhido. Priorize o problema solicitado; módulos não pertinentes são não aplicáveis, não novas obrigações.
 
 ## Módulos disponíveis
 
